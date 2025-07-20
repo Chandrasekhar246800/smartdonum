@@ -554,7 +554,7 @@ function Dashboard() {
           </button>
           <button
             className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-sky-50 rounded-lg transition-colors"
-            onClick={() => handleNavigate("/about")}
+            onClick={() => handleNavigate("/aboutUs")}
           >
             About Us
           </button>
@@ -1060,7 +1060,7 @@ function Dashboard() {
           <div className="text-center text-sky-700 text-sm py-4">
             © {new Date().getFullYear()} SmartDonum. All rights reserved. |
             <a
-              href="#contact"
+              href="/src/app/contactUs"
               className="text-sky-500 hover:text-sky-700 underline ml-2"
             >
               Contact Us
