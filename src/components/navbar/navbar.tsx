@@ -74,7 +74,7 @@ export default function Navbar() {
           <div className="md:hidden flex items-center gap-2 w-full justify-end">
             <button
               className="px-5 py-2 bg-sky-200 hover:bg-sky-300 text-sky-700 text-lg font-semibold rounded-xl shadow transition-all focus:outline-none"
-              onClick={() => handleNavigate("/landing")}
+              onClick={() => handleNavigate("/loginPage")}
             >
               Login
             </button>
@@ -146,7 +146,7 @@ export default function Navbar() {
             className="flex items-center gap-2 cursor-pointer"
             onClick={() => handleNavigate("/")}
           >
-            <img
+            <Image
               src="/images/logo.png"
               alt="SmartDonum Logo"
               className="md:h-[70px] md:w-[70px] w-[50px] h-[50px] object-contain"
