@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 // import logo from "../assets/logo.png";
 
 // Import Lucide icons for the mobile menu
-import { Menu, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 // Import dashboard images
@@ -12,7 +12,6 @@ import Twokids from "../../public/images/twokids.jpg";
 import Smillegirl from "../../public/images/smillegirl.jpg";
 import Twokids2 from "../../public/images/twokids2.jpg";
 import Hands from "../../public/images/hands.jpg";
-import LogoImage from '../../public/images/logo.png'; 
 import Image from "next/image";
 import FoodImage from '../../public/images/food.jpg';
 import ClothesImage from '../../public/images/clothes.jpg';
