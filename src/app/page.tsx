@@ -19,11 +19,14 @@ import ClothesImage from '../../public/images/clothes.jpg';
 import BooksImage from '../../public/images/book.jpg';
 import ToysImage from '../../public/images/toy.jpg';
 
-function useScrollAnimation(ref, animationClass) {
+function useScrollAnimation(
+  ref: React.RefObject<HTMLElement | null>,
+  animationClass: string
+) {
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
-    const handleIntersect = (entries) => {
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           node.classList.add(animationClass);
@@ -271,7 +274,22 @@ const CLOUD_CONFIGS = [
   },
 ];
 
-function MovableCloud({ config, idx }) {
+type CloudConfig = {
+  top?: string;
+  bottom?: string;
+  left?: number;
+  right?: number;
+  width: number;
+  height: number;
+  shadow: string;
+  opacity: number;
+  blur: string;
+  float: string;
+  z: number;
+  speed: number;
+};
+
+function MovableCloud({ config, idx }: { config: CloudConfig; idx: number }) {
   // ... (your existing MovableCloud component remains unchanged)
   const [pos, setPos] = useState(() => ({
     x: config.left !== undefined ? config.left : config.right,
@@ -280,16 +298,16 @@ function MovableCloud({ config, idx }) {
     dragStartX: 0,
     dragOffset: 0,
   }));
-  const cloudRef = useRef();
+  const cloudRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    let raf;
+    let raf: number;
     let lastTime = performance.now();
-    function animate(now) {
+    function animate(now: number) {
       const dt = (now - lastTime) / 16.67;
       lastTime = now;
       if (!pos.dragging) {
         setPos((prev) => {
-          let x = prev.x + config.speed * dt;
+          let x = (prev.x ?? 0) + config.speed * dt;
           if (config.speed > 0 && x > 120) x = -40;
           if (config.speed < 0 && x < -40) x = 120;
           return { ...prev, x };
@@ -300,30 +318,33 @@ function MovableCloud({ config, idx }) {
     raf = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(raf);
   }, [config.speed, pos.dragging]);
-  function onDown(e) {
+  function onDown(e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) {
     e.preventDefault();
     setPos((prev) => ({
       ...prev,
       dragging: true,
-      dragStartX: e.touches ? e.touches[0].clientX : e.clientX,
-      dragOffset: prev.x,
+      dragStartX: 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX,
+      dragOffset: prev.x ?? 0,
     }));
     window.addEventListener("mousemove", onMove);
-    window.addEventListener("touchmove", onMove, { passive: false });
+    window.addEventListener("touchmove", onMove as EventListener, { passive: false });
     window.addEventListener("mouseup", onUp);
     window.addEventListener("touchend", onUp);
   }
-  function onMove(e) {
+  function onMove(e: MouseEvent | TouchEvent) {
     e.preventDefault();
     setPos((prev) => {
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientX =
+        (e as TouchEvent).touches && (e as TouchEvent).touches.length > 0
+          ? (e as TouchEvent).touches[0].clientX
+          : (e as MouseEvent).clientX;
       let x = prev.dragOffset + (clientX - prev.dragStartX) / 8;
       if (x < -40) x = -40;
       if (x > 120) x = 120;
       return { ...prev, x };
     });
   }
-  function onUp(e) {
+  function onUp() {
     setPos((prev) => ({ ...prev, dragging: false }));
     window.removeEventListener("mousemove", onMove);
     window.removeEventListener("touchmove", onMove);
@@ -331,7 +352,7 @@ function MovableCloud({ config, idx }) {
     window.removeEventListener("touchend", onUp);
   }
   const style = {
-    position: "absolute",
+    position: "absolute" as const,
     width: config.width,
     height: config.height,
     zIndex: config.z,
@@ -342,7 +363,7 @@ function MovableCloud({ config, idx }) {
     left: config.left !== undefined ? `${pos.x}%` : undefined,
     right: config.right !== undefined ? `${pos.x}%` : undefined,
     transition: pos.dragging ? "none" : "box-shadow 0.2s",
-    touchAction: "none",
+    touchAction: "none" as const,
   };
   return (
     <div ref={cloudRef} style={style} className="group select-none">
@@ -381,30 +402,38 @@ function Dashboard() {
     // ... (your existing parallax useEffect remains unchanged)
     const bg = document.getElementById("cloud-bg-parallax");
     if (!bg || !cloudsParallaxRef.current) return;
-    const clouds = cloudsParallaxRef.current;
+    const clouds = cloudsParallaxRef.current as HTMLElement;
     let dragging = false;
     let startX = 0;
     let lastOffset = 0;
-    function setTransform(offset) {
+    function setTransform(offset: number) {
       parallaxOffset.current = offset;
       clouds.style.transform = `translateX(${offset}px)`;
     }
-    function onDown(e) {
+    function onDown(e: MouseEvent | TouchEvent) {
       dragging = true;
-      startX = e.touches ? e.touches[0].clientX : e.clientX;
+      startX = (e as TouchEvent).touches
+        ? (e as TouchEvent).touches[0].clientX
+        : (e as MouseEvent).clientX;
       lastOffset = parallaxOffset.current || 0;
-      bg.style.cursor = "grabbing";
+      if (bg) {
+        bg.style.cursor = "grabbing";
+      }
     }
-    function onMove(e) {
+    function onMove(e: MouseEvent | TouchEvent) {
       if (!dragging) return;
-      const x = e.touches ? e.touches[0].clientX : e.clientX;
+      const x = (e as TouchEvent).touches
+        ? (e as TouchEvent).touches[0].clientX
+        : (e as MouseEvent).clientX;
       let offset = lastOffset + (x - startX);
       offset = Math.max(Math.min(offset, 200), -200);
       setTransform(offset);
     }
     function onUp() {
+      if (bg) {
+        bg.style.cursor = "";
+      }
       dragging = false;
-      bg.style.cursor = "";
     }
     bg.addEventListener("mousedown", onDown);
     bg.addEventListener("touchstart", onDown, { passive: false });
@@ -429,7 +458,7 @@ function Dashboard() {
   const timeoutRef = useRef(0);
 
   useEffect(() => {
-    timeoutRef.current = setTimeout(() => {
+    timeoutRef.current = window.setTimeout(() => {
       setPrev(current);
       setDirection("right");
       setCurrent((prev) => (prev + 1) % dashboardImages.length);
@@ -437,10 +466,10 @@ function Dashboard() {
     return () => clearTimeout(timeoutRef.current);
   }, [current, dashboardImages.length]);
 
-  const foodRef = useRef(null);
-  const clothesRef = useRef(null);
-  const booksRef = useRef(null);
-  const toysRef = useRef(null);
+  const foodRef = useRef<HTMLDivElement>(null);
+  const clothesRef = useRef<HTMLDivElement>(null);
+  const booksRef = useRef<HTMLDivElement>(null);
+  const toysRef = useRef<HTMLDivElement>(null);
 
   useScrollAnimation(foodRef, "slide-in-right");
   useScrollAnimation(clothesRef, "slide-in-left");
@@ -1075,13 +1104,15 @@ const QUOTES = [
 
 function QuoteCarousel() {
   const [index, setIndex] = React.useState(0);
-  const timeoutRef = React.useRef(null);
+  const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
   React.useEffect(() => {
     timeoutRef.current = setTimeout(() => {
       setIndex((prev) => (prev + 1) % QUOTES.length);
     }, 4000);
-    return () => clearTimeout(timeoutRef.current);
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, [index]);
 
   return (
@@ -1096,7 +1127,7 @@ function QuoteCarousel() {
             className="text-sky-800 italic text-base sm:text-lg font-medium border-l-4 border-sky-400 pl-4 mb-2 animate-fadeInQuote"
           >
             <span className="block animate-fadeInQuoteText">
-              "{QUOTES[index].text}"
+              &quot;{QUOTES[index].text}&quot;
             </span>
             <span className="block text-right text-sky-500 font-semibold mt-1 animate-fadeInQuoteAuthor">
               — {QUOTES[index].author}

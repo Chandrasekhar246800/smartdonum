@@ -6,10 +6,10 @@ import Image from 'next/image';
 
 export default function LandingPage() {
   const router = useRouter();
-  const titleRef = useRef(null);
-  const descRef = useRef(null);
-  const lineRef = useRef(null);
-  const btnsRef = useRef([]);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const lineRef = useRef<HTMLHRElement>(null);
+  const btnsRef = useRef<HTMLButtonElement[]>([]);
 
   useEffect(() => {
     if (lineRef.current) lineRef.current.classList.add('animate-lineGrow');
@@ -29,7 +29,7 @@ export default function LandingPage() {
     });
   }, []);
 
-  const handleRoute = (route) => {
+  const handleRoute = (route: string) => {
     router.push(route);
   };
 
@@ -79,21 +79,21 @@ export default function LandingPage() {
         {/* Bottom part: buttons */}
         <div className="flex flex-col md:flex-row gap-4 sm:gap-6 md:gap-8 xl:gap-16 w-full max-w-xs sm:max-w-lg md:max-w-md justify-center">
           <button
-            ref={el => btnsRef.current[0] = el}
+            ref={el => { if (el) btnsRef.current[0] = el; }}
             className="w-full md:w-auto bg-cyan-400 hover:bg-cyan-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition-all opacity-0 animate-none"
             onClick={() => handleRoute('/donor')}
           >
             Donor
           </button>
           <button
-            ref={el => btnsRef.current[1] = el}
+            ref={el => { if (el) btnsRef.current[1] = el; }}
             className="w-full md:w-auto bg-cyan-400 hover:bg-cyan-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition-all opacity-0 animate-none"
             onClick={() => handleRoute('/ngo')}
           >
             NGO
           </button>
           <button
-            ref={el => btnsRef.current[2] = el}
+            ref={el => { if (el) btnsRef.current[2] = el; }}
             className="w-full md:w-auto bg-cyan-400 hover:bg-cyan-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition-all opacity-0 animate-none"
             onClick={() => handleRoute('/admin')}
           >

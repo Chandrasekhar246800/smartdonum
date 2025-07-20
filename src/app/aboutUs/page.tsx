@@ -28,7 +28,21 @@ const CLOUD_CONFIGS = [
 ];
 
 // MovableCloud WITHOUT shadow
-function MovableCloud({ config, idx }) {
+type CloudConfig = {
+  top?: string;
+  bottom?: string;
+  left?: number;
+  right?: number;
+  width: number;
+  height: number;
+  opacity: number;
+  blur: string;
+  float: string;
+  z: number;
+  speed: number;
+};
+
+function MovableCloud({ config, idx }: { config: CloudConfig; idx: number }) {
   const [pos, setPos] = React.useState(() => ({
     x: config.left !== undefined ? config.left : config.right,
     y: 0,
@@ -38,14 +52,14 @@ function MovableCloud({ config, idx }) {
   }));
 
   React.useEffect(() => {
-    let raf;
+    let raf: number = 0;
     let lastTime = performance.now();
-    function animate(now) {
+    function animate(now: number) {
       const dt = (now - lastTime) / 16.67;
       lastTime = now;
       if (!pos.dragging) {
         setPos(prev => {
-          let x = prev.x + config.speed * dt;
+          let x = (prev.x ?? 0) + config.speed * dt;
           if (config.speed > 0 && x > 120) x = -40;
           if (config.speed < 0 && x < -40) x = 120;
           return { ...prev, x };
@@ -57,23 +71,26 @@ function MovableCloud({ config, idx }) {
     return () => cancelAnimationFrame(raf);
   }, [config.speed, pos.dragging]);
 
-  function onDown(e) {
+  function onDown(e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) {
     e.preventDefault();
     setPos(prev => ({
       ...prev,
       dragging: true,
-      dragStartX: e.touches ? e.touches[0].clientX : e.clientX,
-      dragOffset: prev.x,
+      dragStartX: 'touches' in e ? (e as React.TouchEvent<HTMLDivElement>).touches[0].clientX : (e as React.MouseEvent<HTMLDivElement>).clientX,
+      dragOffset: typeof prev.x === 'number' ? prev.x : 0,
     }));
     window.addEventListener('mousemove', onMove);
     window.addEventListener('touchmove', onMove, { passive: false });
     window.addEventListener('mouseup', onUp);
     window.addEventListener('touchend', onUp);
   }
-  function onMove(e) {
+  function onMove(e: MouseEvent | TouchEvent) {
     e.preventDefault();
     setPos(prev => {
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientX =
+        (e as TouchEvent).touches && (e as TouchEvent).touches.length > 0
+          ? (e as TouchEvent).touches[0].clientX
+          : (e as MouseEvent).clientX;
       let x = prev.dragOffset + (clientX - prev.dragStartX) / 8;
       if (x < -40) x = -40;
       if (x > 120) x = 120;
@@ -88,7 +105,7 @@ function MovableCloud({ config, idx }) {
     window.removeEventListener('touchend', onUp);
   }
   const style = {
-    position: 'absolute',
+    position: 'absolute' as const,
     width: config.width,
     height: config.height,
     zIndex: config.z,
@@ -99,7 +116,7 @@ function MovableCloud({ config, idx }) {
     left: config.left !== undefined ? `${pos.x}%` : undefined,
     right: config.right !== undefined ? `${pos.x}%` : undefined,
     transition: pos.dragging ? 'none' : 'box-shadow 0.2s',
-    touchAction: 'none',
+    touchAction: 'none' as const,
   };
 
   return (
@@ -121,7 +138,7 @@ export default function AboutUs() {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
-  const handleNavigate = (path) => {
+  const handleNavigate = (path: string) => {
     setIsMobileMenuOpen(false);
     router.push(path);
   };
@@ -168,7 +185,7 @@ export default function AboutUs() {
             <div className="w-px h-8 bg-sky-200 mx-2" />
             <button className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-amber-100 hover:underline focus:outline-none transition-all" onClick={() => handleNavigate('/faq')}>FAQ</button>
             <div className="w-px h-8 bg-sky-200 mx-2" />
-            <button className="px-5 py-2 bg-sky-200 hover:bg-sky-300 text-sky-700 text-lg font-semibold rounded-r-xl shadow transition-all transform hover:scale-105 hover:shadow-xl focus:outline-none" onClick={() => handleNavigate('/landing')}>Login</button>
+            <button className="px-5 py-2 bg-sky-200 hover:bg-sky-300 text-sky-700 text-lg font-semibold rounded-r-xl shadow transition-all transform hover:scale-105 hover:shadow-xl focus:outline-none" onClick={() => handleNavigate('/loginPage')}>Login</button>
           </div>
         </div>
         {/* Mobile view */}
