@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
-export default function LandingPage() {
+export default function LoginPage() {
   const router = useRouter();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const descRef = useRef<HTMLParagraphElement>(null);
@@ -37,14 +37,14 @@ export default function LandingPage() {
     <div className="min-h-screen flex flex-col justify-between items-center px-2 sm:px-4 py-6 bg-gradient-to-bl from-[#232f3e] to-[#22313f]">
       {/* Navbar */}
       <nav className="w-full flex items-center justify-between px-4 py-3 bg-cyan-100 shadow-lg fixed top-0 left-0 z-30">
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push('/')}> 
+        <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push('/')}>
           <Image
-            src="/assets/logo.png"
+            src="/images/logo.png"
             alt="SmartDonum Logo"
             width={70}
             height={70}
             className="md:h-[70px] md:w-[70px] w-[50px] h-[50px] object-contain"
-            style={{ display:'block' }}
+            style={{ display: 'block' }}
             priority
           />
           <span className="md:text-2xl text-[20px] font-bold text-cyan-700">SmartDonum</span>
@@ -57,44 +57,46 @@ export default function LandingPage() {
         <div className="w-full flex flex-col items-center">
           <h1
             ref={titleRef}
-            className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-white text-center opacity-0 drop-shadow-lg animate-none"
+            className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-white text-center drop-shadow-lg"
             style={{ letterSpacing: '0.02em' }}
           >
             SmartDonum
           </h1>
           <p
             ref={descRef}
-            className="text-base sm:text-lg md:text-xl text-gray-200 text-center mb-8 sm:mb-10 opacity-0 leading-relaxed animate-none"
+            className="text-base sm:text-lg md:text-xl text-gray-200 text-center mb-8 sm:mb-10 leading-relaxed"
           >
-            SmartDonum is your platform to donate food, unused books, and toys to those in need.<br />
-            We connect donors with NGOs and volunteers, making it easy to schedule pickups and ensure nothing goes to waste.<br />
+            SmartDonum is your platform to donate food, unused books, and toys to those in need.
+            <br />
+            We connect donors with NGOs and volunteers, making it easy to schedule pickups and ensure nothing goes to waste.
+            <br />
             Join us and help bring smiles to many lives!
           </p>
         </div>
         {/* Animated line divider */}
         <hr
           ref={lineRef}
-          className="border-t-4 border-cyan-300 w-full max-w-xl mb-10 opacity-0 animate-none"
+          className="border-t-4 border-cyan-300 w-full max-w-xl mb-10"
         />
         {/* Bottom part: buttons */}
         <div className="flex flex-col md:flex-row gap-4 sm:gap-6 md:gap-8 xl:gap-16 w-full max-w-xs sm:max-w-lg md:max-w-md justify-center">
           <button
             ref={el => { if (el) btnsRef.current[0] = el; }}
-            className="w-full md:w-auto bg-cyan-400 hover:bg-cyan-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition-all opacity-0 animate-none"
+            className="w-full md:w-auto bg-cyan-400 hover:bg-cyan-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition-all"
             onClick={() => handleRoute('/donor')}
           >
             Donor
           </button>
           <button
             ref={el => { if (el) btnsRef.current[1] = el; }}
-            className="w-full md:w-auto bg-cyan-400 hover:bg-cyan-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition-all opacity-0 animate-none"
+            className="w-full md:w-auto bg-cyan-400 hover:bg-cyan-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition-all"
             onClick={() => handleRoute('/ngo')}
           >
             NGO
           </button>
           <button
             ref={el => { if (el) btnsRef.current[2] = el; }}
-            className="w-full md:w-auto bg-cyan-400 hover:bg-cyan-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition-all opacity-0 animate-none"
+            className="w-full md:w-auto bg-cyan-400 hover:bg-cyan-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition-all"
             onClick={() => handleRoute('/admin')}
           >
             Admin
