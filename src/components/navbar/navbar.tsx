@@ -25,7 +25,7 @@ export default function Navbar() {
 
   return (
     <>
-      {["aboutus", "faq", "home"].includes(path.split("/")[1]) && (
+      {["aboutus", "faq", ""].includes(path.split("/")[1]) && (
         <nav className="w-full flex items-center justify-between px-4 py-3 bg-sky-100/80 backdrop-blur-sm shadow-lg fixed top-0 left-0 z-30">
           <div
             className="flex items-center gap-2 cursor-pointer"
