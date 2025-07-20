@@ -3,7 +3,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
-import Head from "next/head";
 
 // Cloud configs (unchanged except shadow isn't used anymore)
 const CLOUD_CONFIGS = [
@@ -29,7 +28,21 @@ const CLOUD_CONFIGS = [
 ];
 
 // MovableCloud without shadow
-function MovableCloud({ config, idx }) {
+type CloudConfig = {
+  top?: string;
+  bottom?: string;
+  left?: number;
+  right?: number;
+  width: number;
+  height: number;
+  opacity: number;
+  blur: string;
+  float: string;
+  z: number;
+  speed: number;
+};
+
+function MovableCloud({ config, idx }: { config: CloudConfig; idx: number }) {
   const [pos, setPos] = useState(() => ({
     x: config.left !== undefined ? config.left : config.right,
     y: 0,
@@ -40,9 +53,9 @@ function MovableCloud({ config, idx }) {
   const cloudRef = useRef(null);
 
   useEffect(() => {
-    let raf;
+    let raf: number;
     let lastTime = performance.now();
-    function animate(now) {
+    function animate(now: number) {
       const dt = (now - lastTime) / 16.67;
       lastTime = now;
       setPos((prev) => {
@@ -58,13 +71,13 @@ function MovableCloud({ config, idx }) {
     return () => cancelAnimationFrame(raf);
   }, [config.speed]);
 
-  function onDown(e) {
+  function onDown(e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) {
     e.preventDefault();
     setPos((prev) => ({
       ...prev,
       dragging: true,
       dragStartX:
-        "touches" in e ? e.touches[0].clientX : e.clientX,
+        "touches" in e ? (e as React.TouchEvent<HTMLDivElement>).touches[0].clientX : (e as React.MouseEvent<HTMLDivElement>).clientX,
       dragOffset: prev.x ?? 0,
     }));
     window.addEventListener("mousemove", onMove);
@@ -72,13 +85,13 @@ function MovableCloud({ config, idx }) {
     window.addEventListener("mouseup", onUp);
     window.addEventListener("touchend", onUp);
   }
-  function onMove(e) {
+  function onMove(e: MouseEvent | TouchEvent) {
     e.preventDefault();
     setPos((prev) => {
       const clientX =
-        e.touches && e.touches.length > 0
-          ? e.touches[0].clientX
-          : e.clientX;
+        'touches' in e && e.touches && e.touches.length > 0
+          ? (e as TouchEvent).touches[0].clientX
+          : (e as MouseEvent).clientX;
       let x = prev.dragOffset + (clientX - prev.dragStartX) / 8;
       if (x < -40) x = -40;
       if (x > 120) x = 120;
@@ -93,8 +106,8 @@ function MovableCloud({ config, idx }) {
     window.removeEventListener("touchend", onUp);
   }
 
-  const style = {
-    position: "absolute",
+  const style: React.CSSProperties = {
+    position: "absolute" as const,
     width: config.width,
     height: config.height,
     zIndex: config.z,
@@ -126,16 +139,14 @@ export default function AboutUs() {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
-  const handleNavigate = (path) => {
+  const handleNavigate = (path: string) => {
     setIsMobileMenuOpen(false);
     router.push(path);
   };
 
   return (
     <>
-      <Head>
-        <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
-      </Head>
+      {/* Font link moved to app/layout.tsx or pages/_document.js */}
       {/* Cloud Background */}
       <div
         style={{
@@ -418,7 +429,7 @@ export default function AboutUs() {
               Dear Donors
             </h2>
             <p className="text-lg sm:text-xl text-gray-700 leading-relaxed text-center font-medium">
-              Your generosity is not just a drop in the ocean—it's a <span className="text-sky-600 font-semibold">wave of kindness</span> that changes countless lives. 
+              Your generosity is not just a drop in the ocean—it&#39;s a <span className="text-sky-600 font-semibold">wave of kindness</span> that changes countless lives. 
               <br /><br />
               Every time you give, you create ripples of hope, write new stories of joy, and light up hearts everywhere. Thank you for believing in a better tomorrow and inspiring us all with your compassion. The world is truly a brighter, warmer place because of <span className="text-sky-700 font-semibold">you</span>.
               <br /><br />
