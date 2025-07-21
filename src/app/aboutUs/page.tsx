@@ -370,6 +370,7 @@ export default function AboutUs() {
           ))}
         </div>
       </div>
+      <div className="h-24"></div>
 
       {/* Main Content */}
       <div
