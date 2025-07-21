@@ -133,7 +133,7 @@ export default function Navbar() {
   }
 
   // =============== CHANGED: Donor/Public/OrganizationDonor/NGO NAVBAR ===============
-  if (["donor", "public", "organization", "ngo"].includes(path.split("/")[1])) {
+  if (["donor", "public", "organization", "ngo","loginPage"].includes(path.split("/")[1])) {
     return (
       <>
         <nav className="w-full flex items-center justify-between px-4 py-3 bg-sky-100/80 backdrop-blur-sm shadow-lg fixed top-0 left-0 z-30">
