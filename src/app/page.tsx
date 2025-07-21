@@ -13,10 +13,10 @@ import Smillegirl from "../../public/images/smillegirl.jpg";
 import Twokids2 from "../../public/images/twokids2.jpg";
 import Hands from "../../public/images/hands.jpg";
 import Image from "next/image";
-import FoodImage from '../../public/images/food.jpg';
-import ClothesImage from '../../public/images/clothes.jpg';
-import BooksImage from '../../public/images/book.jpg';
-import ToysImage from '../../public/images/toy.jpg';
+import FoodImage from "../../public/images/food.jpg";
+import ClothesImage from "../../public/images/clothes.jpg";
+import BooksImage from "../../public/images/book.jpg";
+import ToysImage from "../../public/images/toy.jpg";
 
 function useScrollAnimation(
   ref: React.RefObject<HTMLElement | null>,
@@ -317,16 +317,21 @@ function MovableCloud({ config, idx }: { config: CloudConfig; idx: number }) {
     raf = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(raf);
   }, [config.speed, pos.dragging]);
-  function onDown(e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) {
+  function onDown(
+    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+  ) {
     e.preventDefault();
     setPos((prev) => ({
       ...prev,
       dragging: true,
-      dragStartX: 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX,
+      dragStartX:
+        "touches" in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX,
       dragOffset: prev.x ?? 0,
     }));
     window.addEventListener("mousemove", onMove);
-    window.addEventListener("touchmove", onMove as EventListener, { passive: false });
+    window.addEventListener("touchmove", onMove as EventListener, {
+      passive: false,
+    });
     window.addEventListener("mouseup", onUp);
     window.addEventListener("touchend", onUp);
   }
@@ -388,7 +393,7 @@ function Dashboard() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // A helper function to handle navigation and close the mobile menu
-  const handleNavigate = (path:string) => {
+  const handleNavigate = (path: string) => {
     router.push(path);
     setIsMobileMenuOpen(false);
   };
@@ -519,7 +524,7 @@ function Dashboard() {
       </div>
 
       {/* --- START: NAVBAR MODIFICATION --- */}
-     
+
       {/* --- START: MOBILE MENU PANEL AND OVERLAY --- */}
       {/* Overlay */}
       <div
@@ -1060,11 +1065,7 @@ function Dashboard() {
           <div className="text-center text-sky-700 text-sm py-4">
             © {new Date().getFullYear()} SmartDonum. All rights reserved. |
             <a
-<<<<<<< HEAD
-              href="#contactus"
-=======
               href="/src/app/contactUs"
->>>>>>> cb522cf5d7314b42a4b5d2df30599030a8dc7226
               className="text-sky-500 hover:text-sky-700 underline ml-2"
             >
               Contact Us
