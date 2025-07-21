@@ -284,7 +284,7 @@ export default function FAQ() {
           <div className="flex items-center bg-gradient-to-r from-sky-100 via-white to-amber-100 bg-opacity-80 rounded-xl shadow border border-sky-100 px-2 py-1">
             <button className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-green-100 hover:underline focus:outline-none rounded-l-xl transition-all" onClick={() => handleNavigate('/')}>Home</button>
             <div className="w-px h-8 bg-sky-200 mx-2" />
-            <button className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-sky-200 hover:underline focus:outline-none transition-all" onClick={() => handleNavigate('/about')}>About Us</button>
+            <button className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-sky-200 hover:underline focus:outline-none transition-all" onClick={() => handleNavigate('/aboutUs')}>About Us</button>
             <div className="w-px h-8 bg-sky-200 mx-2" />
             <button className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-amber-100 hover:underline focus:outline-none transition-all" onClick={() => handleNavigate('/faq')}>FAQ</button>
             <div className="w-px h-8 bg-sky-200 mx-2" />
