@@ -133,11 +133,7 @@ export default function Navbar() {
   }
 
   // =============== CHANGED: Donor/Public/OrganizationDonor/NGO NAVBAR ===============
-  if (
-    ["donor", "public", "organization", "ngo"].includes(
-      path.split("/")[1]
-    )
-  ) {
+  if (["donor", "public", "organization", "ngo"].includes(path.split("/")[1])) {
     return (
       <>
         <nav className="w-full flex items-center justify-between px-4 py-3 bg-sky-100/80 backdrop-blur-sm shadow-lg fixed top-0 left-0 z-30">
@@ -151,6 +147,8 @@ export default function Navbar() {
               alt="SmartDonum Logo"
               className="md:h-[70px] md:w-[70px] w-[50px] h-[50px] object-contain"
               style={{ display: "block" }}
+              width={100}
+              height={100}
             />
             <span className="md:text-2xl text-[20px] font-bold text-sky-700">
               SmartDonum

@@ -680,6 +680,8 @@ function Dashboard() {
                     padding: 0,
                     margin: 0,
                   }}
+                  width={100}
+                  height={100}
                 />
               );
             })}
@@ -797,6 +799,8 @@ function Dashboard() {
                   src={BooksImage}
                   alt="Donating books"
                   className="w-full h-full object-cover rounded-t-2xl sm:rounded-l-2xl sm:rounded-t-none"
+                  width={100}
+                  height={100}
                 />
               </div>
               <div className="flex-1 text-sky-900 text-base sm:text-lg font-medium px-4 py-4">
@@ -844,6 +848,8 @@ function Dashboard() {
                   src={ToysImage}
                   alt="Donating toys"
                   className="w-full h-full object-cover rounded-b-2xl sm:rounded-r-2xl sm:rounded-b-none"
+                  width={100}
+                  height={100}
                 />
               </div>
             </div>

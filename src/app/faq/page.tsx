@@ -1,15 +1,33 @@
-'use client';
-import React, { useRef } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { Menu, X, Plus, Minus } from 'lucide-react';
+"use client";
+import React, { useRef } from "react";
+import { Plus, Minus } from "lucide-react";
 
 // Cloud configs
 const CLOUD_CONFIGS = [
   // ...[keep as in your question, omitted here for brevity]...
-  { top: '2.5rem', left: -20, width: 352, height: 176, blur: 'blur-xl', float: 'animate-cloudFloatSlow', z: 1, speed: 0.08, opacity: 0.95 },
+  {
+    top: "2.5rem",
+    left: -20,
+    width: 352,
+    height: 176,
+    blur: "blur-xl",
+    float: "animate-cloudFloatSlow",
+    z: 1,
+    speed: 0.08,
+    opacity: 0.95,
+  },
   // ... (rest unchanged) ...
-  { bottom: '8rem', left: 0, width: 160, height: 56, blur: 'blur-md', float: 'animate-cloudFloatReverse', z: 3, speed: 0.06, opacity: 0.80 },
+  {
+    bottom: "8rem",
+    left: 0,
+    width: 160,
+    height: 56,
+    blur: "blur-md",
+    float: "animate-cloudFloatReverse",
+    z: 3,
+    speed: 0.06,
+    opacity: 0.8,
+  },
 ];
 
 // FAQ Array
@@ -56,7 +74,7 @@ const FAQ_LIST = [
   },
   {
     q: "What condition should clothes, books, and toys be in to be accepted?",
-    a: "A good rule of thumb is the \"dignity rule\": donate items you would be comfortable giving to a friend. Clothes should be washed and without major damage. Books and toys should be clean, intact, and functional.",
+    a: 'A good rule of thumb is the "dignity rule": donate items you would be comfortable giving to a friend. Clothes should be washed and without major damage. Books and toys should be clean, intact, and functional.',
   },
   {
     q: "How can my restaurant or company arrange for large-scale or recurring donations?",
@@ -64,15 +82,15 @@ const FAQ_LIST = [
   },
   {
     q: "As an NGO, how can I list my specific, current needs on the platform?",
-    a: "Your NGO dashboard features a \"Needs\" section where you can post specific, real-time requests. These requests are then shown to donors in your area, encouraging more targeted and impactful giving.",
+    a: 'Your NGO dashboard features a "Needs" section where you can post specific, real-time requests. These requests are then shown to donors in your area, encouraging more targeted and impactful giving.',
   },
   {
     q: "Will I receive an acknowledgement or receipt after my donation has been successfully delivered?",
-    a: "Yes. Once the NGO receives your donation and marks it as \"Delivered\" in the system, you will receive a final confirmation notification and a thank you note, which is also logged in your donation history.",
+    a: 'Yes. Once the NGO receives your donation and marks it as "Delivered" in the system, you will receive a final confirmation notification and a thank you note, which is also logged in your donation history.',
   },
   {
     q: "How can I track the status of my donation after scheduling a pickup?",
-    a: "Your personal dashboard provides real-time status updates for your donation. You will see its progress change from \"Awaiting NGO Approval\" → \"Pickup Scheduled\" → \"Out for Pickup\" → \"Delivered.\"",
+    a: 'Your personal dashboard provides real-time status updates for your donation. You will see its progress change from "Awaiting NGO Approval" → "Pickup Scheduled" → "Out for Pickup" → "Delivered."',
   },
   {
     q: "What should I do if a scheduled pickup is missed or delayed?",
@@ -92,7 +110,7 @@ const FAQ_LIST = [
   },
   {
     q: "Who should I contact if I encounter a technical problem on the website or have an issue with a donation?",
-    a: "For any issues, our support team is ready to help. You can visit our \"Help Center\" for articles on common issues or submit a support ticket directly through the app or website. For urgent matters, you can email us at support@smartdonum.com.",
+    a: 'For any issues, our support team is ready to help. You can visit our "Help Center" for articles on common issues or submit a support ticket directly through the app or website. For urgent matters, you can email us at support@smartdonum.com.',
   },
 ];
 
@@ -133,7 +151,7 @@ function MovableCloud({ config, idx }: MovableCloudProps) {
       const dt = (now - lastTime) / 16.67;
       lastTime = now;
       if (!pos.dragging) {
-        setPos(prev => {
+        setPos((prev) => {
           let x = (prev.x ?? 0) + config.speed * dt;
           if (config.speed > 0 && x > 120) x = -40;
           if (config.speed < 0 && x < -40) x = 120;
@@ -146,22 +164,26 @@ function MovableCloud({ config, idx }: MovableCloudProps) {
     return () => cancelAnimationFrame(raf);
   }, [config.speed, pos.dragging]);
 
-  function onDown(e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) {
+  function onDown(
+    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+  ) {
     e.preventDefault();
-    setPos(prev => ({
+    setPos((prev) => ({
       ...prev,
       dragging: true,
-      dragStartX: 'touches' in e ? e.touches[0].clientX : e.clientX,
+      dragStartX: "touches" in e ? e.touches[0].clientX : e.clientX,
       dragOffset: prev.x ?? 0,
     }));
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('touchmove', onMove as EventListener, { passive: false });
-    window.addEventListener('mouseup', onUp);
-    window.addEventListener('touchend', onUp);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("touchmove", onMove as EventListener, {
+      passive: false,
+    });
+    window.addEventListener("mouseup", onUp);
+    window.addEventListener("touchend", onUp);
   }
   function onMove(e: MouseEvent | TouchEvent) {
     e.preventDefault();
-    setPos(prev => {
+    setPos((prev) => {
       const clientX =
         (e as TouchEvent).touches && (e as TouchEvent).touches.length > 0
           ? (e as TouchEvent).touches[0].clientX
@@ -173,36 +195,36 @@ function MovableCloud({ config, idx }: MovableCloudProps) {
     });
   }
   function onUp() {
-    setPos(prev => ({ ...prev, dragging: false }));
-    window.removeEventListener('mousemove', onMove);
-    window.removeEventListener('touchmove', onMove);
-    window.removeEventListener('mouseup', onUp);
-    window.removeEventListener('touchend', onUp);
+    setPos((prev) => ({ ...prev, dragging: false }));
+    window.removeEventListener("mousemove", onMove);
+    window.removeEventListener("touchmove", onMove);
+    window.removeEventListener("mouseup", onUp);
+    window.removeEventListener("touchend", onUp);
   }
   const style: React.CSSProperties = {
-    position: 'absolute',
+    position: "absolute",
     width: config.width,
     height: config.height,
     zIndex: config.z,
     opacity: 1,
-    cursor: 'default',
+    cursor: "default",
     top: config.top,
     bottom: config.bottom,
     left: config.left !== undefined ? `${pos.x}%` : undefined,
     right: config.right !== undefined ? `${pos.x}%` : undefined,
-    transition: pos.dragging ? 'none' : 'box-shadow 0.2s',
-    touchAction: 'none',
+    transition: pos.dragging ? "none" : "box-shadow 0.2s",
+    touchAction: "none",
   };
   return (
     <div ref={cloudRef} style={style} className="group select-none">
       {/* No shadow base, no shadow-cloud class! */}
       <div
         className={`w-full h-full bg-white rounded-full ${config.blur} ${config.float}`}
-        style={{ opacity: config.opacity, position: 'absolute' }}
+        style={{ opacity: config.opacity, position: "absolute" }}
         onMouseDown={onDown}
         onTouchStart={onDown}
         tabIndex={0}
-        aria-label={`Cloud ${idx+1}`}
+        aria-label={`Cloud ${idx + 1}`}
       />
     </div>
   );
@@ -225,7 +247,10 @@ function FAQAccordion({ faqs }: FAQAccordionProps) {
   return (
     <div className="space-y-4">
       {faqs.map((faq, i) => (
-        <div key={i} className="rounded-lg border border-sky-200 bg-white/70 shadow hover:shadow-md transition-shadow">
+        <div
+          key={i}
+          className="rounded-lg border border-sky-200 bg-white/70 shadow hover:shadow-md transition-shadow"
+        >
           <button
             className="flex w-full items-center justify-between px-4 py-4 text-left focus:outline-none"
             onClick={() => handleToggle(i)}
@@ -252,86 +277,112 @@ function FAQAccordion({ faqs }: FAQAccordionProps) {
 }
 
 export default function FAQ() {
-  const router = useRouter();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-
-  const handleNavigate = (path: string) => {
-    setIsMobileMenuOpen(false);
-    router.push(path);
-  };
-
   return (
     <div>
       {/* Cloud BG */}
       <div
-        style={{position:'fixed', inset:0, width:'100vw', height:'100vh', zIndex:0, pointerEvents:'none', overflow:'hidden'}}
+        style={{
+          position: "fixed",
+          inset: 0,
+          width: "100vw",
+          height: "100vh",
+          zIndex: 0,
+          pointerEvents: "none",
+          overflow: "hidden",
+        }}
         id="cloud-bg-parallax"
       >
-        <div style={{position:'absolute', inset:0, width:'100vw', height:'100vh', background:'linear-gradient(180deg, #b3e0ff 0%, #87ceeb 40%, #e0f7fa 100%)', zIndex:0}} />
-        <div style={{position:'absolute', inset:0, width:'100vw', height:'100vh', zIndex:1, pointerEvents:'none'}}>
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100vw",
+            height: "100vh",
+            background:
+              "linear-gradient(180deg, #b3e0ff 0%, #87ceeb 40%, #e0f7fa 100%)",
+            zIndex: 0,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100vw",
+            height: "100vh",
+            zIndex: 1,
+            pointerEvents: "none",
+          }}
+        >
           {CLOUD_CONFIGS.map((cfg, i) => (
             <MovableCloud key={i} config={cfg} idx={i} />
           ))}
         </div>
       </div>
-      {/* Navbar */}
-      <nav className="w-full flex items-center justify-between px-4 py-3 bg-sky-100/80 backdrop-blur-sm shadow-lg fixed top-0 left-0 z-30">
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleNavigate('/')}>
-          <Image src="/images/logo.png" alt="SmartDonum Logo" className="md:h-[70px] md:w-[70px] w-[50px] h-[50px] object-contain" width={70} height={70} style={{display:'block'}} />
-          <span className="md:text-2xl text-[20px] font-bold text-sky-700">SmartDonum</span>
-        </div>
-        <div className="hidden md:flex items-center gap-0">
-          <div className="flex items-center bg-gradient-to-r from-sky-100 via-white to-amber-100 bg-opacity-80 rounded-xl shadow border border-sky-100 px-2 py-1">
-            <button className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-green-100 hover:underline focus:outline-none rounded-l-xl transition-all" onClick={() => handleNavigate('/')}>Home</button>
-            <div className="w-px h-8 bg-sky-200 mx-2" />
-            <button className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-sky-200 hover:underline focus:outline-none transition-all" onClick={() => handleNavigate('/aboutUs')}>About Us</button>
-            <div className="w-px h-8 bg-sky-200 mx-2" />
-            <button className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-amber-100 hover:underline focus:outline-none transition-all" onClick={() => handleNavigate('/faq')}>FAQ</button>
-            <div className="w-px h-8 bg-sky-200 mx-2" />
-            <button className="px-5 py-2 bg-sky-200 hover:bg-sky-300 text-sky-700 text-lg font-semibold rounded-r-xl shadow transition-all transform hover:scale-105 hover:shadow-xl focus:outline-none" onClick={() => handleNavigate('/loginPage')}>Login</button>
-          </div>
-        </div>
-        <div className="md:hidden flex items-center gap-2 w-full justify-end">
-          <button className="px-5 py-2 bg-sky-200 hover:bg-sky-300 text-sky-700 text-lg font-semibold rounded-xl shadow transition-all focus:outline-none" onClick={() => handleNavigate('/landing')}>Login</button>
-          <button onClick={() => setIsMobileMenuOpen(true)} className="text-sky-700 focus:outline-none p-2" aria-label="Open menu">
-            <Menu size={32} />
-          </button>
-        </div>
-      </nav>
-      {/* Mobile menu and overlay */}
-      <div className={`fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 md:hidden ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={() => setIsMobileMenuOpen(false)} />
-      <div className={`fixed top-0 right-0 h-full w-72 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out md:hidden ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className="flex justify-between items-center p-4 border-b">
-          <span className="text-xl font-bold text-sky-700">Menu</span>
-          <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-600 hover:text-gray-900 p-2" aria-label="Close menu">
-            <X size={28} />
-          </button>
-        </div>
-        <div className="flex flex-col p-4 space-y-3">
-          <button className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-green-100 rounded-lg transition-colors" onClick={() => handleNavigate('/')}>Home</button>
-          <button className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-sky-50 rounded-lg transition-colors" onClick={() => handleNavigate('/about')}>About Us</button>
-          <button className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-amber-100 rounded-lg transition-colors" onClick={() => handleNavigate('/faq')}>FAQ</button>
-        </div>
-      </div>
       {/* Spacer */}
       <div className="h-24"></div>
       {/* FAQ Content */}
-      <div className="min-h-screen flex flex-col justify-center items-center px-4 py-8 relative overflow-x-hidden overflow-y-auto z-10" style={{background:'transparent'}}>
+      <div
+        className="min-h-screen flex flex-col justify-center items-center px-4 py-8 relative overflow-x-hidden overflow-y-auto z-10"
+        style={{ background: "transparent" }}
+      >
         <div className="max-w-2xl w-full bg-white/80 border-2 border-sky-200 rounded-2xl shadow-xl p-8 flex flex-col gap-6 animate-fadeInUp relative">
-          <h2 className="text-3xl font-extrabold text-sky-700 mb-4 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-3xl font-extrabold text-sky-700 mb-4 text-center">
+            Frequently Asked Questions
+          </h2>
           <FAQAccordion faqs={FAQ_LIST} />
         </div>
       </div>
       {/* Cloud animation keyframes */}
       <style jsx>{`
-        @keyframes fadeInUpOnce { 0% { opacity: 0; transform: translateY(40px); } 100% { opacity: 1; transform: translateY(0); } }
-        .animate-fadeInUpOnce { animation: fadeInUpOnce 0.6s cubic-bezier(0.23, 1, 0.32, 1) both; }
-        @keyframes cloudFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-18px); } }
-        @keyframes cloudFloatSlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(12px); } }
-        @keyframes cloudFloatReverse { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(14px); } }
-        .animate-cloudFloat { animation: cloudFloat 7s ease-in-out infinite; }
-        .animate-cloudFloatSlow { animation: cloudFloatSlow 11s ease-in-out infinite; }
-        .animate-cloudFloatReverse { animation: cloudFloatReverse 9s ease-in-out infinite; }
+        @keyframes fadeInUpOnce {
+          0% {
+            opacity: 0;
+            transform: translateY(40px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fadeInUpOnce {
+          animation: fadeInUpOnce 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+        }
+        @keyframes cloudFloat {
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-18px);
+          }
+        }
+        @keyframes cloudFloatSlow {
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(12px);
+          }
+        }
+        @keyframes cloudFloatReverse {
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(14px);
+          }
+        }
+        .animate-cloudFloat {
+          animation: cloudFloat 7s ease-in-out infinite;
+        }
+        .animate-cloudFloatSlow {
+          animation: cloudFloatSlow 11s ease-in-out infinite;
+        }
+        .animate-cloudFloatReverse {
+          animation: cloudFloatReverse 9s ease-in-out infinite;
+        }
       `}</style>
     </div>
   );

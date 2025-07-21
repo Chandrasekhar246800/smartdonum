@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -35,22 +34,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex flex-col justify-between items-center px-2 sm:px-4 py-6 bg-gradient-to-bl from-[#232f3e] to-[#22313f]">
-      {/* Navbar */}
-      <nav className="w-full flex items-center justify-between px-4 py-3 bg-cyan-100 shadow-lg fixed top-0 left-0 z-30">
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push('/')}>
-          <Image
-            src="/images/logo.png"
-            alt="SmartDonum Logo"
-            width={70}
-            height={70}
-            className="md:h-[70px] md:w-[70px] w-[50px] h-[50px] object-contain"
-            style={{ display: 'block' }}
-            priority
-          />
-          <span className="md:text-2xl text-[20px] font-bold text-cyan-700">SmartDonum</span>
-        </div>
-      </nav>
-      {/* Spacer for navbar */}
       <div className="h-16"></div>
       <div className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl mx-auto">
         {/* Top part: title and description */}
