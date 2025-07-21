@@ -528,17 +528,6 @@ export default function AboutUs() {
             </div>
           </div>
         </section>
-        <footer className="w-full mt-10 sm:mt-16 flex-shrink-0 bg-sky-200 bg-opacity-90 z-10">
-          <div className="text-center text-sky-700 text-sm py-4">
-            © {new Date().getFullYear()} SmartDonum. All rights reserved. |
-            <a
-              href="#contactus"
-              className="text-sky-500 hover:text-sky-700 underline ml-2"
-            >
-              Contact Us
-            </a>
-          </div>
-        </footer>
       </div>
       {/* cloud float keyframes */}
       <style jsx>{`

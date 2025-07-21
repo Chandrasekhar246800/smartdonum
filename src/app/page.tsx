@@ -1060,7 +1060,11 @@ function Dashboard() {
           <div className="text-center text-sky-700 text-sm py-4">
             © {new Date().getFullYear()} SmartDonum. All rights reserved. |
             <a
+<<<<<<< HEAD
               href="#contactus"
+=======
+              href="/src/app/contactUs"
+>>>>>>> cb522cf5d7314b42a4b5d2df30599030a8dc7226
               className="text-sky-500 hover:text-sky-700 underline ml-2"
             >
               Contact Us
