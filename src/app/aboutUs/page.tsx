@@ -379,7 +379,7 @@ export default function AboutUs() {
 
       {/* Main Content */}
       <div
-        className="min-h-screen flex flex-col items-center justify-start px-0 py-0 relative z-10"
+        className="min-h-screen flex flex-col items-center justify-start px-0 py-0 mx-auto relative z-10"
         style={{ background: "transparent" }}
       >
         {/* HERO IMAGE & heading */}
@@ -653,36 +653,28 @@ export default function AboutUs() {
           </div>
         </section>
 
-        {/* SMARTDONUM COMMITMENT SECTION - 2 COLUMN (Pale, Blended Theme) */}
+        {/* SMARTDONUM COMMITMENT & PROMISE - Unified Card */}
         <section className="w-full flex flex-col items-center justify-center mb-12 px-4">
-          <div className="w-full max-w-6xl flex flex-col md:flex-row gap-0 items-stretch">
-            {/* Left card (pale blue) */}
-            <div className="flex-1 bg-[#e5f4fb]/70 rounded-[40px] md:rounded-r-none p-12 flex flex-col justify-center shadow-lg backdrop-blur-md">
-              <h2 className="text-4xl font-extrabold text-sky-700 mb-6 leading-tight">
-                Our Commitment
-                <br />
-                to Impact
-              </h2>
-              <p className="text-xl text-sky-900 leading-relaxed">
-                Every day, we strive to bridge the gap between compassion and
-                real-world change. Your support empowers SmartDonum to reach
-                more communities, deliver vital resources, and make hope
-                possible in places it’s needed most.
-              </p>
-            </div>
-            {/* Right card (pale lavender) */}
-            <div className="flex-1 bg-[#e4e8fc]/70 rounded-[40px] md:rounded-l-none p-12 flex flex-col justify-center shadow-lg backdrop-blur-md">
-              <h2 className="text-4xl font-extrabold text-indigo-700 mb-6 leading-tight">
-                Our Promise
-                <br />
-                to You
-              </h2>
-              <p className="text-xl text-indigo-900 leading-relaxed">
-                We vow to honor your generosity with transparency, care, and
-                gratitude. Your donation is not just a one-time gift—it becomes
-                a legacy of kindness, empowering brighter tomorrows for
-                countless lives.
-              </p>
+          <div className="w-full max-w-4xl rounded-[40px] shadow-2xl bg-white/60 backdrop-blur-md p-0 flex flex-col overflow-hidden mx-auto">
+            <div className="flex flex-col md:flex-row w-full">
+              {/* Commitment Section (pale blue) */}
+              <div className="flex-1 bg-[#e5f4fb]/70 p-10 md:p-12 flex flex-col justify-center items-center md:items-start">
+                <h2 className="text-3xl md:text-4xl font-extrabold text-sky-700 mb-4 md:mb-6 leading-tight text-center md:text-left">
+                  Our Commitment to Impact
+                </h2>
+                <p className="text-lg md:text-xl text-sky-900 leading-relaxed text-center md:text-left">
+                  Every day, we strive to bridge the gap between compassion and real-world change. Your support empowers SmartDonum to reach more communities, deliver vital resources, and make hope possible in places it’s needed most.
+                </p>
+              </div>
+              {/* Promise Section (pale lavender) */}
+              <div className="flex-1 bg-[#e4e8fc]/70 p-10 md:p-12 flex flex-col justify-center items-center md:items-start border-t md:border-t-0 md:border-l border-[#d1d5ee]">
+                <h2 className="text-3xl md:text-4xl font-extrabold text-indigo-700 mb-4 md:mb-6 leading-tight text-center md:text-left">
+                  Our Promise to You
+                </h2>
+                <p className="text-lg md:text-xl text-indigo-900 leading-relaxed text-center md:text-left">
+                  We vow to honor your generosity with transparency, care, and gratitude. Your donation is not just a one-time gift—it becomes a legacy of kindness, empowering brighter tomorrows for countless lives.
+                </p>
+              </div>
             </div>
           </div>
         </section>
