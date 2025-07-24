@@ -7,6 +7,7 @@ import Image from "next/image";
 
 export default function Navbar() {
   const path = usePathname();
+  const current = path.split("/")[1] || "";
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
 
@@ -16,7 +17,7 @@ export default function Navbar() {
   };
 
   // =============== UNCHANGED: Home/About/FAQ/Login NAVBAR ===============
-  if (["aboutUs", "faq", ""].includes(path.split("/")[1])) {
+  if (["aboutUs", "faq", "contactUs",""].includes(path.split("/")[1])) {
     return (
       <>
         <nav className="w-full flex items-center justify-between px-4 py-3 bg-sky-100/80 backdrop-blur-sm shadow-lg fixed top-0 left-0 z-30">
@@ -42,28 +43,35 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-0">
             <div className="flex items-center bg-gradient-to-r from-sky-100 via-white to-amber-100 bg-opacity-80 rounded-xl shadow border border-sky-100 px-2 py-1">
               <button
-                className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-green-100 hover:underline focus:outline-none rounded-l-xl transition-all"
+                className={`px-5 py-2 text-sky-700 font-semibold text-lg focus:outline-none rounded-l-xl transition-all ${current === "" ? "underline bg-green-100 rounded-xl" : "hover:bg-green-100 hover:underline"}`}
                 onClick={() => handleNavigate("/")}
               >
                 Home
               </button>
               <div className="w-px h-8 bg-sky-200 mx-2" />
               <button
-                className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-sky-200 hover:underline focus:outline-none transition-all"
+                className={`px-5 py-2 text-sky-700 font-semibold text-lg focus:outline-none transition-all ${current === "aboutUs" ? "underline bg-sky-200 rounded-xl" : "hover:bg-sky-200 hover:underline"}`}
                 onClick={() => handleNavigate("/aboutUs")}
               >
                 About Us
               </button>
               <div className="w-px h-8 bg-sky-200 mx-2" />
               <button
-                className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-amber-100 hover:underline focus:outline-none transition-all"
+                className={`px-5 py-2 text-sky-700 font-semibold text-lg focus:outline-none transition-all ${current === "faq" ? "underline bg-amber-100 rounded-xl" : "hover:bg-amber-100 hover:underline"}`}
                 onClick={() => handleNavigate("/faq")}
               >
                 FAQ
               </button>
               <div className="w-px h-8 bg-sky-200 mx-2" />
               <button
-                className="px-5 py-2 bg-sky-200 hover:bg-sky-300 text-sky-700 text-lg font-semibold rounded-r-xl shadow transition-all transform hover:scale-105 hover:shadow-xl focus:outline-none"
+                className={`px-5 py-2 text-sky-700 font-semibold text-lg focus:outline-none transition-all ${current === "contactUs" ? "underline bg-sky-100 rounded-xl" : "hover:bg-sky-100 hover:underline"}`}
+                onClick={() => handleNavigate("/contactUs")}
+              >
+                Contact Us
+              </button>
+              <div className="w-px h-8 bg-sky-200 mx-2" />
+              <button
+                className={`px-5 py-2 bg-sky-200 hover:bg-sky-300 text-sky-700 text-lg font-semibold rounded-r-xl shadow transition-all transform hover:scale-105 hover:shadow-xl focus:outline-none ${current === "loginPage" ? "underline bg-sky-300 rounded-xl" : ""}`}
                 onClick={() => handleNavigate("/loginPage")}
               >
                 Login
@@ -123,6 +131,12 @@ export default function Navbar() {
                   onClick={() => handleNavigate("/faq")}
                 >
                   FAQ
+                </button>
+                <button
+                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-sky-100 rounded-lg transition-colors"
+                  onClick={() => handleNavigate("/contactUs")}
+                >
+                  Contact Us
                 </button>
               </div>
             </div>

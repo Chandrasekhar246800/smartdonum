@@ -1,6 +1,8 @@
 "use client";
 import React, { useRef } from "react";
 import { Plus, Minus } from "lucide-react";
+import Footer from "../../components/footer/Footer";
+
 
 // Cloud configs
 const CLOUD_CONFIGS = [
@@ -258,8 +260,12 @@ function FAQAccordion({ faqs }: FAQAccordionProps) {
             aria-controls={`faq-answer-${i}`}
           >
             <span className="font-semibold text-sky-800 text-lg">{faq.q}</span>
-            <span>
-              {openIndex === i ? <Minus size={28} /> : <Plus size={28} />}
+            <span className="inline-block transition-transform duration-300 ease-in-out" style={{ transform: openIndex === i ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+              {openIndex === i ? (
+                <Minus size={28} color="#1e293b" strokeWidth={2.5} />
+              ) : (
+                <Plus size={28} color="#1e293b" strokeWidth={2.5} />
+              )}
             </span>
           </button>
           {openIndex === i && (
@@ -278,7 +284,7 @@ function FAQAccordion({ faqs }: FAQAccordionProps) {
 
 export default function FAQ() {
   return (
-    <div>
+    <>
       {/* Cloud BG */}
       <div
         style={{
@@ -318,42 +324,24 @@ export default function FAQ() {
           ))}
         </div>
       </div>
-      {/* Spacer */}
+      {/* Main FAQ Content */}
       <div className="h-24"></div>
-      {/* FAQ Content */}
-      <div
-        className="min-h-screen flex flex-col justify-center items-center px-4 py-8 relative overflow-x-hidden overflow-y-auto z-10"
-        style={{ background: "transparent" }}
-      >
-        <div className="max-w-2xl w-full bg-white/80 border-2 border-sky-200 rounded-2xl shadow-xl p-8 flex flex-col gap-6 animate-fadeInUp relative">
-          <h2 className="text-3xl font-extrabold text-sky-700 mb-4 text-center">
-            Frequently Asked Questions
-          </h2>
-          <FAQAccordion faqs={FAQ_LIST} />
-        </div>
+      <main className="max-w-3xl mx-auto px-4 py-10 z-10 relative">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-sky-700 mb-8 text-center drop-shadow">Frequently Asked Questions</h1>
+        <FAQAccordion faqs={FAQ_LIST} />
+      </main>
+      {/* Footer at the bottom, outside main content */}
+      <div style={{ position: "relative", zIndex: 50 }}>
+        <Footer />
       </div>
-      {/* Cloud animation keyframes */}
       <style jsx>{`
-        @keyframes fadeInUpOnce {
-          0% {
-            opacity: 0;
-            transform: translateY(40px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fadeInUpOnce {
-          animation: fadeInUpOnce 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
-        }
         @keyframes cloudFloat {
           0%,
           100% {
             transform: translateY(0);
           }
           50% {
-            transform: translateY(-18px);
+            transform: translateY(12px);
           }
         }
         @keyframes cloudFloatSlow {
@@ -362,7 +350,7 @@ export default function FAQ() {
             transform: translateY(0);
           }
           50% {
-            transform: translateY(12px);
+            transform: translateY(18px);
           }
         }
         @keyframes cloudFloatReverse {
@@ -384,6 +372,6 @@ export default function FAQ() {
           animation: cloudFloatReverse 9s ease-in-out infinite;
         }
       `}</style>
-    </div>
+    </>
   );
 }

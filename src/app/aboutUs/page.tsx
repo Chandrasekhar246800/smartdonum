@@ -1,8 +1,13 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
-import Image from "next/image";
 
-// Cloud configs (unchanged except shadow isn't used anymore)
+import React, { useState, useEffect, useRef } from "react";
+// import logo from "../assets/logo.png";
+
+// Import Lucide icons for the mobile menu
+import Image from "next/image";
+// import Link from "next/link";
+import Footer from "../../components/footer/Footer";
+
 const CLOUD_CONFIGS = [
   {
     top: "2.5rem",
@@ -385,14 +390,14 @@ export default function AboutUs() {
           <Image
             src="/images/aboutus1.jpg"
             alt="Group of children showing peace signs"
-            className="w-full h-[38vh] sm:h-[48vh] md:h-[56vh] lg:h-[62vh] xl:h-[70vh] 2xl:h-[80vh] object-cover rounded-2xl"
+            className="w-full h-[38vh] sm:h-[48vh] md:h-[56vh] lg:h-[62vh] xl:h-[70vh] 2xl:h-[80vh] object-cover rounded-3xl"
             width={1920}
             height={600}
             style={{
               display: "block",
               margin: 0,
               padding: 0,
-              borderRadius: 0,
+              borderRadius: "1.5rem",
               boxShadow: "0 8px 32px 0 rgba(2,132,199,0.12)",
             }}
             priority
@@ -402,7 +407,7 @@ export default function AboutUs() {
               className="text-white text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold drop-shadow-lg px-8 py-4 mb-0 ml-6 tracking-wide uppercase"
               style={{ letterSpacing: "0.08em" }}
             >
-              ABOUT US
+              About Us
             </span>
           </div>
         </div>
@@ -455,7 +460,7 @@ export default function AboutUs() {
         <section className="w-full flex flex-col items-center justify-center mb-8 px-4">
           <div className="w-full max-w-5xl rounded-2xl shadow-2xl bg-white/65 backdrop-blur-md py-10 px-6 md:py-14 md:px-12">
             <h2 className="w-full text-3xl sm:text-4xl md:text-5xl font-bold text-sky-700 tracking-wide mb-10 text-center">
-              Our Team
+              Team Leaders
             </h2>
             {/* TEAM MEMBER 1 */}
             <div className="w-full flex flex-col md:flex-row items-center justify-between gap-8 max-w-4xl mx-auto mb-10">
@@ -527,7 +532,7 @@ export default function AboutUs() {
         <section className="w-full flex flex-col items-center justify-center mb-12 px-4">
           <div className="w-full max-w-5xl rounded-2xl shadow-2xl bg-white/60 backdrop-blur-md py-10 px-6 md:py-14 md:px-12">
             <h2 className="w-full text-3xl sm:text-4xl md:text-5xl font-bold text-sky-700 tracking-wide mb-8 text-center">
-              Co - Founders
+              Team Members
             </h2>
             <div className="flex flex-col md:flex-row items-stretch md:items-end justify-between gap-8">
               {/* Founder 1 */}
@@ -752,46 +757,49 @@ export default function AboutUs() {
             </div>
           </div>
         </section>
-      </div>
-      {/* cloud float keyframes */}
-      <style jsx>{`
-        .animate-cloudFloat {
-          animation: cloudFloat 7s ease-in-out infinite;
-        }
-        .animate-cloudFloatSlow {
-          animation: cloudFloatSlow 11s ease-in-out infinite;
-        }
-        .animate-cloudFloatReverse {
-          animation: cloudFloatReverse 9s ease-in-out infinite;
-        }
-        @keyframes cloudFloat {
-          0%,
-          100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-18px);
-          }
-        }
-        @keyframes cloudFloatSlow {
-          0%,
-          100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(12px);
-          }
-        }
-        @keyframes cloudFloatReverse {
-          0%,
-          100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(14px);
-          }
-        }
-      `}</style>
-    </>
-  );
+  </div>
+  {/* Footer at the bottom, outside main content */}
+  <div style={{ position: "relative", zIndex: 50, background: "rgba(255,255,255,0.98)", marginBottom: "2rem" }}>
+    <Footer />
+  </div>
+  {/* cloud float keyframes */}
+  <style jsx>{`
+    .animate-cloudFloat {
+      animation: cloudFloat 7s ease-in-out infinite;
+    }
+    .animate-cloudFloatSlow {
+      animation: cloudFloatSlow 11s ease-in-out infinite;
+    }
+    .animate-cloudFloatReverse {
+      animation: cloudFloatReverse 9s ease-in-out infinite;
+    }
+    @keyframes cloudFloat {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-18px);
+      }
+    }
+    @keyframes cloudFloatSlow {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(12px);
+      }
+    }
+    @keyframes cloudFloatReverse {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(14px);
+      }
+    }
+  `}</style>
+</>);
 }

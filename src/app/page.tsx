@@ -4,15 +4,17 @@ import React, { useState, useEffect, useRef } from "react";
 // import logo from "../assets/logo.png";
 
 // Import Lucide icons for the mobile menu
+import Image from "next/image";
+// import Link from "next/link";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Footer from "../components/footer/Footer";
 
 // Import dashboard images
 import Twokids from "../../public/images/twokids.jpg";
 import Smillegirl from "../../public/images/smillegirl.jpg";
 import Twokids2 from "../../public/images/twokids2.jpg";
 import Hands from "../../public/images/hands.jpg";
-import Image from "next/image";
 import FoodImage from "../../public/images/food.jpg";
 import ClothesImage from "../../public/images/clothes.jpg";
 import BooksImage from "../../public/images/book.jpg";
@@ -372,10 +374,7 @@ function MovableCloud({ config, idx }: { config: CloudConfig; idx: number }) {
   return (
     <div ref={cloudRef} style={style} className="group select-none">
       <div
-        className={`absolute left-0 top-[80%] w-full h-10 bg-black bg-opacity-10 rounded-full blur-2xl ${config.shadow}`}
-      />
-      <div
-        className={`w-full h-full bg-white rounded-full ${config.blur} shadow-cloud ${config.float}`}
+        className={`w-full h-full bg-white rounded-full ${config.blur} ${config.float}`}
         style={{ opacity: config.opacity, position: "absolute" }}
         onMouseDown={onDown}
         onTouchStart={onDown}
@@ -388,6 +387,7 @@ function MovableCloud({ config, idx }: { config: CloudConfig; idx: number }) {
 
 function Dashboard() {
   const router = useRouter();
+  // Removed unused year state
 
   // --- START: ADDED FOR MOBILE MENU ---
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -1067,17 +1067,7 @@ function Dashboard() {
             </p>
           </div>
         </div>
-        <footer className="w-full mt-10 sm:mt-16 flex-shrink-0 bg-sky-100 bg-opacity-90 z-10">
-          <div className="text-center text-sky-700 text-sm py-4">
-            © {new Date().getFullYear()} SmartDonum. All rights reserved. |
-            <a
-              href="/src/app/contactUs"
-              className="text-sky-500 hover:text-sky-700 underline ml-2"
-            >
-              Contact Us
-            </a>
-          </div>
-        </footer>
+        <Footer />
         <style>{`
             /* ... (all your existing CSS in the <style> tag remains the same) ... */
             @keyframes fadeInUpOnce { 0% { opacity: 0; transform: translateY(40px); } 100% { opacity: 1; transform: translateY(0); } } .animate-fadeInUpOnce { animation: fadeInUpOnce 1.1s cubic-bezier(0.23, 1, 0.32, 1) both; } .card-hover-effect { transition: transform 0.28s cubic-bezier(0.4,0,0.2,1), box-shadow 0.28s cubic-bezier(0.4,0,0.2,1); } .card-hover-effect:hover { transform: scale(1.035); box-shadow: 0 12px 36px 0 rgba(2,132,199,0.18), 0 2px 8px 0 rgba(0,0,0,0.09); } @keyframes cloudInfinite1 { 0% { left: -20%; } 100% { left: 120%; } } @keyframes cloudInfinite2 { 0% { left: -30%; } 100% { left: 110%; } } @keyframes cloudInfinite3 { 0% { left: -25%; } 100% { left: 115%; } } @keyframes cloudInfinite4 { 0% { left: -15%; } 100% { left: 125%; } } @keyframes cloudInfinite5 { 0% { left: -10%; } 100% { left: 130%; } } @keyframes cloudInfinite6 { 0% { left: -18%; } 100% { left: 120%; } } @keyframes cloudInfinite7 { 0% { left: -22%; } 100% { left: 128%; } } @keyframes cloudInfinite8 { 0% { left: 10%; } 100% { left: 140%; } } @keyframes cloudInfinite9 { 0% { left: 30%; } 100% { left: 150%; } } @keyframes cloudInfinite10 { 0% { left: 20%; } 100% { left: 135%; } } @keyframes cloudInfinite11 { 0% { left: 60%; } 100% { left: 160%; } } @keyframes cloudInfinite12Rtl { 0% { right: -30%; } 100% { right: 120%; } } @keyframes cloudInfinite13Rtl { 0% { right: -20%; } 100% { right: 110%; } } @keyframes cloudInfinite14 { 0% { left: 45%; } 100% { left: 130%; } } @keyframes cloudInfinite15 { 0% { left: 60%; } 100% { left: 140%; } } @keyframes cloudInfinite16 { 0% { left: 80%; } 100% { left: 160%; } } .animate-cloudInfinite1 { animation: cloudInfinite1 30s linear infinite; } .animate-cloudInfinite2 { animation: cloudInfinite2 40s linear infinite; } .animate-cloudInfinite3 { animation: cloudInfinite3 35s linear infinite; } .animate-cloudInfinite4 { animation: cloudInfinite4 45s linear infinite; } .animate-cloudInfinite5 { animation: cloudInfinite5 38s linear infinite; } .animate-cloudInfinite6 { animation: cloudInfinite6 32s linear infinite; } .animate-cloudInfinite7 { animation: cloudInfinite7 42s linear infinite; } .animate-cloudInfinite8 { animation: cloudInfinite8 50s linear infinite; } .animate-cloudInfinite9 { animation: cloudInfinite9 60s linear infinite; } .animate-cloudInfinite10 { animation: cloudInfinite10 55s linear infinite; } .animate-cloudInfinite11 { animation: cloudInfinite11 65s linear infinite; } .animate-cloudInfinite12Rtl { animation: cloudInfinite12Rtl 55s linear infinite reverse; } .animate-cloudInfinite13Rtl { animation: cloudInfinite13Rtl 70s linear infinite reverse; } .animate-cloudInfinite14 { animation: cloudInfinite14 55s linear infinite; } .animate-cloudInfinite15 { animation: cloudInfinite15 50s linear infinite; } .animate-cloudInfinite16 { animation: cloudInfinite16 60s linear infinite; } @keyframes cloudFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-18px); } } @keyframes cloudFloatSlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(12px); } } @keyframes cloudFloatReverse { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(14px); } } .animate-cloudFloat { animation: cloudFloat 7s ease-in-out infinite; } .animate-cloudFloatSlow { animation: cloudFloatSlow 11s ease-in-out infinite; } .animate-cloudFloatReverse { animation: cloudFloatReverse 9s ease-in-out infinite; } .shadow-cloud { box-shadow: 0 8px 32px 0 rgba(135, 206, 235, 0.18), 0 2px 8px 0 rgba(0,0,0,0.07); } @keyframes slideInRight { 0% { opacity: 0; transform: translateX(80px); } 100% { opacity: 1; transform: translateX(0); } } @keyframes slideInLeft { 0% { opacity: 0; transform: translateX(-80px); } 100% { opacity: 1; transform: translateX(0); } } .slide-in-right { opacity: 1 !important; animation: slideInRight 1s cubic-bezier(0.23, 1, 0.32, 1) both; } .slide-in-left { opacity: 1 !important; animation: slideInLeft 1s cubic-bezier(0.23, 1, 0.32, 1) both; }
@@ -1157,10 +1147,6 @@ function QuoteCarousel() {
           ))}
         </div>
       </div>
-      <style>{`
-          /* ... (all your existing CSS in the <style> tag remains the same) ... */
-          @keyframes cloudShadow1 { 0%,100%{opacity:0.32;} 50%{opacity:0.18;} } @keyframes cloudShadow2 { 0%,100%{opacity:0.28;} 50%{opacity:0.14;} } @keyframes cloudShadow3 { 0%,100%{opacity:0.30;} 50%{opacity:0.16;} } @keyframes cloudShadow4 { 0%,100%{opacity:0.26;} 50%{opacity:0.13;} } @keyframes cloudShadow5 { 0%,100%{opacity:0.22;} 50%{opacity:0.10;} } @keyframes cloudShadow6 { 0%,100%{opacity:0.22;} 50%{opacity:0.10;} } @keyframes cloudShadow7 { 0%,100%{opacity:0.22;} 50%{opacity:0.10;} } @keyframes cloudShadow8 { 0%,100%{opacity:0.22;} 50%{opacity:0.10;} } @keyframes cloudShadow9 { 0%,100%{opacity:0.22;} 50%{opacity:0.10;} } @keyframes cloudShadow10 { 0%,100%{opacity:0.22;} 50%{opacity:0.10;} } @keyframes cloudShadow11 { 0%,100%{opacity:0.22;} 50%{opacity:0.10;} } @keyframes cloudShadow12 { 0%,100%{opacity:0.22;} 50%{opacity:0.10;} } @keyframes cloudShadow13 { 0%,100%{opacity:0.22;} 50%{opacity:0.10;} } @keyframes cloudShadow14 { 0%,100%{opacity:0.18;} 50%{opacity:0.08;} } @keyframes cloudShadow15 { 0%,100%{opacity:0.18;} 50%{opacity:0.08;} } @keyframes cloudShadow16 { 0%,100%{opacity:0.18;} 50%{opacity:0.08;} } @keyframes cloudShadow17 { 0%,100%{opacity:0.18;} 50%{opacity:0.08;} } @keyframes cloudShadow18 { 0%,100%{opacity:0.18;} 50%{opacity:0.08;} } @keyframes cloudShadow19 { 0%,100%{opacity:0.18;} 50%{opacity:0.08;} } .animate-cloudShadow1 { animation: cloudShadow1 7s ease-in-out infinite; } .animate-cloudShadow2 { animation: cloudShadow2 8s ease-in-out infinite; } .animate-cloudShadow3 { animation: cloudShadow3 7.5s ease-in-out infinite; } .animate-cloudShadow4 { animation: cloudShadow4 9s ease-in-out infinite; } .animate-cloudShadow5 { animation: cloudShadow5 7.5s ease-in-out infinite; } .animate-cloudShadow6 { animation: cloudShadow6 6.5s ease-in-out infinite; } .animate-cloudShadow7 { animation: cloudShadow7 8.5s ease-in-out infinite; } .animate-cloudShadow8 { animation: cloudShadow8 10s ease-in-out infinite; } .animate-cloudShadow9 { animation: cloudShadow9 12s ease-in-out infinite; } .animate-cloudShadow10 { animation: cloudShadow10 11s ease-in-out infinite; } .animate-cloudShadow11 { animation: cloudShadow11 13s ease-in-out infinite; } .animate-cloudShadow12 { animation: cloudShadow12 11s ease-in-out infinite; } .animate-cloudShadow13 { animation: cloudShadow13 14s ease-in-out infinite; } .animate-cloudShadow14 { animation: cloudShadow14 11s ease-in-out infinite; } .animate-cloudShadow15 { animation: cloudShadow15 10s ease-in-out infinite; } .animate-cloudShadow16 { animation: cloudShadow16 12s ease-in-out infinite; } .animate-cloudShadow17 { animation: cloudShadow17 11s ease-in-out infinite; } .animate-cloudShadow18 { animation: cloudShadow18 10s ease-in-out infinite; } .animate-cloudShadow19 { animation: cloudShadow19 12s ease-in-out infinite; } @keyframes fadeInQuoteText { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } } .animate-fadeInQuoteText { animation: fadeInQuoteText 0.7s cubic-bezier(0.23, 1, 0.32, 1) both; } @keyframes fadeInQuoteAuthor { 0% { opacity: 0; transform: translateY(16px); } 60% { opacity: 0; } 100% { opacity: 1; transform: translateY(0); } } .animate-fadeInQuoteAuthor { animation: fadeInQuoteAuthor 0.7s 0.35s cubic-bezier(0.23, 1, 0.32, 1) both; } .card-tilt-effect { will-change: transform; transition: transform 0.28s cubic-bezier(0.4,0,0.2,1), box-shadow 0.28s cubic-bezier(0.4,0,0.2,1); } .card-tilt-effect:hover { transform: perspective(900px) rotateY(7deg) scale(1.045) !important; box-shadow: 0 16px 40px 0 rgba(2,132,199,0.22), 0 2px 8px 0 rgba(0,0,0,0.11); } @keyframes cardPopIn { 0% { opacity: 0; transform: scale(0.92) translateY(40px); } 60% { opacity: 1; transform: scale(1.04) translateY(-8px); } 100% { opacity: 1; transform: scale(1) translateY(0); } } .animate-cardPopIn { animation: cardPopIn 0.85s cubic-bezier(0.23, 1, 0.32, 1) both; } @keyframes checkmarkBounce { 0% { transform: scale(0.2); opacity: 0; } 60% { transform: scale(1.25); opacity: 1; } 80% { transform: scale(0.92); } 100% { transform: scale(1); } } .checkmark-animate { animation: checkmarkBounce 0.7s cubic-bezier(0.23, 1, 0.32, 1) both; } .shimmer-divider { background: linear-gradient(90deg, #38bdf8 0%, #0ea5e9 40%, #38bdf8 80%, #bae6fd 100%); background-size: 200% 100%; animation: shimmerGradient 2.5s linear infinite; position: relative; } @keyframes shimmerGradient { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } } .carousel-img { opacity: 0; z-index: 0; pointer-events: none; } .fade-slide-in-right { animation: fadeSlideInRight 1.1s cubic-bezier(0.77,0,0.175,1) both; z-index: 10; opacity: 1; pointer-events: auto; } .fade-slide-in-left { animation: fadeSlideInLeft 1.1s cubic-bezier(0.77,0,0.175,1) both; z-index: 10; opacity: 1; pointer-events: auto; } .fade-slide-out-left { animation: fadeSlideOutLeft 1.1s cubic-bezier(0.77,0,0.175,1) both; z-index: 0; } .fade-slide-out-right { animation: fadeSlideOutRight 1.1s cubic-bezier(0.77,0,0.175,1) both; z-index: 0; } @keyframes fadeSlideInRight { 0% { opacity: 0; transform: translateX(60px); } 100% { opacity: 1; transform: translateX(0); } } @keyframes fadeSlideInLeft { 0% { opacity: 0; transform: translateX(-60px); } 100% { opacity: 1; transform: translateX(0); } } @keyframes fadeSlideOutLeft { 0% { opacity: 1; transform: translateX(0); } 100% { opacity: 0; transform: translateX(-60px); } } @keyframes fadeSlideOutRight { 0% { opacity: 1; transform: translateX(0); } 100% { opacity: 0; transform: translateX(60px); } } .carousel-dot { transform: scale(1); } .carousel-dot.active { background: #38bdf8; border-color: #0ea5e9; transform: scale(1.35); box-shadow: 0 0 0 2px #bae6fd; transition: background 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s; } @keyframes fadeInQuote { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } } .animate-fadeInQuote { animation: fadeInQuote 0.7s cubic-bezier(0.23, 1, 0.32, 1) both; }
-      `}</style>
     </div>
   );
 }
