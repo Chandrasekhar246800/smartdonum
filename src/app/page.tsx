@@ -1104,10 +1104,14 @@ const QUOTES = [
 
 function QuoteCarousel() {
   const [index, setIndex] = React.useState(0);
+  const [prevIndex, setPrevIndex] = React.useState(0);
+  const [direction, setDirection] = React.useState<'left' | 'right'>('right');
   const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
   React.useEffect(() => {
     timeoutRef.current = setTimeout(() => {
+      setPrevIndex(index);
+      setDirection('right');
       setIndex((prev) => (prev + 1) % QUOTES.length);
     }, 4000);
     return () => {
@@ -1115,37 +1119,115 @@ function QuoteCarousel() {
     };
   }, [index]);
 
+  const handleDotClick = (i: number) => {
+    if (i === index) return;
+    setPrevIndex(index);
+    setDirection(i > index ? 'right' : 'left');
+    setIndex(i);
+  };
+
   return (
     <div className="w-full flex justify-center items-center mt-8 mb-8 px-2">
-      <div className="max-w-2xl w-full bg-white/80 border-2 border-sky-200 rounded-2xl shadow-xl p-6 flex flex-col gap-4 animate-fadeInUp relative">
+      <div className="max-w-2xl w-full bg-white/80 border-2 border-sky-200 rounded-2xl shadow-xl p-6 flex flex-col gap-4 animate-fadeInUp relative overflow-hidden" style={{minHeight: 220}}>
         <h3 className="text-xl sm:text-2xl font-bold text-sky-700 mb-2 text-center">
           Inspiring Words on Giving
         </h3>
-        <div className="min-h-[110px] flex flex-col justify-center items-center transition-all duration-700">
-          <blockquote
-            key={index}
-            className="text-sky-800 italic text-base sm:text-lg font-medium border-l-4 border-sky-400 pl-4 mb-2 animate-fadeInQuote"
-          >
-            <span className="block animate-fadeInQuoteText">
-              &quot;{QUOTES[index].text}&quot;
-            </span>
-            <span className="block text-right text-sky-500 font-semibold mt-1 animate-fadeInQuoteAuthor">
-              — {QUOTES[index].author}
-            </span>
-          </blockquote>
+        <div className="min-h-[110px] flex flex-col justify-center items-center transition-all duration-700 relative" style={{height: '110px'}}>
+          {QUOTES.map((q, i) => {
+            let classNames = "absolute left-0 right-0 top-0 transition-all duration-700";
+            if (i === index) {
+              classNames += direction === 'right' ? ' quote-fade-in-right' : ' quote-fade-in-left';
+            } else if (i === prevIndex) {
+              classNames += direction === 'right' ? ' quote-fade-out-left' : ' quote-fade-out-right';
+            } else {
+              classNames += ' opacity-0 pointer-events-none';
+            }
+            return (
+              <blockquote
+                key={i}
+                className={classNames + " text-sky-800 italic text-base sm:text-lg font-medium border-l-4 border-sky-400 pl-4 mb-2"}
+                style={{zIndex: i === index ? 2 : 1}}
+              >
+                <span className="block">
+                  &quot;{q.text}&quot;
+                </span>
+                <span className="block text-right text-sky-500 font-semibold mt-1">
+                  — {q.author}
+                </span>
+              </blockquote>
+            );
+          })}
+          {/* Dots fixed at bottom center of quote box */}
+          <div className="absolute left-0 right-0 bottom-2 flex justify-center items-center gap-2" style={{zIndex: 10}}>
+            {QUOTES.map((_, i) => {
+              let dotClass = "carousel-dot w-3 h-3 rounded-full border border-sky-400 transition-all duration-300";
+              if (i === index) {
+                dotClass += " active-dot";
+              }
+              return (
+                <button
+                  key={i}
+                  className={dotClass}
+                  onClick={() => handleDotClick(i)}
+                  aria-label={`Show quote ${i + 1}`}
+                >
+                  <span className="sr-only">{i + 1}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-        <div className="flex justify-center items-center gap-2 mt-2">
-          {QUOTES.map((_, i) => (
-            <button
-              key={i}
-              className={`carousel-dot w-3 h-3 rounded-full border border-sky-400 transition-all duration-300${
-                i === index ? " active" : ""
-              }`}
-              onClick={() => setIndex(i)}
-              aria-label={`Show quote ${i + 1}`}
-            />
-          ))}
-        </div>
+        <style jsx>{`
+          .quote-fade-in-right {
+            opacity: 1;
+            transform: translateX(40px);
+            animation: quoteFadeInRight 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
+          }
+          .quote-fade-in-left {
+            opacity: 1;
+            transform: translateX(-40px);
+            animation: quoteFadeInLeft 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
+          }
+          .quote-fade-out-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            animation: quoteFadeOutLeft 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
+          }
+          .quote-fade-out-right {
+            opacity: 0;
+            transform: translateX(40px);
+            animation: quoteFadeOutRight 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
+          }
+          @keyframes quoteFadeInRight {
+            0% { opacity: 0; transform: translateX(80px); }
+            100% { opacity: 1; transform: translateX(0); }
+          }
+          @keyframes quoteFadeInLeft {
+            0% { opacity: 0; transform: translateX(-80px); }
+            100% { opacity: 1; transform: translateX(0); }
+          }
+          @keyframes quoteFadeOutLeft {
+            0% { opacity: 1; transform: translateX(0); }
+            100% { opacity: 0; transform: translateX(-80px); }
+          }
+          @keyframes quoteFadeOutRight {
+            0% { opacity: 1; transform: translateX(0); }
+            100% { opacity: 0; transform: translateX(80px); }
+          }
+          .carousel-dot {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(2,132,199,0.12);
+            border-width: 2px;
+            border-color: #38bdf8;
+            cursor: pointer;
+            outline: none;
+          }
+          .active-dot {
+            background: #38bdf8;
+            border-color: #0ea5e9;
+            box-shadow: 0 4px 12px rgba(2,132,199,0.18);
+          }
+        `}</style>
       </div>
     </div>
   );

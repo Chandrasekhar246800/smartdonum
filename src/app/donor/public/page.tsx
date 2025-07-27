@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function PublicDonor() {
+  const router = useRouter();
   const [showLogin, setShowLogin] = useState(true);
   const [signupStep, setSignupStep] = useState(1);
   const [signupData, setSignupData] = useState({ name: '', email: '', contact: '', otp: '', password: '', confirmPassword: '' });
@@ -11,6 +13,8 @@ export default function PublicDonor() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formAnim, setFormAnim] = useState('');
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
 
   const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
 
@@ -51,6 +55,21 @@ export default function PublicDonor() {
     }
   };
 
+  const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!loginEmail || !loginPassword) {
+      window.alert('Please fill in both email and password to continue.');
+      return;
+    }
+    if (!passwordPattern.test(loginPassword)) {
+      window.alert('Password must be at least 8 characters and include uppercase, lowercase, number, and special character.');
+      return;
+    }
+    // Add your login validation logic here
+    // If login is successful:
+    router.push('/publicdonardashboard');
+  };
+
   const handleShowLogin = () => {
     setFormAnim('animate-fadeOutLeft');
     setTimeout(() => {
@@ -89,10 +108,24 @@ export default function PublicDonor() {
         <div className="relative w-full max-w-md min-h-[340px] flex items-center justify-center">
           {showLogin ? (
             <div className={`w-full flex flex-col items-center justify-center bg-white rounded-xl shadow-lg p-8 transition-all duration-500 ${formAnim}`}>
-              <form className="w-full flex flex-col gap-4">
-                <input type="email" placeholder="Email" className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400" />
+              <form className="w-full flex flex-col gap-4" onSubmit={handleLoginSubmit}>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+                  value={loginEmail}
+                  onChange={e => setLoginEmail(e.target.value)}
+                  required
+                />
                 <div className="relative">
-                  <input type={showPassword ? 'text' : 'password'} placeholder="Password" className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 w-full pr-10" />
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Password"
+                    className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 w-full pr-10"
+                    value={loginPassword}
+                    onChange={e => setLoginPassword(e.target.value)}
+                    required
+                  />
                   <button type="button" className="absolute right-2 top-1/2 -translate-y-1/2" tabIndex={-1} onClick={() => setShowPassword(v => !v)}>
                     <EyeIcon open={showPassword} />
                   </button>
