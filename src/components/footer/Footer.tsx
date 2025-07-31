@@ -1,3 +1,5 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,7 +14,8 @@ export default function Footer() {
   }, []);
   if (["aboutUs", "faq", "contactUs", ""].includes(pathname.split("/")[1])) {
     return (
-      <footer className="w-full mt-10 sm:mt-16 flex-shrink-0 bg-gradient-to-r from-sky-100 via-white to-amber-100 bg-opacity-90 z-10">
+      <>
+      <footer className="absolute rounded-2xl sm:mt-16 flex-shrink-0 bg-gradient-to-r from-sky-100 via-white to-amber-100 bg-opacity-90 z-10  w-[95%] ml-10" style={{marginTop: '1rem'}}>
         <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row justify-between items-center gap-6">
           <div className="flex flex-col items-center sm:items-start">
             <div className="flex items-center gap-2 mb-2">
@@ -107,6 +110,8 @@ export default function Footer() {
           © {year} SmartDonum. All rights reserved.
         </div>
       </footer>
+      
+      </>
     );
   }
 }

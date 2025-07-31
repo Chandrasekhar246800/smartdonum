@@ -6,7 +6,8 @@ import React, { useState, useEffect, useRef } from "react";
 // Import Lucide icons for the mobile menu
 import Image from "next/image";
 // import Link from "next/link";
-import Footer from "../../components/footer/Footer";
+// import Footer from "../components/footer/Footer";
+
 
 const CLOUD_CONFIGS = [
   {
@@ -749,49 +750,5 @@ export default function AboutUs() {
             </div>
           </div>
         </section>
-  </div>
-  {/* Footer at the bottom, outside main content */}
-  <div style={{ position: "relative", zIndex: 50, background: "rgba(255,255,255,0.98)", marginBottom: "2rem" }}>
-    <Footer />
-  </div>
-  {/* cloud float keyframes */}
-  <style jsx>{`
-    .animate-cloudFloat {
-      animation: cloudFloat 7s ease-in-out infinite;
-    }
-    .animate-cloudFloatSlow {
-      animation: cloudFloatSlow 11s ease-in-out infinite;
-    }
-    .animate-cloudFloatReverse {
-      animation: cloudFloatReverse 9s ease-in-out infinite;
-    }
-    @keyframes cloudFloat {
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-18px);
-      }
-    }
-    @keyframes cloudFloatSlow {
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(12px);
-      }
-    }
-    @keyframes cloudFloatReverse {
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(14px);
-      }
-    }
-  `}</style>
-</>);
+  </div></>);
 }
