@@ -543,8 +543,7 @@ export default function AboutUs() {
                 />
                 <h4 className="text-lg font-bold text-sky-700 mt-2">Chandra</h4>
                 <p className="mt-1 text-gray-600 text-center text-base">
-                  Tech enthusiast and product lead, building digital bridges for
-                  giving.
+                  Contributing actively with ideas and teamwork to strengthen the project.
                 </p>
               </div>
               {/* Divider */}
@@ -568,8 +567,7 @@ export default function AboutUs() {
                   Sidhartha
                 </h4>
                 <p className="mt-1 text-gray-600 text-center text-base">
-                  Community mentor, enabling inclusion and social change every
-                  step.
+                  Ensuring collaborative spirit and assisting in key aspects of execution.
                 </p>
               </div>
               {/* Divider */}
@@ -593,8 +591,7 @@ export default function AboutUs() {
                   Sai Teja
                 </h4>
                 <p className="mt-1 text-gray-600 text-center text-base">
-                  Operations expert and optimizer, making sure every act of
-                  giving counts.
+                  Providing dedicated support to keep the project moving forward smoothly.
                 </p>
               </div>
             </div>
