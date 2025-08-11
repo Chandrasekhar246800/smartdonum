@@ -33,8 +33,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col justify-between items-center px-2 sm:px-4 bg-gradient-to-bl from-[#232f3e] to-[#22313f] overflow-auto">
-      <div className="h-16"></div>
+    <div className="fixed inset-0 min-h-screen flex flex-col px-2 sm:px-4 bg-gradient-to-bl from-[#232f3e] to-[#22313f]">
+      <div className="h-16 flex-shrink-0"></div>
       <div className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl mx-auto">
         {/* Top part: title and description */}
         <div className="w-full flex flex-col items-center">
