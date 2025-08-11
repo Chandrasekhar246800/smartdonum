@@ -376,7 +376,7 @@ export default function AboutUs() {
           ))}
         </div>
       </div>
-      <div className="h-24"></div>
+      <div className="h-24 sm:h-28 md:h-32 lg:h-36"></div>
 
       {/* Main Content */}
       <div
