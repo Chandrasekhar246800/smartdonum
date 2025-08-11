@@ -99,7 +99,7 @@ export default function PublicDonor() {
 
   return (
     // Note the pt-16!
-    <div className="min-h-screen flex flex-col items-center justify-center px-2 sm:px-4 py-6 pt-16 bg-gradient-to-bl from-[#232f3e] to-[#22313f]">
+    <div className="fixed inset-0 flex flex-col items-center justify-center px-2 sm:px-4 pt-16 bg-gradient-to-bl from-[#232f3e] to-[#22313f] overflow-auto">
       <div className="flex flex-col items-center w-full max-w-2xl mx-auto">
         <h2 className="text-4xl sm:text-5xl font-extrabold text-green-400 mb-4 text-center drop-shadow-lg">Public Donor</h2>
         <p className="text-base sm:text-lg md:text-xl text-gray-200 text-center mb-8 leading-relaxed">
@@ -112,7 +112,7 @@ export default function PublicDonor() {
                 <input
                   type="email"
                   placeholder="Email"
-                  className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+                  className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700"
                   value={loginEmail}
                   onChange={e => setLoginEmail(e.target.value)}
                   required
@@ -121,7 +121,7 @@ export default function PublicDonor() {
                   <input
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Password"
-                    className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 w-full pr-10"
+                    className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 w-full pr-10 placeholder:text-gray-700 text-gray-700"
                     value={loginPassword}
                     onChange={e => setLoginPassword(e.target.value)}
                     required
@@ -144,23 +144,23 @@ export default function PublicDonor() {
             <div className={`w-full flex flex-col items-center justify-center bg-white rounded-xl shadow-lg p-8 transition-all duration-500 ${formAnim}`}>
               {signupStep === 1 ? (
                 <form className="w-full flex flex-col gap-4" onSubmit={handleSignupDetailsSubmit}>
-                  <input name="name" type="text" placeholder="Name" value={signupData.name} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400" required />
-                  <input name="email" type="email" placeholder="Email" value={signupData.email} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400" required />
-                  <input name="contact" type="text" placeholder="Contact Number" value={signupData.contact} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400" required />
+                  <input name="name" type="text" placeholder="Name" value={signupData.name} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700" required />
+                  <input name="email" type="email" placeholder="Email" value={signupData.email} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700" required />
+                  <input name="contact" type="text" placeholder="Contact Number" value={signupData.contact} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700" required />
                   <button type="submit" className="bg-green-500 hover:bg-green-600 text-white py-2 rounded font-semibold transition-all">Send OTP</button>
                 </form>
               ) : (
                 <form className="w-full flex flex-col gap-4" onSubmit={handleSignupOTPSubmit}>
-                  <input name="otp" type="text" placeholder="Enter OTP (skip for demo)" value={signupData.otp} onChange={handleSignupInput} maxLength={6} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400" required />
+                  <input name="otp" type="text" placeholder="Enter OTP (skip for demo)" value={signupData.otp} onChange={handleSignupInput} maxLength={6} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700" required />
                   <div className="relative">
-                    <input name="password" type={showPassword ? 'text' : 'password'} placeholder="Password" value={signupData.password} onChange={handleSignupInput} minLength={8} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 w-full pr-10" required />
+                    <input name="password" type={showPassword ? 'text' : 'password'} placeholder="Password" value={signupData.password} onChange={handleSignupInput} minLength={8} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 w-full pr-10 placeholder:text-gray-700 text-gray-700" required />
                     <button type="button" className="absolute right-2 top-1/2 -translate-y-1/2" tabIndex={-1} onClick={() => setShowPassword(v => !v)}>
                       <EyeIcon open={showPassword} />
                     </button>
                   </div>
                   {passwordError && <span className="text-red-500 text-sm">{passwordError}</span>}
                   <div className="relative">
-                    <input name="confirmPassword" type={showConfirmPassword ? 'text' : 'password'} placeholder="Confirm Password" value={signupData.confirmPassword} onChange={handleSignupInput} minLength={8} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 w-full pr-10" required />
+                    <input name="confirmPassword" type={showConfirmPassword ? 'text' : 'password'} placeholder="Confirm Password" value={signupData.confirmPassword} onChange={handleSignupInput} minLength={8} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 w-full pr-10 placeholder:text-gray-700 text-gray-700" required />
                     <button type="button" className="absolute right-2 top-1/2 -translate-y-1/2" tabIndex={-1} onClick={() => setShowConfirmPassword(v => !v)}>
                       <EyeIcon open={showConfirmPassword} />
                     </button>

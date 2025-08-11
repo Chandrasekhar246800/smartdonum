@@ -53,9 +53,10 @@ function BasicNavbar() {
 
 export default function PublicDonarDashboardPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100 pt-24">
+    <div className="fixed inset-0 flex flex-col bg-gray-100 pt-24 overflow-auto">
       <BasicNavbar />
       <div className="flex flex-col items-center justify-start w-full mt-2">
+        {/* ...existing code... */}
         <div className="bg-white/90 rounded-xl shadow-lg border border-green-200 px-8 py-8 mb-8 flex flex-col items-center max-w-2xl w-full">
           <h1 className="text-4xl font-extrabold text-green-700 mb-2">Welcome, Public Donor!</h1>
           <p className="text-lg text-gray-600 text-center mb-4">
@@ -63,7 +64,9 @@ export default function PublicDonarDashboardPage() {
           </p>
         </div>
         <div className="flex flex-col items-center w-full">
+          {/* ...existing code... */}
           <div className="flex flex-col md:flex-row gap-8 justify-center items-center w-full mb-8 relative">
+            {/* ...existing code... */}
             <div className="bg-white rounded-xl shadow-md border border-green-200 px-0 pt-0 pb-10 flex flex-col items-center w-full max-w-md min-h-[540px] z-10 overflow-hidden">
               <div className="w-full h-72 relative mb-4">
                 <Image src="/images/PACKEDFOOD.jpg" alt="Packaged Food" fill style={{objectFit: 'cover'}} className="rounded-t-xl" />
@@ -91,6 +94,7 @@ export default function PublicDonarDashboardPage() {
             </div>
           </div>
           <div className="flex flex-col md:flex-row gap-8 justify-center items-center w-full mb-8 relative">
+            {/* ...existing code... */}
             <div className="bg-white rounded-xl shadow-md border border-green-200 px-0 pt-0 pb-10 flex flex-col items-center w-full max-w-md min-h-[540px] z-10 overflow-hidden">
               <div className="w-full h-72 relative mb-4">
                 <Image src="/images/booksss.jpeg" alt="Books" fill style={{objectFit: 'cover'}} className="rounded-t-xl" />

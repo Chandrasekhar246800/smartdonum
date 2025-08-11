@@ -66,7 +66,7 @@ export default function OrganizationDonor() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-2 sm:px-4 py-6 pt-16 bg-gradient-to-bl from-[#232f3e] to-[#22313f]">
+    <div className="fixed inset-0 flex flex-col items-center justify-center px-2 sm:px-4 pt-16 bg-gradient-to-bl from-[#232f3e] to-[#22313f] overflow-auto">
       <div className="flex flex-col items-center w-full max-w-2xl mx-auto">
         <h2 className="text-4xl sm:text-5xl font-extrabold text-blue-400 mb-4 text-center drop-shadow-lg">
           Organization Donor

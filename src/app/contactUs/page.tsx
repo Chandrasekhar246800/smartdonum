@@ -1,4 +1,6 @@
 "use client";
+// ...existing imports and code...
+"use client";
 export default ContactUs;
 // Contact form component
 function ContactForm() {
@@ -375,6 +377,7 @@ function ContactUs() {
             zIndex: 0,
           }}
         />
+      <div className="h-32 sm:h-40 md:h-48 lg:h-56"></div>
         <div
           ref={cloudsParallaxRef}
           style={{

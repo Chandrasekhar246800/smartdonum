@@ -29,7 +29,7 @@ export default function Donor() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-2 sm:px-4 py-6 bg-gradient-to-bl from-[#232f3e] to-[#22313f]">
+    <div className="fixed inset-0 flex flex-col items-center justify-center px-2 sm:px-4 bg-gradient-to-bl from-[#232f3e] to-[#22313f] overflow-auto">
       <div className="h-16"></div>
       <div className="flex flex-col items-center w-full max-w-2xl mx-auto">
         <h1

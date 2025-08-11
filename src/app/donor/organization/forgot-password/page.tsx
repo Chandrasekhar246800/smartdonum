@@ -4,10 +4,10 @@ import { useState } from "react";
 
 export default function ForgotPasswordOrganization() {
   const [step, setStep] = useState(1);
-  const [mobile, setMobile] = useState('');
-  const [otp, setOtp] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [mobile, setMobile] = useState<string>('');
+  const [otp, setOtp] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
@@ -56,7 +56,7 @@ export default function ForgotPasswordOrganization() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-2 sm:px-4 py-6 bg-gradient-to-bl from-[#232f3e] to-[#22313f]">
+    <div className="fixed inset-0 flex flex-col items-center justify-center px-2 sm:px-4 bg-gradient-to-bl from-[#232f3e] to-[#22313f] overflow-auto">
       <div className="flex flex-col items-center w-full max-w-md mx-auto rounded-2xl shadow-2xl p-8 bg-white">
         <h2 className="text-2xl font-bold text-center text-cyan-700 mb-1">Reset Organization Donor Password</h2>
         <p className="mb-4 text-gray-600 text-center">
@@ -67,7 +67,7 @@ export default function ForgotPasswordOrganization() {
             <div className="mb-2 text-cyan-700 text-center">
               Enter the organization&#39;s registered mobile number. An OTP will be sent for verification.
             </div>
-            <input type="text" placeholder="Mobile Number" value={mobile} maxLength={10}
+            <input type="text" placeholder="Mobile Number" value={typeof mobile === 'string' ? mobile : ''} maxLength={10}
               onChange={e => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
               className="border-2 border-cyan-200 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-400"
               required />
@@ -83,7 +83,7 @@ export default function ForgotPasswordOrganization() {
             <div className="mb-2 text-cyan-700 text-center">
               Enter the OTP sent to your registered number for verification.
             </div>
-            <input type="text" placeholder="OTP" value={otp} maxLength={6}
+            <input type="text" placeholder="OTP" value={typeof otp === 'string' ? otp : ''} maxLength={6}
               onChange={e => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
               className="border-2 border-cyan-200 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-400"
               required />
@@ -101,7 +101,7 @@ export default function ForgotPasswordOrganization() {
             </div>
             <div className="relative">
               <input type={showPassword ? 'text' : 'password'} placeholder="New Password"
-                value={password} minLength={8}
+                value={typeof password === 'string' ? password : ''} minLength={8}
                 onChange={e => setPassword(e.target.value)}
                 className="border-2 border-cyan-200 rounded px-4 py-2 w-full pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-400"
                 required />
@@ -112,7 +112,7 @@ export default function ForgotPasswordOrganization() {
             </div>
             <div className="relative">
               <input type={showConfirmPassword ? 'text' : 'password'} placeholder="Confirm New Password"
-                value={confirmPassword} minLength={8}
+                value={typeof confirmPassword === 'string' ? confirmPassword : ''} minLength={8}
                 onChange={e => setConfirmPassword(e.target.value)}
                 className="border-2 border-cyan-200 rounded px-4 py-2 w-full pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-400"
                 required />
@@ -134,7 +134,8 @@ export default function ForgotPasswordOrganization() {
               Success! Your password has been set.
             </div>
             <div className="mb-4 text-cyan-700">You can now log in as an Organization Donor and keep serving the community.</div>
-            <a href="/donor/organization" className="text-cyan-700 hover:underline font-semibold">Back to Organization Login</a>
+            <a href="/donor/organization" className="text-cyan-700 hover:underline font-semibold block mb-2">Back to Organization Login</a>
+            <a href="/donor/public" className="text-cyan-600 hover:underline font-semibold block">Go to Public Donor Dashboard</a>
           </div>
         )}
       </div>

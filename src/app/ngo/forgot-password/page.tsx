@@ -56,7 +56,7 @@ export default function ForgotPasswordNGO() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-2 sm:px-4 py-6 bg-gradient-to-bl from-[#232f3e] to-[#22313f]">
+    <div className="fixed inset-0 flex flex-col items-center justify-center px-2 sm:px-4 bg-gradient-to-bl from-[#232f3e] to-[#22313f] overflow-auto">
       <div className="flex flex-col items-center w-full max-w-md mx-auto rounded-2xl shadow-2xl p-8 bg-white">
         <h2 className="text-2xl font-bold text-center text-cyan-700 mb-1">Reset NGO Password</h2>
         <p className="mb-4 text-gray-600 text-center">

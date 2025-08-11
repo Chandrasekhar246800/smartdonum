@@ -154,7 +154,7 @@ export default function NGO() {
 
   // Main Component UI
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-2 sm:px-4 py-6 pt-16 bg-gradient-to-bl from-[#232f3e] to-[#22313f]">
+    <div className="fixed inset-0 flex flex-col items-center justify-center px-2 sm:px-4 pt-16 bg-gradient-to-bl from-[#232f3e] to-[#22313f] overflow-auto">
       <div className="flex flex-col items-center w-full max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl mx-auto bg-white/5 rounded-xl shadow-lg p-4 sm:p-8 md:p-10 lg:p-12 backdrop-blur-md">
         {isLogin ? (
           <>
