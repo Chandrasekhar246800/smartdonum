@@ -487,10 +487,7 @@ export default function AboutUs() {
                     Shushma
                   </h3>
                   <p className="text-base sm:text-lg text-gray-600">
-                    Aarav has more than a decade of experience in social
-                    entrepreneurship and digital access. He’s passionate about
-                    making generosity easier and smarter for everyone, every
-                    day.
+                     A dynamic leader who brings creativity, organization, and a clear vision to steer the project toward success.
                   </p>
                 </div>
               </div>
@@ -503,9 +500,7 @@ export default function AboutUs() {
                     Abdul
                   </h3>
                   <p className="text-base sm:text-lg text-gray-600">
-                    Ishita leads our community outreach. Her energy and
-                    compassion have empowered hundreds of volunteers. She
-                    believes every act of kindness creates a ripple of hope.
+                    A dedicated guide whose problem-solving skills and leadership ensure our goals are achieved efficiently.
                   </p>
                 </div>
               </div>
@@ -709,10 +704,7 @@ export default function AboutUs() {
                     Dr.D.Usha Nandhini
                   </h3>
                   <p className="text-base sm:text-lg text-gray-600">
-                    Aarav has more than a decade of experience in social
-                    entrepreneurship and digital access. He’s passionate about
-                    making generosity easier and smarter for everyone, every
-                    day.
+                    A guiding light providing deep insights, constant encouragement, and academic expertise to shape our work.
                   </p>
                 </div>
               </div>
@@ -725,9 +717,7 @@ export default function AboutUs() {
                     Dr.J.Albert Mayan
                   </h3>
                   <p className="text-base sm:text-lg text-gray-600">
-                    Ishita leads our community outreach. Her energy and
-                    compassion have empowered hundreds of volunteers. She
-                    believes every act of kindness creates a ripple of hope.
+                    An inspiring mentor offering valuable direction, technical wisdom, and unwavering support throughout the project.
                   </p>
                 </div>
               </div>
