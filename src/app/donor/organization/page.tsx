@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function OrganizationDonor() {
+  const router = useRouter();
   const [showLogin, setShowLogin] = useState(true); // true = login, false = signup
   const [signupStep, setSignupStep] = useState(1); // 1 = details, 2 = OTP/password
   const [signupData, setSignupData] = useState({ name: '', email: '', contact: '', otp: '', password: '', confirmPassword: '' });
@@ -10,7 +12,6 @@ export default function OrganizationDonor() {
   const [showSignupPassword, setShowSignupPassword] = useState(false);
   const [showSignupConfirmPassword, setShowSignupConfirmPassword] = useState(false);
   const [formAnim, setFormAnim] = useState('');
-  // const router = useRouter(); // Removed unused variable
 
   // Eye SVG icon component
   const EyeIcon = ({ open }: { open: boolean }) =>
@@ -66,8 +67,8 @@ export default function OrganizationDonor() {
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center px-2 sm:px-4 pt-16 bg-gradient-to-bl from-[#232f3e] to-[#22313f] overflow-auto">
-      <div className="flex flex-col items-center w-full max-w-2xl mx-auto">
+    <div className="min-h-screen flex flex-col px-2 sm:px-4 pt-16 bg-gradient-to-bl from-[#232f3e] to-[#22313f]">
+      <div className="flex-1 flex flex-col items-center w-full max-w-2xl mx-auto justify-center">
         <h2 className="text-4xl sm:text-5xl font-extrabold text-blue-400 mb-4 text-center drop-shadow-lg">
           Organization Donor
         </h2>
@@ -102,6 +103,11 @@ export default function OrganizationDonor() {
                 <button
                   type="submit"
                   className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all"
+                  onClick={e => {
+                    e.preventDefault();
+                    // Add login validation here
+                    router.push('/organizationdonordashboard');
+                  }}
                 >
                   Login
                 </button>
@@ -215,6 +221,11 @@ export default function OrganizationDonor() {
                   <button
                     type="submit"
                     className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all"
+                    onClick={e => {
+                      e.preventDefault();
+                      // Add signup validation here
+                      router.push('/organizationdonordashboard');
+                    }}
                   >
                     Create Account
                   </button>
@@ -233,6 +244,11 @@ export default function OrganizationDonor() {
           )}
         </div>
       </div>
+      <footer className="w-full bg-cyan-900 bg-opacity-80 mt-auto">
+        <div className="text-center text-cyan-100 text-sm py-4">
+          © {new Date().getFullYear()} SmartDonum. All rights reserved.
+        </div>
+      </footer>
     </div>
   );
 }
