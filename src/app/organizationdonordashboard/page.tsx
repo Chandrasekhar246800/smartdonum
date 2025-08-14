@@ -3,17 +3,35 @@
 import Link from "next/link";
 import React, { useState } from "react";
 
-export default function PublicDonorDashboard() {
+
+export default function OrganizationDonorDashboard() {
+  type DonationDetails = {
+    class?: string;
+    count?: number;
+    subjects?: string;
+    size?: string;
+    condition?: string;
+    foodType?: string;
+    expiry?: string;
+    toyType?: string;
+    cookedFoodType?: string;
+    cookedFoodQuantity?: number;
+    cookedFoodPreparedAt?: string;
+    image: string;
+  };
+
+  type Donation = { id: number; item: string; details: DonationDetails };
+
   const [showDonationsPage, setShowDonationsPage] = useState(false);
-  const [donations, setDonations] = useState<{ id: number; item: string; details: Record<string, string> }[]>([]);
+  const [donations, setDonations] = useState<Donation[]>([]);
   const [activeDonateType, setActiveDonateType] = useState<string | null>(null);
-  const [formDetails, setFormDetails] = useState<Record<string, string>>({});
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [formDetails, setFormDetails] = useState<Partial<DonationDetails>>({ image: "" });
+  const [imagePreview, setImagePreview] = useState<string>("");
 
   const handleDonateClick = (type: string) => {
     setActiveDonateType(type);
-    setFormDetails({});
-    setImagePreview(null);
+    setFormDetails({ image: "" });
+    setImagePreview("");
   };
 
   const handleDonationSubmit = (e: React.FormEvent) => {
@@ -26,6 +44,8 @@ export default function PublicDonorDashboard() {
       if (!formDetails.size || !formDetails.condition || !formDetails.count || !imagePreview) return;
     } else if (activeDonateType === "Packed Food") {
       if (!formDetails.foodType || !formDetails.expiry || !formDetails.count || !imagePreview) return;
+    } else if (activeDonateType === "Cooked Food") {
+      if (!formDetails.cookedFoodType || !formDetails.cookedFoodQuantity || !formDetails.cookedFoodPreparedAt || !imagePreview) return;
     } else if (activeDonateType === "Toys") {
       if (!formDetails.toyType || !formDetails.condition || !formDetails.count || !imagePreview) return;
     }
@@ -35,8 +55,8 @@ export default function PublicDonorDashboard() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         item: activeDonateType,
-        donorType: "Public",
-        details: { ...formDetails, image: imagePreview || "" },
+        donorType: "Organization",
+        details: { ...formDetails, image: imagePreview },
       }),
     }).then(async (res) => {
       if (res.ok) {
@@ -45,8 +65,8 @@ export default function PublicDonorDashboard() {
       }
     });
     setActiveDonateType(null);
-    setFormDetails({});
-    setImagePreview(null);
+    setFormDetails({ image: "" });
+    setImagePreview("");
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,30 +106,30 @@ export default function PublicDonorDashboard() {
       {!showDonationsPage ? (
         <main className="flex-1 flex flex-col items-center justify-center w-full max-w-3xl mx-auto">
           <section className="w-full flex flex-col items-center mb-8">
-            <h2 className="text-xl sm:text-2xl font-semibold text-sky-700 mb-2">Welcome, Public Donor!</h2>
-            <p className="text-sky-800 text-center mb-4">Donate food, books, toys, and more. View your donation history and see how you are making a difference!</p>
+            <h2 className="text-xl sm:text-2xl font-semibold text-sky-700 mb-2">Welcome, Organization Donor!</h2>
+            <p className="text-sky-800 text-center mb-4">Manage your donations, view pickup requests, and track your impact in the community.</p>
           </section>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
             <div className="bg-white/80 backdrop-blur-lg rounded-xl shadow-lg p-6 flex flex-col items-center w-full">
-              <h3 className="text-lg font-bold text-sky-600 mb-2">My Donations</h3>
-              <p className="text-sky-700 mb-4 text-center">View and manage your public donations.</p>
+              <h3 className="text-lg font-bold text-sky-600 mb-2">Manage Donations</h3>
+              <p className="text-sky-700 mb-4 text-center">View and manage your organization&#39;s donations.</p>
               <button
                 className="bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 shadow transition-all mb-4"
                 onClick={() => setShowDonationsPage(true)}
               >
-                View My Donations
+                View & Add Donations
               </button>
             </div>
             <div className="bg-white/80 backdrop-blur-lg rounded-xl shadow-lg p-6 flex flex-col items-center">
-              <h3 className="text-lg font-bold text-sky-600 mb-2">Pickup Status</h3>
-              <p className="text-sky-700 mb-4 text-center">Track the status of your donation pickups.</p>
-              <Link href="/donor/public/pickups" className="bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 shadow transition-all">Track Pickups</Link>
+              <h3 className="text-lg font-bold text-sky-600 mb-2">Pickup Requests</h3>
+              <p className="text-sky-700 mb-4 text-center">See requests from NGOs and volunteers for donation pickups.</p>
+              <Link href="/donor/organization/pickups" className="bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 shadow transition-all">View Requests</Link>
             </div>
           </div>
           <div className="w-full mt-8">
             <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center">
-              <h3 className="text-lg font-bold text-cyan-600 mb-2">Your Impact</h3>
-              <p className="text-gray-600 mb-4 text-center">See how many donations you&#39;ve made and the lives you&#39;ve touched.</p>
+              <h3 className="text-lg font-bold text-cyan-600 mb-2">Impact Summary</h3>
+              <p className="text-gray-600 mb-4 text-center">Track the total donations made and the number of lives impacted.</p>
               <div className="flex gap-8 justify-center">
                 <div className="flex flex-col items-center">
                   <span className="text-2xl font-bold text-cyan-700">{donations.length}</span>
@@ -123,16 +143,16 @@ export default function PublicDonorDashboard() {
             </div>
           </div>
         </main>
-      ) : (
+      ) : null}
+      {showDonationsPage && (
         <main className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl mx-auto">
           <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-sky-200 flex flex-col items-center py-10 px-7 w-full mt-8 animate-fadeinup">
-            {/* Back button logic */}
             {activeDonateType ? (
               <button
                 className="self-start mb-6 bg-sky-100 hover:bg-sky-200 text-sky-700 font-semibold rounded-lg px-4 py-2 shadow"
                 onClick={() => setActiveDonateType(null)}
               >
-                ← Back to View My Donations
+                ← Back to Manage Donations
               </button>
             ) : (
               <button
@@ -142,28 +162,48 @@ export default function PublicDonorDashboard() {
                 ← Back to Dashboard
               </button>
             )}
-            <h2 className="text-2xl font-bold text-sky-700 mb-6">Donate Your Goods</h2>
+            <h2 className="text-2xl font-bold text-sky-700 mb-6">Add Organization Donation</h2>
             {!activeDonateType ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full mb-8">
-                {[
-                  { type: "Books", color: "bg-amber-100", icon: "📚", desc: "Donate books for education and joy." },
-                  { type: "Clothes", color: "bg-blue-100", icon: "👕", desc: "Donate clothes for those in need." },
-                  { type: "Packed Food", color: "bg-green-100", icon: "🥫", desc: "Donate packed food for hunger relief." },
-                  { type: "Toys", color: "bg-pink-100", icon: "🧸", desc: "Donate toys to bring smiles." },
-                ].map((card) => (
-                  <div key={card.type} className={`rounded-xl shadow-lg p-6 flex flex-col items-center ${card.color}`}>
-                    <span className="text-4xl mb-2">{card.icon}</span>
-                    <h3 className="text-lg font-bold text-sky-600 mb-2">{card.type}</h3>
-                    <p className="text-sky-700 mb-4 text-center">{card.desc}</p>
-                    <button
-                      className="bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 shadow transition-all"
-                      onClick={() => handleDonateClick(card.type)}
-                    >
-                      Donate
-                    </button>
-                  </div>
-                ))}
-              </div>
+              <div className="w-full mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6 justify-items-center">
+                  {/* Top row: Books, Clothes, Packed Food */}
+                  {[{ type: "Books", color: "bg-amber-100", icon: "📚", desc: "Donate books for education and joy." },
+                    { type: "Clothes", color: "bg-blue-100", icon: "👕", desc: "Donate clothes for those in need." },
+                    { type: "Packed Food", color: "bg-green-100", icon: "🥫", desc: "Donate packed food for hunger relief." }
+                  ].map(card => (
+                    <div key={card.type} className={`rounded-xl shadow-lg p-6 flex flex-col items-center ${card.color} w-full`}>
+                      <span className="text-4xl mb-2">{card.icon}</span>
+                      <h3 className="text-lg font-bold text-sky-600 mb-2">{card.type}</h3>
+                      <p className="text-sky-700 mb-4 text-center">{card.desc}</p>
+                      <button
+                        className="bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 shadow transition-all"
+                        onClick={() => handleDonateClick(card.type)}
+                      >
+                        Donate
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-items-center">
+                  {/* Bottom row: Cooked Food, Toys */}
+                  {[{ type: "Cooked Food", color: "bg-orange-100", icon: "🍲", desc: "Donate cooked food for immediate relief." },
+                    { type: "Toys", color: "bg-pink-100", icon: "🧸", desc: "Donate toys to bring smiles." }
+                  ].map(card => (
+                    <div key={card.type} className={`rounded-xl shadow-lg p-6 flex flex-col items-center ${card.color} w-full mx-auto`}>
+                      <span className="text-4xl mb-2">{card.icon}</span>
+                      <h3 className="text-lg font-bold text-sky-600 mb-2">{card.type}</h3>
+                      <p className="text-sky-700 mb-4 text-center">{card.desc}</p>
+                      <button
+                        className="bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 shadow transition-all"
+                        onClick={() => handleDonateClick(card.type)}
+                      >
+                        Donate
+                      </button>
+                    </div>
+                  ))}
+                </div>
+            </div>
+
             ) : (
               <form className="w-full max-w-md mb-8 bg-white/90 rounded-xl shadow-lg p-6 flex flex-col items-center" onSubmit={handleDonationSubmit}>
                 <h3 className="text-lg font-bold text-sky-600 mb-4">Donate {activeDonateType}</h3>
@@ -180,8 +220,8 @@ export default function PublicDonorDashboard() {
                       type="number"
                       min={1}
                       placeholder="Number of Books"
-                      value={formDetails.count || ""}
-                      onChange={e => setFormDetails({ ...formDetails, count: e.target.value })}
+                      value={formDetails.count ?? ""}
+                      onChange={e => setFormDetails({ ...formDetails, count: Number(e.target.value) })}
                       className="w-full mb-2 px-3 py-2 border border-sky-300 rounded-lg text-gray-900 placeholder-gray-700"
                     />
                     <input
@@ -206,8 +246,8 @@ export default function PublicDonorDashboard() {
                       type="number"
                       min={1}
                       placeholder="Number of Clothes"
-                      value={formDetails.count || ""}
-                      onChange={e => setFormDetails({ ...formDetails, count: e.target.value })}
+                      value={formDetails.count ?? ""}
+                      onChange={e => setFormDetails({ ...formDetails, count: Number(e.target.value) })}
                       className="w-full mb-2 px-3 py-2 border border-sky-300 rounded-lg text-gray-900 placeholder-gray-700"
                     />
                     <input
@@ -232,8 +272,8 @@ export default function PublicDonorDashboard() {
                       type="number"
                       min={1}
                       placeholder="Number of Packs"
-                      value={formDetails.count || ""}
-                      onChange={e => setFormDetails({ ...formDetails, count: e.target.value })}
+                      value={formDetails.count ?? ""}
+                      onChange={e => setFormDetails({ ...formDetails, count: Number(e.target.value) })}
                       className="w-full mb-2 px-3 py-2 border border-sky-300 rounded-lg text-gray-900 placeholder-gray-700"
                     />
                     <input
@@ -242,6 +282,32 @@ export default function PublicDonorDashboard() {
                       value={formDetails.expiry || ""}
                       onChange={e => setFormDetails({ ...formDetails, expiry: e.target.value })}
                       className="w-full mb-2 px-3 py-2 border border-sky-300 rounded-lg text-gray-900 placeholder-gray-700"
+                    />
+                  </div>
+                )}
+                {activeDonateType === "Cooked Food" && (
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Type of Cooked Food (e.g. Rice, Curry)"
+                      value={formDetails.cookedFoodType || ""}
+                      onChange={e => setFormDetails({ ...formDetails, cookedFoodType: e.target.value })}
+                      className="w-full mb-2 px-3 py-2 border border-orange-300 rounded-lg text-gray-900 placeholder-gray-700"
+                    />
+                    <input
+                      type="number"
+                      min={1}
+                      placeholder="Quantity (number of servings)"
+                      value={formDetails.cookedFoodQuantity ?? ""}
+                      onChange={e => setFormDetails({ ...formDetails, cookedFoodQuantity: Number(e.target.value) })}
+                      className="w-full mb-2 px-3 py-2 border border-orange-300 rounded-lg text-gray-900 placeholder-gray-700"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Prepared At (e.g. 2025-08-14 10:00AM)"
+                      value={formDetails.cookedFoodPreparedAt || ""}
+                      onChange={e => setFormDetails({ ...formDetails, cookedFoodPreparedAt: e.target.value })}
+                      className="w-full mb-2 px-3 py-2 border border-orange-300 rounded-lg text-gray-900 placeholder-gray-700"
                     />
                   </div>
                 )}
@@ -258,8 +324,8 @@ export default function PublicDonorDashboard() {
                       type="number"
                       min={1}
                       placeholder="Number of Toys"
-                      value={formDetails.count || ""}
-                      onChange={e => setFormDetails({ ...formDetails, count: e.target.value })}
+                      value={formDetails.count ?? ""}
+                      onChange={e => setFormDetails({ ...formDetails, count: Number(e.target.value) })}
                       className="w-full mb-2 px-3 py-2 border border-sky-300 rounded-lg text-gray-900 placeholder-gray-700"
                     />
                     <input
@@ -287,7 +353,7 @@ export default function PublicDonorDashboard() {
                   <button
                     type="button"
                     className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-lg px-4 py-2 shadow w-1/2"
-                    onClick={() => { setActiveDonateType(null); setImagePreview(null); }}
+                    onClick={() => { setActiveDonateType(null); setImagePreview(""); }}
                   >
                     Cancel
                   </button>
@@ -303,7 +369,7 @@ export default function PublicDonorDashboard() {
             {/* Only show 'Your Donations' when not in form */}
             {!activeDonateType && (
               <div className="w-full max-w-md">
-                <h3 className="text-lg font-semibold text-sky-600 mb-4">Your Donations</h3>
+                <h3 className="text-lg font-semibold text-sky-600 mb-4">Organization Donations</h3>
                 {donations.length === 0 ? (
                   <p className="text-sky-700">No donations yet.</p>
                 ) : (
@@ -343,6 +409,13 @@ export default function PublicDonorDashboard() {
                                   <div>Expiry: {donation.details.expiry}</div>
                                 </div>
                               )}
+                              {donation.item === "Cooked Food" && (
+                                <div>
+                                  <div>Type: {donation.details.cookedFoodType}</div>
+                                  <div>Quantity: {donation.details.cookedFoodQuantity}</div>
+                                  <div>Prepared At: {donation.details.cookedFoodPreparedAt}</div>
+                                </div>
+                              )}
                               {donation.item === "Toys" && (
                                 <div>
                                   <div>Type: {donation.details.toyType}</div>
@@ -373,4 +446,3 @@ export default function PublicDonorDashboard() {
     </div>
   );
 }
-
