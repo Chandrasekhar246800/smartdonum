@@ -177,20 +177,7 @@ export default function Navbar() {
               >
                 Donor
               </button>
-              <div className="w-px h-8 bg-sky-200 mx-2" />
-              <button
-                className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-sky-200 hover:underline focus:outline-none transition-all"
-                onClick={() => handleNavigate("/donor/public")}
-              >
-                Public Donor
-              </button>
-              <div className="w-px h-8 bg-sky-200 mx-2" />
-              <button
-                className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-amber-100 hover:underline focus:outline-none transition-all"
-                onClick={() => handleNavigate("/donor/organization")}
-              >
-                Organization Donor
-              </button>
+              
               <div className="w-px h-8 bg-sky-200 mx-2" />
               <button
                 className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-amber-100 hover:underline focus:outline-none transition-all"

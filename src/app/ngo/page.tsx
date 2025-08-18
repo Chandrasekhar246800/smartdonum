@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function NGO() {
   // Login/Signup view toggling and step management
@@ -25,7 +26,7 @@ export default function NGO() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
-  // const router = useRouter();
+  const router = useRouter();
 
   // Patterns
   const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
@@ -163,7 +164,11 @@ export default function NGO() {
               As an NGO, you help bridge the gap between donors and those in need. Collect, coordinate, and distribute donations efficiently to maximize impact in your community.
             </p>
             <hr className="border-t-4 border-blue-300 w-full max-w-md mb-10" />
-            <form className="w-full flex flex-col gap-4 items-center">
+            <form className="w-full flex flex-col gap-4 items-center" onSubmit={e => {
+              e.preventDefault();
+              // You can add actual authentication logic here
+              router.push('/ngodashboard');
+            }}>
               <input
                 type="email"
                 placeholder="Volunteer Email"
