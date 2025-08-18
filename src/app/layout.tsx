@@ -33,7 +33,7 @@ export default function RootLayout({
         <div className="relative">
           <Footer />
         </div>
-        <div className="h-[220px]"></div>
+        {/* <div className="h-[220px]"></div> */}
       </body>
     </html>
   );
