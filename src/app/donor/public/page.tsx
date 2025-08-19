@@ -126,15 +126,15 @@ export default function PublicDonor() {
                     onChange={e => setLoginPassword(e.target.value)}
                   
                   />
-                  <button type="button" className="absolute right-2 top-1/2 -translate-y-1/2" tabIndex={-1} onClick={() => setShowPassword(v => !v)}>
+                  <button type="button" className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer" tabIndex={-1} onClick={() => setShowPassword(v => !v)}>
                     <EyeIcon open={showPassword} />
                   </button>
                 </div>
-                <button type="submit" className="bg-green-500 hover:bg-green-600 text-white py-2 rounded font-semibold transition-all">Login</button>
+                <button type="submit" className="bg-green-500 hover:bg-green-600 text-white py-2 rounded font-semibold transition-all cursor-pointer">Login</button>
               </form>
               <div className="mt-4 text-center">
                 <span className="text-gray-600">Don&#39;t have an account? </span>
-                <button className="text-green-600 hover:underline font-semibold" onClick={handleShowSignup}>Sign up</button>
+                <button className="text-green-600 hover:underline font-semibold cursor-pointer" onClick={handleShowSignup}>Sign up</button>
                 <div className="mt-2">
                   <a href="/donor/public/forgotpassword" className="text-green-600 hover:underline font-semibold">Forgot password?</a>
                 </div>
@@ -147,33 +147,33 @@ export default function PublicDonor() {
                   <input name="name" type="text" placeholder="Name" value={signupData.name} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700" />
                   <input name="email" type="email" placeholder="Email" value={signupData.email} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700" />
                   <input name="contact" type="text" placeholder="Contact Number" value={signupData.contact} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700" />
-                  <button type="submit" className="bg-green-500 hover:bg-green-600 text-white py-2 rounded font-semibold transition-all">Send OTP</button>
+                  <button type="submit" className="bg-green-500 hover:bg-green-600 text-white py-2 rounded font-semibold transition-all cursor-pointer">Send OTP</button>
                 </form>
               ) : (
                 <form className="w-full flex flex-col gap-4" onSubmit={handleSignupOTPSubmit}>
                   <input name="otp" type="text" placeholder="Enter OTP (skip for demo)" value={signupData.otp} onChange={handleSignupInput} maxLength={6} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700" />
                   <div className="relative">
                     <input name="password" type={showPassword ? 'text' : 'password'} placeholder="Password" value={signupData.password} onChange={handleSignupInput} minLength={8} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 w-full pr-10 placeholder:text-gray-700 text-gray-700" />
-                    <button type="button" className="absolute right-2 top-1/2 -translate-y-1/2" tabIndex={-1} onClick={() => setShowPassword(v => !v)}>
+                    <button type="button" className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer" tabIndex={-1} onClick={() => setShowPassword(v => !v)}>
                       <EyeIcon open={showPassword} />
                     </button>
                   </div>
                   {passwordError && <span className="text-red-500 text-sm">{passwordError}</span>}
                   <div className="relative">
                     <input name="confirmPassword" type={showConfirmPassword ? 'text' : 'password'} placeholder="Confirm Password" value={signupData.confirmPassword} onChange={handleSignupInput} minLength={8} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 w-full pr-10 placeholder:text-gray-700 text-gray-700" />
-                    <button type="button" className="absolute right-2 top-1/2 -translate-y-1/2" tabIndex={-1} onClick={() => setShowConfirmPassword(v => !v)}>
+                    <button type="button" className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer" tabIndex={-1} onClick={() => setShowConfirmPassword(v => !v)}>
                       <EyeIcon open={showConfirmPassword} />
                     </button>
                   </div>
                   {confirmError && <span className="text-red-500 text-sm">{confirmError}</span>}
-                  <button type="submit" className="bg-green-500 hover:bg-green-600 text-white py-2 rounded font-semibold transition-all">Create Account</button>
+                  <button type="submit" className="bg-green-500 hover:bg-green-600 text-white py-2 rounded font-semibold transition-all cursor-pointer">Create Account</button>
                 </form>
               )}
               <div className="mt-4 text-center">
                 <span className="text-gray-600">Already have an account? </span>
                 <button
                 type="submit"
-                className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all w-full text-sm sm:text-base md:text-lg"
+                className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all w-full text-sm sm:text-base md:text-lg cursor-pointer"
                 onClick={()=>{
                   // You can add actual authentication logic here
                   router.push('/publicdonordashboard');

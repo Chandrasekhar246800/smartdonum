@@ -72,7 +72,7 @@ export default function ForgotPasswordNGO() {
               className="border-2 border-cyan-200 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-400"
               required />
             {error && <p className="text-red-500 text-sm">{error}</p>}
-            <button type="submit" className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg py-2 shadow transition-all">
+            <button type="submit" className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg py-2 shadow transition-all cursor-pointer">
               Send OTP
             </button>
             <p className="text-center text-cyan-600 text-xs">Keep your OTP confidential!</p>
@@ -88,7 +88,7 @@ export default function ForgotPasswordNGO() {
               className="border-2 border-cyan-200 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-400"
               required />
             {error && <p className="text-red-500 text-sm">{error}</p>}
-            <button type="submit" className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg py-2 shadow transition-all">
+            <button type="submit" className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg py-2 shadow transition-all cursor-pointer">
               Verify OTP
             </button>
             <p className="text-xs text-center text-cyan-600">OTP valid for a short period only!</p>
@@ -105,7 +105,7 @@ export default function ForgotPasswordNGO() {
                 onChange={e => setPassword(e.target.value)}
                 className="border-2 border-cyan-200 rounded px-4 py-2 w-full pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-400"
                 required />
-              <button type="button" tabIndex={-1} className="absolute right-2 top-1/2 -translate-y-1/2"
+              <button type="button" tabIndex={-1} className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
                 onClick={() => setShowPassword(v => !v)}>
                 <EyeIcon open={showPassword} />
               </button>
@@ -116,13 +116,13 @@ export default function ForgotPasswordNGO() {
                 onChange={e => setConfirmPassword(e.target.value)}
                 className="border-2 border-cyan-200 rounded px-4 py-2 w-full pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-400"
                 required />
-              <button type="button" tabIndex={-1} className="absolute right-2 top-1/2 -translate-y-1/2"
+              <button type="button" tabIndex={-1} className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
                 onClick={() => setShowConfirmPassword(v => !v)}>
                 <EyeIcon open={showConfirmPassword} />
               </button>
             </div>
             {error && <p className="text-red-500 text-sm">{error}</p>}
-            <button type="submit" className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg py-2 shadow transition-all">
+            <button type="submit" className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg py-2 shadow transition-all cursor-pointer">
               Reset Password
             </button>
             <p className="text-center text-cyan-600 text-xs">Keep your password private for your NGO’s safety!</p>

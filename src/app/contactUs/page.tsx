@@ -69,7 +69,7 @@ function ContactForm() {
       </div>
       <button
         type="submit"
-        className="w-full py-3 bg-sky-600 text-white font-bold rounded-lg shadow hover:bg-sky-700 transition-colors"
+        className="w-full py-3 bg-sky-600 text-white font-bold rounded-lg shadow hover:bg-sky-700 transition-colors cursor-pointer"
         disabled={submitted}
       >
         {submitted ? "Thank you!" : "Send Message"}

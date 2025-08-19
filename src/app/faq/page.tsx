@@ -254,7 +254,7 @@ function FAQAccordion({ faqs }: FAQAccordionProps) {
           className="rounded-lg border border-sky-200 bg-white/70 shadow hover:shadow-md transition-shadow"
         >
           <button
-            className="flex w-full items-center justify-between px-4 py-4 text-left focus:outline-none"
+            className="flex w-full items-center justify-between px-4 py-4 text-left focus:outline-none cursor-pointer"
             onClick={() => handleToggle(i)}
             aria-expanded={openIndex === i}
             aria-controls={`faq-answer-${i}`}

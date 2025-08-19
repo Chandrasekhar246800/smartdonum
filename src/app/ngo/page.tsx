@@ -233,7 +233,7 @@ export default function NGO() {
                 <input name="orgEmail" type="email" placeholder="Representative Email" value={signupForm.orgEmail} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full" required />
                 <input name="otp" type="text" placeholder="Enter OTP (6 digits)" value={signupForm.otp} onChange={handleSignupInput} maxLength={6} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full" required />
                 {error && <span className="text-red-500 text-sm">{error}</span>}
-                <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all w-full">Verify Email</button>
+                <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all w-full cursor-pointer">Verify Email</button>
               </form>
             )}
             {step === 2 && (
@@ -251,7 +251,7 @@ export default function NGO() {
                   </button>
                 </div>
                 {error && <span className="text-red-500 text-sm">{error}</span>}
-                <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all w-full">Set Password</button>
+                <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all w-full cursor-pointer">Set Password</button>
               </form>
             )}
             {step === 3 && (
@@ -259,7 +259,7 @@ export default function NGO() {
                 <input name="location" type="text" placeholder="Location" value={signupForm.location} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full" required />
                 <input name="serviceAreas" type="text" placeholder="Service Areas (comma separated)" value={signupForm.serviceAreas} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full" required />
                 {error && <span className="text-red-500 text-sm">{error}</span>}
-                <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all w-full">Next: Add Volunteers</button>
+                <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all w-full cursor-pointer">Next: Add Volunteers</button>
               </form>
             )}
             {step === 4 && (
@@ -273,24 +273,24 @@ export default function NGO() {
                         <input type="text" placeholder="Volunteer Name" value={v.name} onChange={e => handleVolunteerChange(idx, 'name', e.target.value)} className="border rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400 flex-1 w-full md:w-1/2" required />
                         <input type="email" placeholder="Volunteer Email" value={v.email} onChange={e => handleVolunteerChange(idx, 'email', e.target.value)} className="border rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400 flex-1 w-full md:w-1/2" required />
                         {signupForm.volunteers.length > 5 && (
-                          <button type="button" onClick={() => removeVolunteer(idx)} className="text-red-500 font-bold px-2">×</button>
+                          <button type="button" onClick={() => removeVolunteer(idx)} className="text-red-500 font-bold px-2 cursor-pointer">×</button>
                         )}
                       </div>
                     </div>
                   ))}
                   {signupForm.volunteers.length < 8 && (
-                    <button type="button" onClick={addVolunteer} className="text-blue-500 hover:underline text-sm mt-1">+ Add Volunteer</button>
+                    <button type="button" onClick={addVolunteer} className="text-blue-500 hover:underline text-sm mt-1 cursor-pointer">+ Add Volunteer</button>
                   )}
                 </div>
                 {error && <span className="text-red-500 text-sm">{error}</span>}
-                <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all w-full">Finish Signup</button>
+                <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all w-full cursor-pointer">Finish Signup</button>
               </form>
             )}
             {step === 5 && success && (
               <div className="w-full flex flex-col items-center gap-6 mt-8">
                 <div className="text-3xl text-green-400 font-bold mb-2">Signup Successful!</div>
                 <div className="text-gray-200 text-center mb-4">Your NGO account has been created. You can now log in and start managing donations and volunteers.</div>
-                <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all w-48" onClick={() => setIsLogin(true)}>Go to Login</button>
+                <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all w-48 cursor-pointer" onClick={() => setIsLogin(true)}>Go to Login</button>
               </div>
             )}
             <div className="mt-4 text-center">

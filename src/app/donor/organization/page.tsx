@@ -83,17 +83,17 @@ export default function OrganizationDonor() {
                 <input
                   type="email"
                   placeholder="Organization Email"
-                  className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-black"
                 />
                 <div className="relative">
                   <input
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Password"
-                    className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full pr-10"
+                      className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full pr-10 placeholder:text-black"
                   />
                   <button
                     type="button"
-                    className="absolute right-2 top-1/2 -translate-y-1/2"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
                     tabIndex={-1}
                     onClick={() => setShowPassword(v => !v)}
                   >
@@ -102,7 +102,7 @@ export default function OrganizationDonor() {
                 </div>
                 <button
                   type="submit"
-                  className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all"
+                  className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all cursor-pointer"
                   onClick={e => {
                     e.preventDefault();
                     // Add login validation here
@@ -115,7 +115,7 @@ export default function OrganizationDonor() {
               <div className="mt-4 text-center">
                 <span className="text-gray-600">Don&#39;t have an account? </span>
                 <button
-                  className="text-blue-600 hover:underline font-semibold"
+                  className="text-blue-600 hover:underline font-semibold cursor-pointer"
                   onClick={handleShowSignup}
                 >
                   Sign up
@@ -140,7 +140,7 @@ export default function OrganizationDonor() {
                     placeholder="Organization Name"
                     value={signupData.name}
                     onChange={handleSignupInput}
-                    className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-blue-700"
                     required
                   />
                   <input
@@ -149,7 +149,7 @@ export default function OrganizationDonor() {
                     placeholder="Organization Email"
                     value={signupData.email}
                     onChange={handleSignupInput}
-                    className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-black"
                     required
                   />
                   <input
@@ -158,12 +158,12 @@ export default function OrganizationDonor() {
                     placeholder="Contact Number"
                     value={signupData.contact}
                     onChange={handleSignupInput}
-                    className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-black"
                     required
                   />
                   <button
                     type="submit"
-                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all"
+                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all cursor-pointer"
                   >
                     Send OTP
                   </button>
@@ -177,7 +177,7 @@ export default function OrganizationDonor() {
                     value={signupData.otp}
                     onChange={handleSignupInput}
                     maxLength={6}
-                    className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-black"
                     required
                   />
                   <div className="relative">
@@ -187,12 +187,12 @@ export default function OrganizationDonor() {
                       placeholder="Password"
                       value={signupData.password}
                       onChange={handleSignupInput}
-                      className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full pr-10"
+                        className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full pr-10 placeholder:text-black"
                       required
                     />
                     <button
                       type="button"
-                      className="absolute right-2 top-1/2 -translate-y-1/2"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
                       tabIndex={-1}
                       onClick={() => setShowSignupPassword(v => !v)}
                     >
@@ -206,12 +206,12 @@ export default function OrganizationDonor() {
                       placeholder="Confirm Password"
                       value={signupData.confirmPassword}
                       onChange={handleSignupInput}
-                      className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full pr-10"
+                        className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full pr-10 placeholder:text-black"
                       required
                     />
                     <button
                       type="button"
-                      className="absolute right-2 top-1/2 -translate-y-1/2"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
                       tabIndex={-1}
                       onClick={() => setShowSignupConfirmPassword(v => !v)}
                     >
@@ -220,7 +220,7 @@ export default function OrganizationDonor() {
                   </div>
                   <button
                     type="submit"
-                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all"
+                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all cursor-pointer"
                     onClick={e => {
                       e.preventDefault();
                       // Add signup validation here
@@ -234,7 +234,7 @@ export default function OrganizationDonor() {
               <div className="mt-4 text-center">
                 <span className="text-gray-600">Already have an account? </span>
                 <button
-                  className="text-blue-600 hover:underline font-semibold"
+                  className="text-blue-600 hover:underline font-semibold cursor-pointer"
                   onClick={handleShowLogin}
                 >
                   Login

@@ -51,14 +51,14 @@ export default function Donor() {
         <div className="flex flex-col md:flex-row gap-6 w-full max-w-md justify-center">
           <button
             ref={el => { if (el) btnsRef.current[0] = el; }}
-            className="w-full md:w-auto bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg text-xl font-semibold shadow transition-all"
+            className="w-full md:w-auto bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg text-xl font-semibold shadow transition-all cursor-pointer"
             onClick={() => router.push('/donor/public')}
           >
             Public
           </button>
           <button
             ref={el => { if (el) btnsRef.current[1] = el; }}
-            className="w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-lg text-xl font-semibold shadow transition-all"
+            className="w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-lg text-xl font-semibold shadow transition-all cursor-pointer"
             onClick={() => router.push('/donor/organization')}
           >
             Organization

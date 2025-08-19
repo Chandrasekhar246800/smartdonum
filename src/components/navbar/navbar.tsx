@@ -43,35 +43,35 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-0">
             <div className="flex items-center bg-gradient-to-r from-sky-100 via-white to-amber-100 bg-opacity-80 rounded-xl shadow border border-sky-100 px-2 py-1">
               <button
-                className={`px-5 py-2 text-sky-700 font-semibold text-lg focus:outline-none rounded-l-xl transition-all ${current === "" ? "underline bg-green-100 rounded-xl" : "hover:bg-green-100 hover:underline"}`}
+                className={`px-5 py-2 text-sky-700 font-semibold text-lg focus:outline-none rounded-l-xl transition-all cursor-pointer ${current === "" ? "underline bg-green-100 rounded-xl" : "hover:bg-green-100 hover:underline"}`}
                 onClick={() => handleNavigate("/")}
               >
                 Home
               </button>
               <div className="w-px h-8 bg-sky-200 mx-2" />
               <button
-                className={`px-5 py-2 text-sky-700 font-semibold text-lg focus:outline-none transition-all ${current === "aboutUs" ? "underline bg-sky-200 rounded-xl" : "hover:bg-sky-200 hover:underline"}`}
+                className={`px-5 py-2 text-sky-700 font-semibold text-lg focus:outline-none transition-all cursor-pointer ${current === "aboutUs" ? "underline bg-sky-200 rounded-xl" : "hover:bg-sky-200 hover:underline"}`}
                 onClick={() => handleNavigate("/aboutUs")}
               >
                 About Us
               </button>
               <div className="w-px h-8 bg-sky-200 mx-2" />
               <button
-                className={`px-5 py-2 text-sky-700 font-semibold text-lg focus:outline-none transition-all ${current === "faq" ? "underline bg-amber-100 rounded-xl" : "hover:bg-amber-100 hover:underline"}`}
+                className={`px-5 py-2 text-sky-700 font-semibold text-lg focus:outline-none transition-all cursor-pointer ${current === "faq" ? "underline bg-amber-100 rounded-xl" : "hover:bg-amber-100 hover:underline"}`}
                 onClick={() => handleNavigate("/faq")}
               >
                 FAQ
               </button>
               <div className="w-px h-8 bg-sky-200 mx-2" />
               <button
-                className={`px-5 py-2 text-sky-700 font-semibold text-lg focus:outline-none transition-all ${current === "contactUs" ? "underline bg-sky-100 rounded-xl" : "hover:bg-sky-100 hover:underline"}`}
+                className={`px-5 py-2 text-sky-700 font-semibold text-lg focus:outline-none transition-all cursor-pointer ${current === "contactUs" ? "underline bg-sky-100 rounded-xl" : "hover:bg-sky-100 hover:underline"}`}
                 onClick={() => handleNavigate("/contactUs")}
               >
                 Contact Us
               </button>
               <div className="w-px h-8 bg-sky-200 mx-2" />
               <button
-                className={`px-5 py-2 bg-sky-200 hover:bg-sky-300 text-sky-700 text-lg font-semibold rounded-r-xl shadow transition-all transform hover:scale-105 hover:shadow-xl focus:outline-none ${current === "loginPage" ? "underline bg-sky-300 rounded-xl" : ""}`}
+                className={`px-5 py-2 bg-sky-200 hover:bg-sky-300 text-sky-700 text-lg font-semibold rounded-r-xl shadow transition-all transform hover:scale-105 hover:shadow-xl focus:outline-none cursor-pointer ${current === "loginPage" ? "underline bg-sky-300 rounded-xl" : ""}`}
                 onClick={() => handleNavigate("/loginPage")}
               >
                 Login
@@ -81,14 +81,14 @@ export default function Navbar() {
           {/* Mobile view: Login button and hamburger */}
           <div className="md:hidden flex items-center gap-2 w-full justify-end">
             <button
-              className="px-5 py-2 bg-sky-200 hover:bg-sky-300 text-sky-700 text-lg font-semibold rounded-xl shadow transition-all focus:outline-none"
+              className="px-5 py-2 bg-sky-200 hover:bg-sky-300 text-sky-700 text-lg font-semibold rounded-xl shadow transition-all focus:outline-none cursor-pointer"
               onClick={() => handleNavigate("/loginPage")}
             >
               Login
             </button>
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="text-sky-700 focus:outline-none p-2"
+              className="text-sky-700 focus:outline-none p-2 cursor-pointer"
               aria-label="Open menu"
             >
               <Menu size={32} />
@@ -107,7 +107,7 @@ export default function Navbar() {
                 <span className="text-xl font-bold text-sky-700">Menu</span>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-gray-600 hover:text-gray-900 p-2"
+                  className="text-gray-600 hover:text-gray-900 p-2 cursor-pointer"
                   aria-label="Close menu"
                 >
                   <X size={28} />
@@ -115,25 +115,25 @@ export default function Navbar() {
               </div>
               <div className="flex flex-col p-4 space-y-3">
                 <button
-                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-green-100 rounded-lg transition-colors"
+                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-green-100 rounded-lg transition-colors cursor-pointer"
                   onClick={() => handleNavigate("/")}
                 >
                   Home
                 </button>
                 <button
-                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-sky-50 rounded-lg transition-colors"
+                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-sky-50 rounded-lg transition-colors cursor-pointer"
                   onClick={() => handleNavigate("/aboutUs")}
                 >
                   About Us
                 </button>
                 <button
-                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-amber-100 rounded-lg transition-colors"
+                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-amber-100 rounded-lg transition-colors cursor-pointer"
                   onClick={() => handleNavigate("/faq")}
                 >
                   FAQ
                 </button>
                 <button
-                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-sky-100 rounded-lg transition-colors"
+                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-sky-100 rounded-lg transition-colors cursor-pointer"
                   onClick={() => handleNavigate("/contactUs")}
                 >
                   Contact Us
@@ -172,7 +172,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-0">
             <div className="flex items-center bg-gradient-to-r from-sky-100 via-white to-amber-100 bg-opacity-80 rounded-xl shadow border border-sky-100 px-2 py-1">
               <button
-                className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-green-100 hover:underline focus:outline-none rounded-l-xl transition-all"
+                className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-green-100 hover:underline focus:outline-none rounded-l-xl transition-all cursor-pointer"
                 onClick={() => handleNavigate("/donor")}
               >
                 Donor
@@ -180,7 +180,7 @@ export default function Navbar() {
               
               <div className="w-px h-8 bg-sky-200 mx-2" />
               <button
-                className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-amber-100 hover:underline focus:outline-none transition-all"
+                className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-amber-100 hover:underline focus:outline-none transition-all cursor-pointer"
                 onClick={() => handleNavigate("/ngo")}
               >
                 NGO
@@ -191,7 +191,7 @@ export default function Navbar() {
           <div className="md:hidden flex items-center w-full justify-end">
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="text-sky-700 focus:outline-none p-2"
+              className="text-sky-700 focus:outline-none p-2 cursor-pointer"
               aria-label="Open menu"
             >
               <Menu size={32} />
@@ -210,7 +210,7 @@ export default function Navbar() {
                 <span className="text-xl font-bold text-sky-700">Menu</span>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-gray-600 hover:text-gray-900 p-2"
+                  className="text-gray-600 hover:text-gray-900 p-2 cursor-pointer"
                   aria-label="Close menu"
                 >
                   <X size={28} />
@@ -218,25 +218,25 @@ export default function Navbar() {
               </div>
               <div className="flex flex-col p-4 space-y-3">
                 <button
-                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-green-100 rounded-lg transition-colors"
+                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-green-100 rounded-lg transition-colors cursor-pointer"
                   onClick={() => handleNavigate("/donor")}
                 >
                   Donor
                 </button>
                 <button
-                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-sky-50 rounded-lg transition-colors"
+                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-sky-50 rounded-lg transition-colors cursor-pointer"
                   onClick={() => handleNavigate("/donor/public")}
                 >
                   Public Donor
                 </button>
                 <button
-                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-amber-100 rounded-lg transition-colors"
+                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-amber-100 rounded-lg transition-colors cursor-pointer"
                   onClick={() => handleNavigate("/donor/organization")}
                 >
                   Organization Donor
                 </button>
                 <button
-                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-amber-100 rounded-lg transition-colors"
+                  className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-amber-100 rounded-lg transition-colors cursor-pointer"
                   onClick={() => handleNavigate("/ngo")}
                 >
                   NGO

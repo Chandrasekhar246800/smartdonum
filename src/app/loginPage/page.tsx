@@ -65,21 +65,21 @@ export default function LoginPage() {
         <div className="flex flex-col md:flex-row gap-4 sm:gap-6 md:gap-8 xl:gap-16 w-full max-w-xs sm:max-w-lg md:max-w-md justify-center">
           <button
             ref={el => { if (el) btnsRef.current[0] = el; }}
-            className="w-full md:w-auto bg-cyan-400 hover:bg-cyan-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition-all"
+            className="w-full md:w-auto bg-cyan-400 hover:bg-cyan-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition-all cursor-pointer"
             onClick={() => handleRoute('/donor')}
           >
             Donor
           </button>
           <button
             ref={el => { if (el) btnsRef.current[1] = el; }}
-            className="w-full md:w-auto bg-cyan-400 hover:bg-cyan-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition-all"
+            className="w-full md:w-auto bg-cyan-400 hover:bg-cyan-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition-all cursor-pointer"
             onClick={() => handleRoute('/ngo')}
           >
             NGO
           </button>
           <button
             ref={el => { if (el) btnsRef.current[2] = el; }}
-            className="w-full md:w-auto bg-cyan-400 hover:bg-cyan-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition-all"
+            className="w-full md:w-auto bg-cyan-400 hover:bg-cyan-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition-all cursor-pointer"
             onClick={() => handleRoute('/admin')}
           >
             Admin
