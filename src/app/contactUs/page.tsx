@@ -1,6 +1,4 @@
 "use client";
-// ...existing imports and code...
-"use client";
 export default ContactUs;
 // Contact form component
 function ContactForm() {
@@ -430,17 +428,6 @@ function ContactUs() {
             <p>Address: 123 SmartDonum Lane, City, Country</p>
           </div>
         </div>
-      </div>
-
-      <div
-        style={{
-          position: "relative",
-          zIndex: 50,
-          background: "rgba(255,255,255,0.98)",
-          marginBottom: "2rem",
-        }}
-      >
-        <Footer />
       </div>
       <style>{`
         @keyframes fadeInUpOnce { 0% { opacity: 0; transform: translateY(40px); } 100% { opacity: 1; transform: translateY(0); } } .animate-fadeInUpOnce { animation: fadeInUpOnce 1.1s cubic-bezier(0.23, 1, 0.32, 1) both; } .card-hover-effect { transition: transform 0.28s cubic-bezier(0.4,0,0.2,1), box-shadow 0.28s cubic-bezier(0.4,0,0.2,1); } .card-hover-effect:hover { transform: scale(1.035); box-shadow: 0 12px 36px 0 rgba(2,132,199,0.18), 0 2px 8px 0 rgba(0,0,0,0.09); } @keyframes cloudFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-18px); } } @keyframes cloudFloatSlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(12px); } } @keyframes cloudFloatReverse { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(14px); } } .animate-cloudFloat { animation: cloudFloat 7s ease-in-out infinite; } .animate-cloudFloatSlow { animation: cloudFloatSlow 11s ease-in-out infinite; } .animate-cloudFloatReverse { animation: cloudFloatReverse 9s ease-in-out infinite; }
