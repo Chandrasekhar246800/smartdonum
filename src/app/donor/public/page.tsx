@@ -57,17 +57,17 @@ export default function PublicDonor() {
 
   const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!loginEmail || !loginPassword) {
-      window.alert('Please fill in both email and password to continue.');
-      return;
-    }
-    if (!passwordPattern.test(loginPassword)) {
-      window.alert('Password must be at least 8 characters and include uppercase, lowercase, number, and special character.');
-      return;
-    }
+    // if (!loginEmail || !loginPassword) {
+    //   window.alert('Please fill in both email and password to continue.');
+    //   return;
+    // }
+    // if (!passwordPattern.test(loginPassword)) {
+    //   window.alert('Password must be at least 8 characters and include uppercase, lowercase, number, and special character.');
+    //   return;
+    // }
     // Add your login validation logic here
     // If login is successful:
-    router.push('/publicdonardashboard');
+    router.push('/publicdonordashboard');
   };
 
   const handleShowLogin = () => {
@@ -115,7 +115,7 @@ export default function PublicDonor() {
                   className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700"
                   value={loginEmail}
                   onChange={e => setLoginEmail(e.target.value)}
-                  required
+                
                 />
                 <div className="relative">
                   <input
@@ -124,7 +124,7 @@ export default function PublicDonor() {
                     className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 w-full pr-10 placeholder:text-gray-700 text-gray-700"
                     value={loginPassword}
                     onChange={e => setLoginPassword(e.target.value)}
-                    required
+                  
                   />
                   <button type="button" className="absolute right-2 top-1/2 -translate-y-1/2" tabIndex={-1} onClick={() => setShowPassword(v => !v)}>
                     <EyeIcon open={showPassword} />
@@ -144,23 +144,23 @@ export default function PublicDonor() {
             <div className={`w-full flex flex-col items-center justify-center bg-white rounded-xl shadow-lg p-8 transition-all duration-500 ${formAnim}`}>
               {signupStep === 1 ? (
                 <form className="w-full flex flex-col gap-4" onSubmit={handleSignupDetailsSubmit}>
-                  <input name="name" type="text" placeholder="Name" value={signupData.name} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700" required />
-                  <input name="email" type="email" placeholder="Email" value={signupData.email} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700" required />
-                  <input name="contact" type="text" placeholder="Contact Number" value={signupData.contact} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700" required />
+                  <input name="name" type="text" placeholder="Name" value={signupData.name} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700" />
+                  <input name="email" type="email" placeholder="Email" value={signupData.email} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700" />
+                  <input name="contact" type="text" placeholder="Contact Number" value={signupData.contact} onChange={handleSignupInput} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700" />
                   <button type="submit" className="bg-green-500 hover:bg-green-600 text-white py-2 rounded font-semibold transition-all">Send OTP</button>
                 </form>
               ) : (
                 <form className="w-full flex flex-col gap-4" onSubmit={handleSignupOTPSubmit}>
-                  <input name="otp" type="text" placeholder="Enter OTP (skip for demo)" value={signupData.otp} onChange={handleSignupInput} maxLength={6} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700" required />
+                  <input name="otp" type="text" placeholder="Enter OTP (skip for demo)" value={signupData.otp} onChange={handleSignupInput} maxLength={6} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-700 text-gray-700" />
                   <div className="relative">
-                    <input name="password" type={showPassword ? 'text' : 'password'} placeholder="Password" value={signupData.password} onChange={handleSignupInput} minLength={8} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 w-full pr-10 placeholder:text-gray-700 text-gray-700" required />
+                    <input name="password" type={showPassword ? 'text' : 'password'} placeholder="Password" value={signupData.password} onChange={handleSignupInput} minLength={8} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 w-full pr-10 placeholder:text-gray-700 text-gray-700" />
                     <button type="button" className="absolute right-2 top-1/2 -translate-y-1/2" tabIndex={-1} onClick={() => setShowPassword(v => !v)}>
                       <EyeIcon open={showPassword} />
                     </button>
                   </div>
                   {passwordError && <span className="text-red-500 text-sm">{passwordError}</span>}
                   <div className="relative">
-                    <input name="confirmPassword" type={showConfirmPassword ? 'text' : 'password'} placeholder="Confirm Password" value={signupData.confirmPassword} onChange={handleSignupInput} minLength={8} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 w-full pr-10 placeholder:text-gray-700 text-gray-700" required />
+                    <input name="confirmPassword" type={showConfirmPassword ? 'text' : 'password'} placeholder="Confirm Password" value={signupData.confirmPassword} onChange={handleSignupInput} minLength={8} className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 w-full pr-10 placeholder:text-gray-700 text-gray-700" />
                     <button type="button" className="absolute right-2 top-1/2 -translate-y-1/2" tabIndex={-1} onClick={() => setShowConfirmPassword(v => !v)}>
                       <EyeIcon open={showConfirmPassword} />
                     </button>
@@ -171,7 +171,16 @@ export default function PublicDonor() {
               )}
               <div className="mt-4 text-center">
                 <span className="text-gray-600">Already have an account? </span>
-                <button className="text-green-600 hover:underline font-semibold" onClick={handleShowLogin}>Login</button>
+                <button
+                type="submit"
+                className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all w-full text-sm sm:text-base md:text-lg"
+                onClick={()=>{
+                  // You can add actual authentication logic here
+                  router.push('/publicdonordashboard');
+                }}
+              >
+                Login
+              </button>
               </div>
             </div>
           )}

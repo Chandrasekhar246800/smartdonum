@@ -192,6 +192,10 @@ export default function NGO() {
               <button
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded font-semibold transition-all w-full text-sm sm:text-base md:text-lg"
+                onClick={()=>{
+                  // You can add actual authentication logic here
+                  router.push('/ngodashboard');
+                }}
               >
                 Login
               </button>
