@@ -1,10 +1,18 @@
 "use client";
 
+
 import Link from "next/link";
 import React, { useState } from "react";
-
+import Image from "next/image";
 
 export default function OrganizationDonorDashboard() {
+  const [showPickupStatus, setShowPickupStatus] = useState(false);
+  // Example pickup data; replace with API call as needed
+  const [pickups] = useState([
+    { id: 1, item: "Books", status: "Scheduled", date: "2025-08-20" },
+    { id: 2, item: "Clothes", status: "Picked Up", date: "2025-08-18" },
+    { id: 3, item: "Packed Food", status: "Pending", date: "2025-08-22" },
+  ]);
   type DonationDetails = {
     class?: string;
     count?: number;
@@ -103,7 +111,102 @@ export default function OrganizationDonorDashboard() {
           </li>
         </ul>
       </nav>
-      {!showDonationsPage ? (
+      {showPickupStatus ? (
+        <main className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl mx-auto">
+          <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-sky-200 flex flex-col items-center py-10 px-7 w-full mt-8 animate-fadeinup">
+            <button
+              className="self-start mb-6 bg-sky-100 hover:bg-sky-200 text-sky-700 font-semibold rounded-lg px-4 py-2 shadow"
+              onClick={() => setShowPickupStatus(false)}
+            >
+              ← Back to Dashboard
+            </button>
+            {/* --- Pickup Status Header --- */}
+            <h2 className="text-2xl font-bold text-sky-700 mb-2">Your pickup is confirmed</h2>
+            <p className="text-sky-700 mb-4">Rahul (Helping Hands NGO) accepted your donation</p>
+            {/* --- Status Timeline --- */}
+            <div className="w-full flex flex-col items-center mb-6">
+              <div className="flex flex-row items-center justify-center gap-2 w-full">
+                {['Created','Reviewed','Accepted','On the way','Picked up','Verified','Thank you'].map((step, idx) => (
+                  <React.Fragment key={step}>
+                    <div className={`flex flex-col items-center`}>
+                      <span className={`w-8 h-8 flex items-center justify-center rounded-full text-white text-sm font-bold 
+                        ${idx <= 3 ? 'bg-sky-500' : 'bg-gray-300'}`}>{idx+1}</span>
+                      <span className={`text-xs mt-1 ${idx <= 3 ? 'text-sky-700' : 'text-gray-400'}`}>{step}</span>
+                    </div>
+                    {idx < 6 && <div className={`flex-1 h-1 ${idx < 3 ? 'bg-sky-400' : 'bg-gray-200'}`}></div>}
+                  </React.Fragment>
+                ))}
+              </div>
+              <div className="w-full flex justify-between text-xs text-gray-500 mt-2">
+                <span>2025-08-18 10:00</span>
+                <span>2025-08-18 10:10</span>
+                <span>2025-08-18 10:15</span>
+                <span>Now</span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+            {/* --- Volunteer Card --- */}
+            <div className="w-full flex items-center gap-4 bg-sky-50 rounded-xl p-4 mb-6 border border-sky-100">
+              <Image src="/images/volunteer.jpg" alt="Volunteer" width={56} height={56} className="rounded-full h-14 w-14 object-cover" />
+              <div className="flex-1">
+                <div className="font-semibold text-sky-800">Rahul Sharma <span className="ml-2 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">Verified</span></div>
+                <div className="text-xs text-gray-600">Helping Hands NGO <span className="ml-1 bg-blue-100 text-blue-700 px-1 rounded">NGO</span></div>
+                <div className="text-xs text-gray-500">ID: HH-2391</div>
+              </div>
+              <div className="flex flex-col gap-2">
+                <a href="tel:+919999999999" className="bg-sky-400 hover:bg-sky-500 text-white rounded-full p-2"><svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 16.92V21a2 2 0 0 1-2.18 2A19.72 19.72 0 0 1 3 5.18 2 2 0 0 1 5 3h4.09a2 2 0 0 1 2 1.72c.13.81.28 1.61.46 2.39a2 2 0 0 1-.45 2.11l-1.27 1.27a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45c.78.18 1.58.33 2.39.46A2 2 0 0 1 22 16.92z"></path></svg></a>
+                <a href="sms:+919999999999" className="bg-green-400 hover:bg-green-500 text-white rounded-full p-2"><svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></a>
+              </div>
+            </div>
+            {/* --- Pickup Details --- */}
+            <div className="w-full bg-white rounded-xl p-4 mb-6 border border-sky-100">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                <div className="font-semibold text-sky-700">Pickup window: <span className="font-normal">Today, 6:30–7:30PM</span></div>
+                <div className="text-xs text-gray-500">ETA ~6:45PM</div>
+              </div>
+              <div className="text-xs text-gray-600 mb-1">Vehicle: White WagonR (1234)</div>
+              <div className="text-xs text-gray-600 mb-1">Pickup address: 123 Main St, City <button className="ml-2 text-sky-500 underline">Edit</button></div>
+              <div className="text-xs text-gray-600">Special instructions: Please call on arrival. Gate code: 4321</div>
+            </div>
+            {/* --- Donation Summary --- */}
+            <div className="w-full bg-white rounded-xl p-4 mb-6 border border-sky-100">
+              <div className="font-semibold text-sky-700 mb-2">Donation Summary</div>
+              <ul className="text-sm text-gray-700 mb-2">
+                <li>Books: 10 (Class 5, Math, Science)</li>
+                <li>Clothes: 5 (M, Good condition)</li>
+              </ul>
+              <div className="flex gap-2">
+                <Image src="/images/book.jpg" alt="Book" width={60} height={60} className="rounded-lg object-cover" />
+                <Image src="/images/clothes.jpg" alt="Clothes" width={60} height={60} className="rounded-lg object-cover" />
+              </div>
+              <div className="text-xs text-gray-500 mt-2">Donation ID: DON123456</div>
+            </div>
+            {/* --- Actions --- */}
+            <div className="w-full flex flex-wrap gap-3 mb-6">
+              <button className="bg-yellow-100 hover:bg-yellow-200 text-yellow-800 font-semibold rounded-lg px-4 py-2 shadow">Reschedule</button>
+              <button className="bg-sky-100 hover:bg-sky-200 text-sky-700 font-semibold rounded-lg px-4 py-2 shadow">Edit notes</button>
+              <button className="bg-red-100 hover:bg-red-200 text-red-700 font-semibold rounded-lg px-4 py-2 shadow">Cancel</button>
+              <button className="bg-green-400 hover:bg-green-500 text-white font-semibold rounded-lg px-4 py-2 shadow">Mark items ready</button>
+            </div>
+            {/* --- Safety & Verification --- */}
+            <div className="w-full bg-sky-50 rounded-xl p-4 mb-6 border border-sky-100 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+              <div className="text-xs text-gray-700">Volunteer will show NGO ID at pickup. Match code: <span className="font-bold text-sky-700">8342</span></div>
+              <div className="text-xs text-gray-700 mt-2 sm:mt-0">Your OTP: <span className="font-bold text-sky-700">5129</span></div>
+              <button className="text-xs text-red-500 underline mt-2 sm:mt-0">Report an issue</button>
+            </div>
+            {/* --- After Pickup (hidden until picked up) --- */}
+            <div className="w-full bg-green-50 rounded-xl p-4 border border-green-200 flex flex-col items-center" style={{ display: 'none' }}>
+              <div className="font-semibold text-green-700 mb-2">Thanks! Pickup confirmed.</div>
+              <a href="#" className="text-green-700 underline mb-1">Download receipt</a>
+              <a href="#" className="text-green-700 underline mb-1">Download certificate</a>
+              <div className="text-xs text-gray-600">Your donation will support X program</div>
+              <button className="mt-2 bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 shadow">Rate your experience</button>
+            </div>
+          </div>
+        </main>
+      ) : !showDonationsPage ? (
         <main className="flex-1 flex flex-col items-center justify-center w-full max-w-3xl mx-auto">
           <section className="w-full flex flex-col items-center mb-8">
             <h2 className="text-xl sm:text-2xl font-semibold text-sky-700 mb-2">Welcome, Organization Donor!</h2>
@@ -117,13 +220,18 @@ export default function OrganizationDonorDashboard() {
                 className="bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 shadow transition-all mb-4"
                 onClick={() => setShowDonationsPage(true)}
               >
-                View & Add Donations
+                Manage Donations
               </button>
             </div>
             <div className="bg-white/80 backdrop-blur-lg rounded-xl shadow-lg p-6 flex flex-col items-center">
               <h3 className="text-lg font-bold text-sky-600 mb-2">Pickup Requests</h3>
               <p className="text-sky-700 mb-4 text-center">See requests from NGOs and volunteers for donation pickups.</p>
-              <Link href="/donor/organization/pickups" className="bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 shadow transition-all">View Requests</Link>
+              <button
+                className="bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 shadow transition-all"
+                onClick={() => setShowPickupStatus(true)}
+              >
+                View Requests
+              </button>
             </div>
           </div>
           <div className="w-full mt-8">
@@ -346,7 +454,13 @@ export default function OrganizationDonorDashboard() {
                     className="w-full px-3 py-2 border border-sky-300 rounded-lg"
                   />
                   {imagePreview && (
-                    <img src={imagePreview} alt="Preview" className="mt-2 rounded-lg shadow w-full h-32 object-cover" />
+                    <Image
+                      src={imagePreview}
+                      alt="Preview"
+                      className="mt-2 rounded-lg shadow w-full h-32 object-cover"
+                      width={400}
+                      height={128}
+                    />
                   )}
                 </div>
                 <div className="flex gap-4 w-full">
@@ -424,7 +538,13 @@ export default function OrganizationDonorDashboard() {
                                 </div>
                               )}
                               {donation.details.image && (
-                                <img src={donation.details.image} alt="Donation" className="mt-2 rounded-lg shadow w-full h-24 object-cover" />
+                                <Image
+                                  src={donation.details.image}
+                                  alt="Donation"
+                                  className="mt-2 rounded-lg shadow w-full h-24 object-cover"
+                                  width={400}
+                                  height={96}
+                                />
                               )}
                             </div>
                           )}

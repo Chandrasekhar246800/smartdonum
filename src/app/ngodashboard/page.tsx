@@ -1,12 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
 // Custom NGO Navbar (same as public donor dashboard)
-function NGONavbar({ router, current }: { router: unknown; current: string }) {
+function NGONavbar() {
   return (
     <nav className="w-full flex items-center justify-center py-4 bg-white bg-opacity-80 shadow-md rounded-b-2xl mb-4">
         <ul className="flex gap-6 sm:gap-10 md:gap-16">
@@ -67,11 +66,9 @@ export default function NGODashboard() {
     setSelectedDonation(null);
   }
 
-  const router = useRouter();
-  const current = typeof window !== "undefined" ? window.location.pathname.split("/")[1] : "";
   return (
     <div className="min-h-screen w-full flex flex-col bg-gradient-to-bl from-[#e0f2fe] via-[#f1f5f9] to-[#fef9c3]">
-      <NGONavbar router={router} current={current} />
+      <NGONavbar />
       <main className="flex-1 flex flex-col items-center justify-center w-full max-w-3xl mx-auto py-10">
       <h1 className="text-3xl font-bold text-cyan-700 mb-8">NGO Dashboard</h1>
       <p className="mb-6 text-gray-700 text-center max-w-xl">

@@ -1,7 +1,9 @@
 "use client";
 
+
 import Link from "next/link";
 import React, { useState } from "react";
+import Image from "next/image";
 
 export default function PublicDonorDashboard() {
   const [showDonationsPage, setShowDonationsPage] = useState(false);
@@ -9,6 +11,13 @@ export default function PublicDonorDashboard() {
   const [activeDonateType, setActiveDonateType] = useState<string | null>(null);
   const [formDetails, setFormDetails] = useState<Record<string, string>>({});
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [showPickupStatus, setShowPickupStatus] = useState(false);
+  // Example pickup data; replace with API call as needed
+  const [pickups] = useState([
+    { id: 1, item: "Books", status: "Scheduled", date: "2025-08-20" },
+    { id: 2, item: "Clothes", status: "Picked Up", date: "2025-08-18" },
+    { id: 3, item: "Toys", status: "Pending", date: "2025-08-22" },
+  ]);
 
   const handleDonateClick = (type: string) => {
     setActiveDonateType(type);
@@ -83,7 +92,40 @@ export default function PublicDonorDashboard() {
           </li>
         </ul>
       </nav>
-      {!showDonationsPage ? (
+      {showPickupStatus ? (
+        <main className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl mx-auto">
+          <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-sky-200 flex flex-col items-center py-10 px-7 w-full mt-8 animate-fadeinup">
+            <button
+              className="self-start mb-6 bg-sky-100 hover:bg-sky-200 text-sky-700 font-semibold rounded-lg px-4 py-2 shadow"
+              onClick={() => setShowPickupStatus(false)}
+            >
+              ← Back to Dashboard
+            </button>
+            <h2 className="text-2xl font-bold text-sky-700 mb-6">Your Pickup Status</h2>
+            <table className="min-w-full text-center border border-sky-200 rounded-lg overflow-hidden">
+              <thead className="bg-sky-100">
+                <tr>
+                  <th className="px-4 py-2">Item</th>
+                  <th className="px-4 py-2">Status</th>
+                  <th className="px-4 py-2">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pickups.map((pickup) => (
+                  <tr key={pickup.id} className="border-t">
+                    <td className="px-4 py-2">{pickup.item}</td>
+                    <td className="px-4 py-2">
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold 
+                        ${pickup.status === "Picked Up" ? "bg-green-100 text-green-700" : pickup.status === "Scheduled" ? "bg-yellow-100 text-yellow-700" : "bg-gray-100 text-gray-700"}`}>{pickup.status}</span>
+                    </td>
+                    <td className="px-4 py-2">{pickup.date}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </main>
+      ) : !showDonationsPage ? (
         <main className="flex-1 flex flex-col items-center justify-center w-full max-w-3xl mx-auto">
           <section className="w-full flex flex-col items-center mb-8">
             <h2 className="text-xl sm:text-2xl font-semibold text-sky-700 mb-2">Welcome, Public Donor!</h2>
@@ -103,7 +145,12 @@ export default function PublicDonorDashboard() {
             <div className="bg-white/80 backdrop-blur-lg rounded-xl shadow-lg p-6 flex flex-col items-center">
               <h3 className="text-lg font-bold text-sky-600 mb-2">Pickup Status</h3>
               <p className="text-sky-700 mb-4 text-center">Track the status of your donation pickups.</p>
-              <Link href="/donor/public/pickups" className="bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 shadow transition-all">Track Pickups</Link>
+              <button
+                className="bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 shadow transition-all"
+                onClick={() => setShowPickupStatus(true)}
+              >
+                Track Pickups
+              </button>
             </div>
           </div>
           <div className="w-full mt-8">
@@ -280,7 +327,13 @@ export default function PublicDonorDashboard() {
                     className="w-full px-3 py-2 border border-sky-300 rounded-lg"
                   />
                   {imagePreview && (
-                    <img src={imagePreview} alt="Preview" className="mt-2 rounded-lg shadow w-full h-32 object-cover" />
+                    <Image
+                      src={imagePreview}
+                      alt="Preview"
+                      className="mt-2 rounded-lg shadow w-full h-32 object-cover"
+                      width={400}
+                      height={128}
+                    />
                   )}
                 </div>
                 <div className="flex gap-4 w-full">
@@ -351,7 +404,13 @@ export default function PublicDonorDashboard() {
                                 </div>
                               )}
                               {donation.details.image && (
-                                <img src={donation.details.image} alt="Donation" className="mt-2 rounded-lg shadow w-full h-24 object-cover" />
+                                <Image
+                                  src={donation.details.image}
+                                  alt="Donation"
+                                  className="mt-2 rounded-lg shadow w-full h-24 object-cover"
+                                  width={400}
+                                  height={96}
+                                />
                               )}
                             </div>
                           )}
