@@ -83,13 +83,13 @@ export default function OrganizationDonor() {
                 <input
                   type="email"
                   placeholder="Organization Email"
-                    className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-black"
+                  className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 text-black placeholder:text-black"
                 />
                 <div className="relative">
                   <input
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Password"
-                      className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full pr-10 placeholder:text-black"
+                    className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full pr-10 text-black placeholder:text-black"
                   />
                   <button
                     type="button"

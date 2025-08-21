@@ -30,7 +30,7 @@ function ContactForm() {
           value={form.name}
           onChange={handleChange}
           required
-          className="w-full px-4 py-2 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400 bg-white"
+          className="w-full px-4 py-2 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400 bg-white text-gray-900 placeholder:text-gray-900"
         />
       </div>
       <div>
@@ -47,7 +47,7 @@ function ContactForm() {
           value={form.email}
           onChange={handleChange}
           required
-          className="w-full px-4 py-2 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400 bg-white"
+          className="w-full px-4 py-2 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400 bg-white text-gray-900 placeholder:text-gray-900"
         />
       </div>
       <div>
@@ -64,7 +64,7 @@ function ContactForm() {
           onChange={handleChange}
           required
           rows={5}
-          className="w-full px-4 py-2 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400 bg-white"
+          className="w-full px-4 py-2 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400 bg-white text-gray-900 placeholder:text-gray-900"
         />
       </div>
       <button
@@ -79,7 +79,6 @@ function ContactForm() {
 }
 // Animated cloud background imports
 import React, { useRef, useEffect, useState } from "react";
-import Footer from "../../components/footer/Footer";
 // Import cloud images if needed
 
 // Cloud configs (copied from main page)

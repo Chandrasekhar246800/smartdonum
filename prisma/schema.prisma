@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model donation {
+  id        Int      @id @default(autoincrement())
+  donorType String
+  item      String
+  status    String   @default("pending")
+  details   Json?
+  createdAt DateTime @default(now())
+}

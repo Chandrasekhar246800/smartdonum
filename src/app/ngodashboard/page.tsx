@@ -42,7 +42,7 @@ export default function NGODashboard() {
   useEffect(() => {
     async function fetchDonations() {
       setLoading(true);
-      const res = await fetch("/api/donations");
+      const res = await fetch("/api/ngo-donations");
       const data = await res.json();
       setDonations(data);
       setLoading(false);
@@ -53,13 +53,19 @@ export default function NGODashboard() {
   // Accept or cancel pickup
   async function handleStatus(id: number, status: "accepted" | "cancelled") {
     setLoading(true);
-    await fetch("/api/donations", {
+    // Try PATCH on both APIs
+    await fetch("/api/public-donations", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, status }),
+    });
+    await fetch("/api/organization-donations", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, status }),
     });
     // Refresh donations
-    const res = await fetch("/api/donations");
+    const res = await fetch("/api/ngo-donations");
     const data = await res.json();
     setDonations(data);
     setLoading(false);
@@ -84,7 +90,7 @@ export default function NGODashboard() {
                 <div key={donation.id} className="rounded-xl shadow-lg p-6 flex flex-col items-center bg-white w-full mx-auto max-w-xl">
               <span className="text-lg font-bold text-sky-600 mb-2">{donation.item}</span>
               <span className="text-sm text-gray-500 mb-2">From: {donation.donorType}</span>
-              {donation.details.image && (
+              {donation.details && donation.details.image && (
                 <Image
                   src={donation.details.image}
                   alt={donation.item}
@@ -94,7 +100,7 @@ export default function NGODashboard() {
                 />
               )}
               <ul className="mb-4 text-sky-700 text-sm">
-                {Object.entries(donation.details).map(([key, value]) =>
+                {donation.details && Object.entries(donation.details).map(([key, value]) =>
                   key !== "image" ? (
                     <li key={key}>
                       <span className="font-semibold capitalize">{key}:</span> {value}

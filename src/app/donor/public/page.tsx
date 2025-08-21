@@ -70,15 +70,6 @@ export default function PublicDonor() {
     router.push('/publicdonordashboard');
   };
 
-  const handleShowLogin = () => {
-    setFormAnim('animate-fadeOutLeft');
-    setTimeout(() => {
-      setShowLogin(true);
-      setSignupStep(1);
-      setFormAnim('animate-fadeInRight');
-    }, 300);
-    setTimeout(() => setFormAnim(''), 700);
-  };
 
   const handleShowSignup = () => {
     setFormAnim('animate-fadeOutRight');
