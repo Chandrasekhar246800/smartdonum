@@ -80,7 +80,7 @@ export default function LoginPage() {
           <button
             ref={el => { if (el) btnsRef.current[2] = el; }}
             className="w-full md:w-auto bg-cyan-400 hover:bg-cyan-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-semibold shadow-lg transition-all cursor-pointer"
-            onClick={() => handleRoute('/admin')}
+            onClick={() => handleRoute('/admin/login')}
           >
             Admin
           </button>
