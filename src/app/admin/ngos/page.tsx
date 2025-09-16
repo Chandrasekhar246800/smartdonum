@@ -3,6 +3,22 @@
 import Link from "next/link";
 import React, { useState } from "react";
 
+interface NGO {
+  id: number;
+  name: string;
+  email: string;
+  focus: string;
+  status: string;
+  registered: string;
+  donations: number;
+  rating: number;
+  location: string;
+  contact: string;
+  category: string;
+  totalImpact: number;
+  lastActivity: string;
+}
+
 export default function AdminNGOsPage() {
 const [selectedFilter, setSelectedFilter] = useState("all");
 const [searchQuery, setSearchQuery] = useState("");
@@ -12,7 +28,7 @@ const [showAnalyticsModal, setShowAnalyticsModal] = useState(false);
 const [showTrackModal, setShowTrackModal] = useState(false);
 const [showNotificationModal, setShowNotificationModal] = useState(false);
 const [showDetailModal, setShowDetailModal] = useState(false);
-const [selectedNGO, setSelectedNGO] = useState<any>(null);
+const [selectedNGO, setSelectedNGO] = useState<NGO | null>(null);
 
 const mockNGOs = [
 { 
@@ -77,7 +93,7 @@ return matchesSearch && matchesFilter;
 // Track NGO performance
 const handleTrackNGO = (ngoId: number) => {
 const ngo = mockNGOs.find(n => n.id === ngoId);
-setSelectedNGO(ngo);
+setSelectedNGO(ngo || null);
 setShowTrackModal(true);
 };
 
@@ -345,7 +361,7 @@ ngo.status === "Active" ? "bg-green-100 text-green-800" :
 <div className="flex space-x-2">
 <button 
 onClick={() => {
-setSelectedNGO(ngo);
+setSelectedNGO(ngo || null);
 setShowDetailModal(true);
 }}
 className="text-blue-600 hover:text-blue-900 transition-colors"
@@ -360,7 +376,7 @@ Track
 </button>
 <button 
 onClick={() => {
-setSelectedNGO(ngo);
+setSelectedNGO(ngo || null);
 setShowVerificationModal(true);
 }}
 className="text-emerald-600 hover:text-emerald-900 transition-colors"

@@ -24,7 +24,7 @@ export default function AdminForgotPasswordPage() {
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
       setSuccess(true);
-    } catch (err) {
+    } catch {
       setError("Failed to send reset email. Please try again.");
     } finally {
       setIsLoading(false);
@@ -42,7 +42,7 @@ export default function AdminForgotPasswordPage() {
               </div>
               <h2 className="text-2xl font-bold text-gray-700 mb-4">Check Your Email</h2>
               <p className="text-gray-600 mb-6">
-                We've sent password reset instructions to <strong className="text-gray-700">{email}</strong>
+                We&apos;ve sent password reset instructions to <strong className="text-gray-700">{email}</strong>
               </p>
               <Link
                 href="/admin/login"
@@ -86,7 +86,7 @@ export default function AdminForgotPasswordPage() {
 
               {/* Info Message */}
               <div className="bg-emerald-100 border border-emerald-400 text-emerald-700 px-4 py-3 rounded text-sm">
-                <p>We'll send you a link to reset your admin password securely.</p>
+                <p>We&apos;ll send you a link to reset your admin password securely.</p>
               </div>
 
               {/* Submit Button */}

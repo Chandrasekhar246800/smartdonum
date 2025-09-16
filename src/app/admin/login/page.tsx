@@ -53,7 +53,7 @@ export default function AdminLoginPage() {
       } else {
         setError("Invalid admin credentials. Please try again.");
       }
-    } catch (err) {
+    } catch {
       setError("Login failed. Please try again.");
     } finally {
       setIsLoading(false);

@@ -8,7 +8,6 @@ import Image from "next/image";
 // import Link from "next/link";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Footer from "../components/footer/Footer";
 
 // Import dashboard images
 import Twokids from "../../public/images/twokids.jpg";
