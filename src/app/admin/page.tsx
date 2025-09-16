@@ -11,18 +11,39 @@ export default function AdminDashboard() {
 	const [adminEmail, setAdminEmail] = useState("");
 
 	useEffect(() => {
-		// Check if admin is authenticated
-		const authStatus = localStorage.getItem("adminAuthenticated");
-		const email = localStorage.getItem("adminEmail");
-		
-		if (authStatus === "true" && email) {
-			setIsAuthenticated(true);
-			setAdminEmail(email);
-		} else {
-			// Redirect to login if not authenticated
-			router.push("/admin/login");
-		}
-		setIsLoading(false);
+		// Function to check authentication
+		const checkAuth = () => {
+			try {
+				// Check if we're on the client side and localStorage is available
+				if (typeof window === 'undefined' || !window.localStorage) {
+					return false;
+				}
+				
+				// Check if admin is authenticated
+				const authStatus = localStorage.getItem("adminAuthenticated");
+				const email = localStorage.getItem("adminEmail");
+				
+				return authStatus === "true" && email;
+			} catch (error) {
+				console.error("Error checking authentication:", error);
+				return false;
+			}
+		};
+
+		// Add a small delay to ensure client-side rendering
+		const timer = setTimeout(() => {
+			if (checkAuth()) {
+				const email = localStorage.getItem("adminEmail");
+				setIsAuthenticated(true);
+				setAdminEmail(email || "");
+			} else {
+				// Redirect to login if not authenticated
+				router.push("/admin/login");
+			}
+			setIsLoading(false);
+		}, 100);
+
+		return () => clearTimeout(timer);
 	}, [router]);
 
 	const handleLogout = () => {

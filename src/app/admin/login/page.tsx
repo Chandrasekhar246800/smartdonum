@@ -45,8 +45,14 @@ export default function AdminLoginPage() {
         await new Promise(resolve => setTimeout(resolve, 1000));
         
         // Store admin session (in a real app, you'd use proper auth tokens)
-        localStorage.setItem("adminAuthenticated", "true");
-        localStorage.setItem("adminEmail", formData.email);
+        try {
+          if (typeof window !== 'undefined' && window.localStorage) {
+            localStorage.setItem("adminAuthenticated", "true");
+            localStorage.setItem("adminEmail", formData.email);
+          }
+        } catch (storageError) {
+          console.error("Error storing authentication:", storageError);
+        }
         
         // Redirect to admin dashboard
         router.push("/admin");
