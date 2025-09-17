@@ -63,7 +63,7 @@ function DonationDetailsPage() {
         ) : donation.status === "pending" ? (
           <div className="bg-yellow-100 border border-yellow-300 text-yellow-800 px-4 py-3 rounded-lg text-center">
             <p className="font-semibold">Donation Pending</p>
-            <p className="text-sm">Waiting for NGO to accept your donation. You'll be able to track pickup once accepted.</p>
+            <p className="text-sm">Waiting for NGO to accept your donation. You&apos;ll be able to track pickup once accepted.</p>
           </div>
         ) : donation.status === "cancelled" ? (
           <div className="bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded-lg text-center">
