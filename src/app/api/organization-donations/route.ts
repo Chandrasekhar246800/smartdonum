@@ -10,16 +10,29 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const data = await req.json();
-  const newDonation = await prisma.donation.create({
-    data: {
-      donorType: "organization",
-      item: data.item,
-      status: "pending",
-      details: data.details ? data.details : {},
-    },
-  });
-  return NextResponse.json(newDonation, { status: 201 });
+  try {
+    console.log("POST /api/organization-donations - Request received");
+    const data = await req.json();
+    console.log("Request data:", data);
+    
+    const newDonation = await prisma.donation.create({
+      data: {
+        donorType: "organization",
+        item: data.item,
+        status: "pending",
+        details: data.details ? data.details : {},
+      },
+    });
+    
+    console.log("Donation created successfully:", newDonation);
+    return NextResponse.json(newDonation, { status: 201 });
+  } catch (error) {
+    console.error("Error in POST /api/organization-donations:", error);
+    return NextResponse.json(
+      { error: "Failed to create donation", details: error instanceof Error ? error.message : "Unknown error" }, 
+      { status: 500 }
+    );
+  }
 }
 
 export async function PATCH(req: NextRequest) {

@@ -68,15 +68,23 @@ function DonateFormPage() {
       if (val && typeof val === 'string') details[f.name] = val;
     });
     try {
-      await fetch("/api/public-donations", {
+      const response = await fetch("/api/public-donations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ item, details }),
       });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      console.log("Donation submitted successfully:", result);
       setSuccess(true);
       form.reset();
-    } catch {
-      alert("Failed to submit donation.");
+    } catch (error) {
+      console.error("Error submitting donation:", error);
+      alert("Failed to submit donation. Please try again.");
     } finally {
       setSubmitting(false);
     }

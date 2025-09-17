@@ -113,9 +113,25 @@ function OrgDonationDetailsPage() {
             )}
           </div>
         </div>
-        <Link href={`/organizationdonordashboard/track-pickups/details?id=${donation.id}`}>
-          <button className="bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-xl px-8 py-3 shadow transition-all text-lg mt-4">Track Pickup</button>
-        </Link>
+        {donation.status === "accepted" ? (
+          <Link href={`/organizationdonordashboard/track-pickups/details?id=${donation.id}`}>
+            <button className="bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-xl px-8 py-3 shadow transition-all text-lg mt-4">Track Pickup</button>
+          </Link>
+        ) : donation.status === "pending" ? (
+          <div className="bg-yellow-100 border border-yellow-300 text-yellow-800 px-6 py-4 rounded-xl text-center mt-4">
+            <p className="font-semibold text-lg">Donation Pending</p>
+            <p className="text-sm">Waiting for NGO to accept your donation. You'll be able to track pickup once accepted.</p>
+          </div>
+        ) : donation.status === "cancelled" ? (
+          <div className="bg-red-100 border border-red-300 text-red-800 px-6 py-4 rounded-xl text-center mt-4">
+            <p className="font-semibold text-lg">Donation Cancelled</p>
+            <p className="text-sm">This donation request was not accepted by the NGO.</p>
+          </div>
+        ) : (
+          <div className="bg-gray-100 border border-gray-300 text-gray-800 px-6 py-4 rounded-xl text-center mt-4">
+            <p className="font-semibold text-lg">Status: {donation.status}</p>
+          </div>
+        )}
       </div>
     </div>
   );

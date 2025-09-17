@@ -27,10 +27,11 @@ function NGONavbar() {
 }
 interface Donation {
   id: number;
-  donorType: "Public" | "Organization";
+  donorType: "public" | "organization";
   item: string;
   details: Record<string, string>;
   status: "pending" | "accepted" | "cancelled";
+  createdAt: string;
 }
 
 export default function NGODashboard() {
@@ -42,10 +43,19 @@ export default function NGODashboard() {
   useEffect(() => {
     async function fetchDonations() {
       setLoading(true);
-      const res = await fetch("/api/ngo-donations");
-      const data = await res.json();
-      setDonations(data);
-      setLoading(false);
+      try {
+        const res = await fetch("/api/ngo-donations");
+        if (!res.ok) {
+          throw new Error('Failed to fetch donations');
+        }
+        const data = await res.json();
+        setDonations(data);
+      } catch (error) {
+        console.error("Error fetching donations:", error);
+        setDonations([]);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchDonations();
   }, []);
@@ -53,23 +63,29 @@ export default function NGODashboard() {
   // Accept or cancel pickup
   async function handleStatus(id: number, status: "accepted" | "cancelled") {
     setLoading(true);
-    // Try PATCH on both APIs
-    await fetch("/api/public-donations", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, status }),
-    });
-    await fetch("/api/organization-donations", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, status }),
-    });
-    // Refresh donations
-    const res = await fetch("/api/ngo-donations");
-    const data = await res.json();
-    setDonations(data);
-    setLoading(false);
-    setSelectedDonation(null);
+    try {
+      // Use the unified ngo-donations API to update status
+      const response = await fetch("/api/ngo-donations", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to update donation status');
+      }
+      
+      // Refresh donations
+      const res = await fetch("/api/ngo-donations");
+      const data = await res.json();
+      setDonations(data);
+    } catch (error) {
+      alert("Failed to update donation status. Please try again.");
+      console.error("Error updating donation:", error);
+    } finally {
+      setLoading(false);
+      setSelectedDonation(null);
+    }
   }
 
   return (
@@ -89,7 +105,7 @@ export default function NGODashboard() {
           ) : donations.map((donation) => (
                 <div key={donation.id} className="rounded-xl shadow-lg p-6 flex flex-col items-center bg-white w-full mx-auto max-w-xl">
               <span className="text-lg font-bold text-sky-600 mb-2">{donation.item}</span>
-              <span className="text-sm text-gray-500 mb-2">From: {donation.donorType}</span>
+              <span className="text-sm text-gray-500 mb-2">From: {donation.donorType.charAt(0).toUpperCase() + donation.donorType.slice(1)}</span>
               {donation.details && donation.details.image && (
                 <Image
                   src={donation.details.image}

@@ -49,7 +49,23 @@ export default function PublicViewRequests() {
                 <li key={d.id} className="flex flex-col sm:flex-row sm:items-center justify-between bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-6 shadow-lg border border-sky-100 hover:shadow-2xl transition-all">
                   <div>
                     <div className="font-semibold text-sky-800 capitalize text-lg mb-1">{ITEM_LABELS[d.item as string] || d.item}</div>
-                    <div className="text-gray-600 text-sm">Status: <span className="font-medium">{d.status}</span></div>
+                    <div className="text-gray-600 text-sm mb-2">
+                      Status: <span className={`font-medium px-2 py-1 rounded text-xs ${
+                        d.status === 'accepted' ? 'bg-green-100 text-green-800' :
+                        d.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                        d.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                        'bg-gray-100 text-gray-800'
+                      }`}>{d.status}</span>
+                    </div>
+                    {d.status === 'accepted' && (
+                      <div className="text-green-600 text-xs">✅ Ready for pickup tracking</div>
+                    )}
+                    {d.status === 'pending' && (
+                      <div className="text-yellow-600 text-xs">⏳ Waiting for NGO approval</div>
+                    )}
+                    {d.status === 'cancelled' && (
+                      <div className="text-red-600 text-xs">❌ Not accepted by NGO</div>
+                    )}
                   </div>
                   <Link href={`/publicdonordashboard/view-requests/details?id=${d.id}`}>
                     <button className="mt-4 sm:mt-0 bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-lg px-6 py-2 shadow transition-all text-base">See Details</button>
