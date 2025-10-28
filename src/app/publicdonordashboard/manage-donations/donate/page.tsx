@@ -84,7 +84,14 @@ function DonateFormPage() {
       form.reset();
     } catch (error) {
       console.error("Error submitting donation:", error);
-      alert("Failed to submit donation. Please try again.");
+      
+      // Try to get more detailed error information
+      let errorMessage = "Failed to submit donation. Please try again.";
+      if (error instanceof Error) {
+        errorMessage += ` (${error.message})`;
+      }
+      
+      alert(errorMessage);
     } finally {
       setSubmitting(false);
     }
