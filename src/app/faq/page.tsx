@@ -1,377 +1,241 @@
 "use client";
-import React, { useRef } from "react";
-import { Plus, Minus } from "lucide-react";
-import Footer from "../../components/footer/Footer";
 
+import { Minus, Plus } from "lucide-react";
+import { useMemo, useState } from "react";
 
-// Cloud configs
-const CLOUD_CONFIGS = [
-  // ...[keep as in your question, omitted here for brevity]...
-  {
-    top: "2.5rem",
-    left: -20,
-    width: 352,
-    height: 176,
-    blur: "blur-xl",
-    float: "animate-cloudFloatSlow",
-    z: 1,
-    speed: 0.08,
-    opacity: 0.95,
-  },
-  // ... (rest unchanged) ...
-  {
-    bottom: "8rem",
-    left: 0,
-    width: 160,
-    height: 56,
-    blur: "blur-md",
-    float: "animate-cloudFloatReverse",
-    z: 3,
-    speed: 0.06,
-    opacity: 0.8,
-  },
-];
-
-// FAQ Array
-const FAQ_LIST = [
-  {
-    q: "What is SmartDonum and what is its main mission?",
-    a: "SmartDonum is a technology platform that connects individuals and organizations with surplus goods to verified NGOs and community programs that need them. Our mission is to make giving simple, smart, and sustainable by redirecting surplus items like food, clothes, and books from potential waste to those who can benefit most, fostering a culture of mindful giving.",
-  },
-  {
-    q: "How does the process of donating items through your platform work from start to finish?",
-    a: "Our process is designed to be simple and transparent: 1. List Your Donation: A donor signs up and describes the items. 2. NGOs See Your Offer: Nearby, verified NGOs are notified and can accept the offer. 3. Pickup is Confirmed: You'll receive a notification with the NGO's details. 4. Donation is Collected: An NGO representative will arrive at the scheduled time. 5. Track to Delivery: You can track the status on your dashboard until the donation is marked as delivered.",
-  },
-  {
-    q: "Is there any cost for donors or NGOs to use the SmartDonum service?",
-    a: "The SmartDonum platform is completely free to use for both individual donors and our partner NGOs. Our operations are supported through corporate partnerships and grants, allowing us to focus entirely on our social mission.",
-  },
-  {
-    q: "What specific types of items can I donate (e.g., food, clothes, books, toys)?",
-    a: "We facilitate the donation of a wide range of goods. Our primary categories are: Cooked Food, Packaged Food, Clothes, Books, and Toys.",
-  },
-  {
-    q: "How do I sign up and get my account verified as a donor or an NGO?",
-    a: "For donors, simply sign up on our website or app with your email or phone number; verification is instant. For NGOs, you must submit an application with your organization's registration documents and mission statement. Our team reviews each application before activating the account.",
-  },
-  {
-    q: "What are the essential hygiene and safety guidelines for donating cooked food?",
-    a: "Food safety is our highest priority. Please donate food that was prepared within the last 4-6 hours, avoid easily spoiled ingredients (like mayonnaise or raw fish), and label containers with the dish name and preparation time.",
-  },
-  {
-    q: "How should I package my donation to ensure it is safe and ready for pickup?",
-    a: "Please use clean, food-safe, and securely sealed containers for food. Clothes should be washed and packed in durable bags or boxes. Books and toys should be packed in boxes to protect them from damage.",
-  },
-  {
-    q: "How do I schedule a convenient time and location for my donation to be picked up?",
-    a: "When you list your donation on the platform, you will be presented with a calendar and time slots. You can select a date, a time window (e.g., 2 PM - 4 PM), and confirm your address for the pickup.",
-  },
-  {
-    q: "Can I choose the specific NGO that will receive my donation?",
-    a: "Currently, our system broadcasts your donation offer to all relevant NGOs in your vicinity to ensure the quickest possible pickup. This helps get your donation to where it's needed most, fast.",
-  },
-  {
-    q: "How are the NGOs on your platform vetted to ensure they are legitimate and trustworthy?",
-    a: "We have a strict, multi-step vetting process for all our NGO partners. This includes verifying their legal registration documents, reviewing their history and operational capacity, and confirming they have a genuine, on-the-ground presence.",
-  },
-  {
-    q: "What condition should clothes, books, and toys be in to be accepted?",
-    a: 'A good rule of thumb is the "dignity rule": donate items you would be comfortable giving to a friend. Clothes should be washed and without major damage. Books and toys should be clean, intact, and functional.',
-  },
-  {
-    q: "How can my restaurant or company arrange for large-scale or recurring donations?",
-    a: "We offer a dedicated partnership program for organizations. You can sign up for a corporate account, which allows you to schedule large, one-time donations or set up a recurring pickup schedule for regular surplus.",
-  },
-  {
-    q: "As an NGO, how can I list my specific, current needs on the platform?",
-    a: 'Your NGO dashboard features a "Needs" section where you can post specific, real-time requests. These requests are then shown to donors in your area, encouraging more targeted and impactful giving.',
-  },
-  {
-    q: "Will I receive an acknowledgement or receipt after my donation has been successfully delivered?",
-    a: 'Yes. Once the NGO receives your donation and marks it as "Delivered" in the system, you will receive a final confirmation notification and a thank you note, which is also logged in your donation history.',
-  },
-  {
-    q: "How can I track the status of my donation after scheduling a pickup?",
-    a: 'Your personal dashboard provides real-time status updates for your donation. You will see its progress change from "Awaiting NGO Approval" → "Pickup Scheduled" → "Out for Pickup" → "Delivered."',
-  },
-  {
-    q: "What should I do if a scheduled pickup is missed or delayed?",
-    a: "If a pickup is significantly delayed, please check the platform for updates. If there is no update, use the in-app support feature to report the issue. Our team will immediately coordinate with the NGO to resolve it.",
-  },
-  {
-    q: "How is my personal information as a donor or NGO representative kept private and secure?",
-    a: "We take data privacy very seriously. Your personal information, such as your full address, is only shared with the confirmed NGO representative for the sole purpose of coordinating the pickup. We never sell your data.",
-  },
-  {
-    q: "What happens if an NGO receives a donation that doesn't meet the quality standards?",
-    a: "Our partner NGOs have the right to decline a donation at the point of pickup if it does not meet the safety or quality guidelines. This is crucial for ensuring the well-being of the end recipients.",
-  },
-  {
-    q: "Can I donate money through SmartDonum, or is it only for physical goods?",
-    a: "SmartDonum's primary focus is on facilitating the donation of physical goods. We do not process monetary transactions directly. However, you can find links to our partner NGOs' official donation pages in their profiles.",
-  },
-  {
-    q: "Who should I contact if I encounter a technical problem on the website or have an issue with a donation?",
-    a: 'For any issues, our support team is ready to help. You can visit our "Help Center" for articles on common issues or submit a support ticket directly through the app or website. For urgent matters, you can email us at support@smartdonum.com.',
-  },
-];
-
-// MovableCloud with NO shadow
-type CloudConfig = {
-  top?: string;
-  bottom?: string;
-  left?: number;
-  right?: number;
-  width: number;
-  height: number;
-  blur: string;
-  float: string;
-  z: number;
-  speed: number;
-  opacity: number;
+type FAQItem = {
+  category: string;
+  q: string;
+  a: string;
 };
 
-interface MovableCloudProps {
-  config: CloudConfig;
-  idx: number;
-}
+const FAQ_LIST: FAQItem[] = [
+  {
+    category: "Getting Started",
+    q: "What is SmartDonum and what is its main mission?",
+    a: "SmartDonum connects individuals and organizations with NGOs that need usable surplus goods. The mission is to reduce waste while making giving easier, more transparent, and more timely.",
+  },
+  {
+    category: "Getting Started",
+    q: "How does donating through SmartDonum work from start to finish?",
+    a: "You list your donation, NGOs review it, a pickup is accepted, and you can follow progress through your dashboard until delivery is complete.",
+  },
+  {
+    category: "Accounts",
+    q: "Is there any cost for donors or NGOs to use SmartDonum?",
+    a: "No. The platform is free for donors and NGOs.",
+  },
+  {
+    category: "Donations",
+    q: "What types of items can I donate?",
+    a: "The core categories currently supported are cooked food, packaged food, clothes, books, and toys.",
+  },
+  {
+    category: "Accounts",
+    q: "How do donor and NGO accounts get verified?",
+    a: "Donor signup is lightweight, while NGOs go through a review process so accepted organizations on the platform are trustworthy and operationally ready.",
+  },
+  {
+    category: "Food Safety",
+    q: "What hygiene rules apply to cooked food donations?",
+    a: "Cooked food should be recent, safely handled, clearly packed, and suitable for prompt pickup. Avoid highly risky or easily spoiled items when they cannot be transported quickly.",
+  },
+  {
+    category: "Donations",
+    q: "How should I package my donation for pickup?",
+    a: "Use clean, secure packaging. Food should be sealed properly, and items like books, clothes, and toys should be packed in a way that protects them during handling.",
+  },
+  {
+    category: "Pickup",
+    q: "How do I schedule a pickup time and location?",
+    a: "While creating a donation, you provide timing and location details. NGOs then use that information when accepting and coordinating the pickup.",
+  },
+  {
+    category: "Pickup",
+    q: "Can I choose the NGO that receives my donation?",
+    a: "The platform is designed to help the right nearby NGO respond quickly, so matching is based more on need and availability than direct donor selection.",
+  },
+  {
+    category: "NGO Trust",
+    q: "How are NGOs vetted on the platform?",
+    a: "NGOs go through a screening process that checks legitimacy, readiness, and relevance before they receive access to donation requests.",
+  },
+  {
+    category: "Donations",
+    q: "What condition should clothes, books, and toys be in?",
+    a: "Items should be clean, usable, and respectful to the recipient. A good rule is to donate something you would feel comfortable giving to someone you know.",
+  },
+  {
+    category: "Organizations",
+    q: "Can restaurants or companies arrange recurring or large-scale donations?",
+    a: "Yes. Organization donor flows are better suited for higher volume or recurring donations where pickups and coordination need more structure.",
+  },
+  {
+    category: "NGOs",
+    q: "How can NGOs express their current needs on the platform?",
+    a: "NGOs can use their dashboard and request flows to review relevant donations and manage what they are able to accept.",
+  },
+  {
+    category: "Tracking",
+    q: "Can I track the donation after I schedule it?",
+    a: "Yes. Your dashboard shows the donation status so you can follow it from submission to acceptance and final outcome.",
+  },
+  {
+    category: "Support",
+    q: "What if a pickup is missed or delayed?",
+    a: "Check the dashboard first for any status update. If the issue remains unclear, contact support so the coordination gap can be resolved.",
+  },
+  {
+    category: "Privacy",
+    q: "How is my information kept private and secure?",
+    a: "Pickup-related details are used only for coordination and are not meant to be shared broadly beyond what is necessary to complete the donation flow.",
+  },
+  {
+    category: "Donations",
+    q: "Can SmartDonum be used for money donations too?",
+    a: "The current focus is on physical goods rather than direct monetary donations.",
+  },
+  {
+    category: "Support",
+    q: "Where should I go if I face a technical or donation issue?",
+    a: "Use the contact or support channels available on the site so the issue can be reviewed quickly.",
+  },
+];
 
-function MovableCloud({ config, idx }: MovableCloudProps) {
-  const [pos, setPos] = React.useState(() => ({
-    x: config.left !== undefined ? config.left : config.right,
-    y: 0,
-    dragging: false,
-    dragStartX: 0,
-    dragOffset: 0,
-  }));
-  const cloudRef = useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    let raf: number;
-    let lastTime = performance.now();
-    function animate(now: number) {
-      const dt = (now - lastTime) / 16.67;
-      lastTime = now;
-      if (!pos.dragging) {
-        setPos((prev) => {
-          let x = (prev.x ?? 0) + config.speed * dt;
-          if (config.speed > 0 && x > 120) x = -40;
-          if (config.speed < 0 && x < -40) x = 120;
-          return { ...prev, x };
-        });
-      }
-      raf = requestAnimationFrame(animate);
-    }
-    raf = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(raf);
-  }, [config.speed, pos.dragging]);
-
-  function onDown(
-    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
-  ) {
-    e.preventDefault();
-    setPos((prev) => ({
-      ...prev,
-      dragging: true,
-      dragStartX: "touches" in e ? e.touches[0].clientX : e.clientX,
-      dragOffset: prev.x ?? 0,
-    }));
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("touchmove", onMove as EventListener, {
-      passive: false,
-    });
-    window.addEventListener("mouseup", onUp);
-    window.addEventListener("touchend", onUp);
-  }
-  function onMove(e: MouseEvent | TouchEvent) {
-    e.preventDefault();
-    setPos((prev) => {
-      const clientX =
-        (e as TouchEvent).touches && (e as TouchEvent).touches.length > 0
-          ? (e as TouchEvent).touches[0].clientX
-          : (e as MouseEvent).clientX;
-      let x = prev.dragOffset + (clientX - prev.dragStartX) / 8;
-      if (x < -40) x = -40;
-      if (x > 120) x = 120;
-      return { ...prev, x };
-    });
-  }
-  function onUp() {
-    setPos((prev) => ({ ...prev, dragging: false }));
-    window.removeEventListener("mousemove", onMove);
-    window.removeEventListener("touchmove", onMove);
-    window.removeEventListener("mouseup", onUp);
-    window.removeEventListener("touchend", onUp);
-  }
-  const style: React.CSSProperties = {
-    position: "absolute",
-    width: config.width,
-    height: config.height,
-    zIndex: config.z,
-    opacity: 1,
-    cursor: "default",
-    top: config.top,
-    bottom: config.bottom,
-    left: config.left !== undefined ? `${pos.x}%` : undefined,
-    right: config.right !== undefined ? `${pos.x}%` : undefined,
-    transition: pos.dragging ? "none" : "box-shadow 0.2s",
-    touchAction: "none",
-  };
-  return (
-    <div ref={cloudRef} style={style} className="group select-none">
-      {/* No shadow base, no shadow-cloud class! */}
-      <div
-        className={`w-full h-full bg-white rounded-full ${config.blur} ${config.float}`}
-        style={{ opacity: config.opacity, position: "absolute" }}
-        onMouseDown={onDown}
-        onTouchStart={onDown}
-        tabIndex={0}
-        aria-label={`Cloud ${idx + 1}`}
-      />
-    </div>
-  );
-}
-
-// FAQ Accordion
-type FAQ = { q: string; a: string };
-
-interface FAQAccordionProps {
-  faqs: FAQ[];
-}
-
-function FAQAccordion({ faqs }: FAQAccordionProps) {
-  const [openIndex, setOpenIndex] = React.useState<number | null>(null);
-
-  const handleToggle = (idx: number) => {
-    setOpenIndex(idx === openIndex ? null : idx);
-  };
+function FAQAccordion({ items }: { items: FAQItem[] }) {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
     <div className="space-y-4">
-      {faqs.map((faq, i) => (
-        <div
-          key={i}
-          className="rounded-lg border border-sky-200 bg-white/70 shadow hover:shadow-md transition-shadow"
-        >
-          <button
-            className="flex w-full items-center justify-between px-4 py-4 text-left focus:outline-none cursor-pointer"
-            onClick={() => handleToggle(i)}
-            aria-expanded={openIndex === i}
-            aria-controls={`faq-answer-${i}`}
+      {items.map((faq, index) => {
+        const isOpen = openIndex === index;
+
+        return (
+          <div
+            key={`${faq.category}-${faq.q}`}
+            className="overflow-hidden rounded-[1.5rem] border border-white/80 bg-[linear-gradient(145deg,rgba(240,249,255,0.92),rgba(255,250,240,0.84),rgba(236,253,245,0.8))] shadow-sm transition hover:shadow-lg"
           >
-            <span className="font-semibold text-sky-800 text-lg">{faq.q}</span>
-            <span className="inline-block transition-transform duration-300 ease-in-out" style={{ transform: openIndex === i ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-              {openIndex === i ? (
-                <Minus size={28} color="#1e293b" strokeWidth={2.5} />
-              ) : (
-                <Plus size={28} color="#1e293b" strokeWidth={2.5} />
-              )}
-            </span>
-          </button>
-          {openIndex === i && (
-            <div
-              id={`faq-answer-${i}`}
-              className="px-6 pb-4 text-sky-700 text-base animate-fadeInUpOnce"
+            <button
+              type="button"
+              className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left"
+              onClick={() => setOpenIndex(isOpen ? null : index)}
+              aria-expanded={isOpen}
             >
-              {faq.a}
-            </div>
-          )}
-        </div>
-      ))}
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-700">
+                  {faq.category}
+                </p>
+                <p className="mt-2 text-lg font-bold text-slate-900">{faq.q}</p>
+              </div>
+              <span className="shrink-0 rounded-full border border-slate-200 bg-[linear-gradient(135deg,#f6fbff,#fffaf1)] p-2 text-slate-700">
+                {isOpen ? <Minus size={20} /> : <Plus size={20} />}
+              </span>
+            </button>
+            {isOpen && (
+              <div className="border-t border-slate-100 px-5 py-5 text-sm leading-7 text-slate-600">
+                {faq.a}
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
 
-export default function FAQ() {
+export default function FAQPage() {
+  const categories = useMemo(
+    () => Array.from(new Set(FAQ_LIST.map((faq) => faq.category))),
+    []
+  );
+
   return (
-    <>
-      {/* Cloud BG */}
-      <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          width: "100vw",
-          height: "100vh",
-          zIndex: 0,
-          pointerEvents: "none",
-          overflow: "hidden",
-        }}
-        id="cloud-bg-parallax"
-      >
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100vw",
-            height: "100vh",
-            background:
-              "linear-gradient(180deg, #b3e0ff 0%, #87ceeb 40%, #e0f7fa 100%)",
-            zIndex: 0,
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100vw",
-            height: "100vh",
-            zIndex: 1,
-            pointerEvents: "none",
-          }}
-        >
-          {CLOUD_CONFIGS.map((cfg, i) => (
-            <MovableCloud key={i} config={cfg} idx={i} />
-          ))}
-        </div>
+    <main className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(103,232,249,0.18),_transparent_26%),radial-gradient(circle_at_bottom_right,_rgba(253,224,71,0.14),_transparent_24%),linear-gradient(180deg,#effaff_0%,#dff3ff_45%,#f8fcff_100%)] px-4 pb-16 pt-24 text-slate-900">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-8">
+        <section className="overflow-hidden rounded-[2.5rem] border border-white/80 bg-[linear-gradient(135deg,rgba(240,249,255,0.9),rgba(255,250,240,0.74),rgba(236,253,245,0.72))] px-6 py-8 shadow-[0_30px_90px_rgba(14,116,144,0.12)] backdrop-blur-md md:px-10 md:py-12">
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+            <div>
+              <span className="inline-flex rounded-full border border-cyan-200 bg-cyan-50 px-4 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-cyan-700">
+                Support Center
+              </span>
+              <h1 className="mt-4 text-4xl font-black tracking-tight text-slate-950 md:text-6xl">
+                Answers that make SmartDonum easier to trust and use.
+              </h1>
+              <p className="mt-4 max-w-2xl text-base leading-8 text-slate-600 md:text-lg">
+                We turned the FAQ into a cleaner support page so people can scan common
+                questions quickly and feel more confident before they donate, receive, or manage.
+              </p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-[1.75rem] border border-slate-100 bg-[linear-gradient(180deg,#ffffff_0%,#f6fbff_100%)] p-5 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                  Topics
+                </p>
+                <p className="mt-2 text-3xl font-bold text-slate-900">{categories.length}</p>
+                <p className="mt-2 text-sm leading-7 text-slate-600">
+                  From pickups and privacy to food safety and NGO trust.
+                </p>
+              </div>
+              <div className="rounded-[1.75rem] border border-slate-100 bg-[linear-gradient(180deg,#ffffff_0%,#fffaf2_100%)] p-5 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                  Questions
+                </p>
+                <p className="mt-2 text-3xl font-bold text-slate-900">{FAQ_LIST.length}</p>
+                <p className="mt-2 text-sm leading-7 text-slate-600">
+                  Organized answers written for donors, NGOs, and organization teams.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+          <aside className="rounded-[2rem] border border-white/80 bg-[linear-gradient(135deg,rgba(255,250,240,0.86),rgba(240,249,255,0.82))] p-6 shadow-xl backdrop-blur-sm">
+            <span className="inline-flex rounded-full border border-amber-200 bg-amber-50 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-amber-700">
+              Categories
+            </span>
+            <div className="mt-5 flex flex-wrap gap-3">
+              {categories.map((category) => (
+                <div
+                  key={category}
+                  className="rounded-full border border-white/80 bg-[linear-gradient(135deg,#f7fbff,#fffaf1)] px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm"
+                >
+                  {category}
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 rounded-[1.75rem] bg-[linear-gradient(135deg,#0f172a_0%,#164e63_100%)] p-6 text-white shadow-xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-100">
+                Need More Help?
+              </p>
+              <h2 className="mt-3 text-2xl font-bold">Still unsure about your donation flow?</h2>
+              <p className="mt-3 text-sm leading-7 text-slate-100/88">
+                If your question is not covered here, the contact page is the fastest way to
+                reach out for support.
+              </p>
+              <a
+                href="/contactUs"
+                className="mt-5 inline-flex rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5"
+              >
+                Contact Support
+              </a>
+            </div>
+          </aside>
+
+          <section className="rounded-[2rem] border border-white/80 bg-[linear-gradient(135deg,rgba(240,249,255,0.88),rgba(255,250,240,0.8),rgba(236,253,245,0.78))] p-6 shadow-xl backdrop-blur-sm md:p-8">
+            <div className="mb-6">
+              <span className="inline-flex rounded-full border border-sky-200 bg-sky-50 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-sky-700">
+                Common Questions
+              </span>
+              <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">
+                Everything from donation basics to pickup confidence.
+              </h2>
+            </div>
+            <FAQAccordion items={FAQ_LIST} />
+          </section>
+        </section>
       </div>
-      {/* Main FAQ Content */}
-      <div className="h-24"></div>
-      <main className="max-w-3xl mx-auto px-4 py-10 z-10 relative">
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-sky-700 mb-8 text-center drop-shadow">Frequently Asked Questions</h1>
-        <FAQAccordion faqs={FAQ_LIST} />
-      </main>
-      {/* Footer at the bottom, outside main content */}
-      <div style={{ position: "relative", zIndex: 50 }}>
-        <Footer />
-      </div>
-      <style jsx>{`
-        @keyframes cloudFloat {
-          0%,
-          100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(12px);
-          }
-        }
-        @keyframes cloudFloatSlow {
-          0%,
-          100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(18px);
-          }
-        }
-        @keyframes cloudFloatReverse {
-          0%,
-          100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(14px);
-          }
-        }
-        .animate-cloudFloat {
-          animation: cloudFloat 7s ease-in-out infinite;
-        }
-        .animate-cloudFloatSlow {
-          animation: cloudFloatSlow 11s ease-in-out infinite;
-        }
-        .animate-cloudFloatReverse {
-          animation: cloudFloatReverse 9s ease-in-out infinite;
-        }
-      `}</style>
-    </>
+    </main>
   );
 }

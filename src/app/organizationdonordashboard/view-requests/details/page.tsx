@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect, useState, Suspense } from "react";
+
+import React, { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -11,19 +12,11 @@ interface Donation {
   details?: Record<string, unknown>;
 }
 
-
-
-
-interface Donation {
-  id: string | number;
-  item: string;
-  status: string;
-  details?: Record<string, unknown>;
-}
-
 const ITEM_LABELS: Record<string, string> = {
   books: "Books",
   clothes: "Clothes",
+  packedfood: "Packed Food",
+  cookedfood: "Cooked Food",
   toys: "Toys",
 };
 
@@ -35,12 +28,13 @@ function OrgDonationDetailsPage() {
   useEffect(() => {
     if (!donationId) return;
     fetch("/api/organization-donations")
-      .then(res => res.json())
+      .then((res) => res.json())
       .then((data) => {
-        const found = data.find((d: Donation) => String(d.id) === String(donationId));
+        const found = data.find((entry: Donation) => String(entry.id) === String(donationId));
         setDonation(found || null);
       });
   }, [donationId]);
+
   if (!donation) {
     return <div className="min-h-screen flex items-center justify-center text-sky-700">Loading donation details...</div>;
   }
@@ -62,7 +56,7 @@ function OrgDonationDetailsPage() {
                 <li><span className="font-bold">Class:</span> <span className="font-medium">{String(donation.details?.class ?? "-")}</span></li>
                 <li><span className="font-bold">Number of Books:</span> <span className="font-medium">{String(donation.details?.number ?? "-")}</span></li>
                 <li><span className="font-bold">Subjects:</span> <span className="font-medium">{String(donation.details?.subjects ?? "-")}</span></li>
-                {typeof donation.details?.image === 'string' && donation.details.image && (
+                {typeof donation.details?.image === "string" && donation.details.image && (
                   <li><span className="font-bold">Picture:</span> <br /><Image src={donation.details.image} alt="Book" width={120} height={80} className="rounded mt-2" /></li>
                 )}
               </ul>
@@ -72,7 +66,7 @@ function OrgDonationDetailsPage() {
                 <li><span className="font-bold">Size:</span> <span className="font-medium">{String(donation.details?.size ?? "-")}</span></li>
                 <li><span className="font-bold">Number of Clothes:</span> <span className="font-medium">{String(donation.details?.number ?? "-")}</span></li>
                 <li><span className="font-bold">Condition:</span> <span className="font-medium">{String(donation.details?.condition ?? "-")}</span></li>
-                {typeof donation.details?.image === 'string' && donation.details.image && (
+                {typeof donation.details?.image === "string" && donation.details.image && (
                   <li><span className="font-bold">Picture:</span> <br /><Image src={donation.details.image} alt="Clothes" width={120} height={80} className="rounded mt-2" /></li>
                 )}
               </ul>
@@ -82,7 +76,7 @@ function OrgDonationDetailsPage() {
                 <li><span className="font-bold">Type of Food:</span> <span className="font-medium">{String(donation.details?.type ?? "-")}</span></li>
                 <li><span className="font-bold">Number of Packs:</span> <span className="font-medium">{String(donation.details?.number ?? "-")}</span></li>
                 <li><span className="font-bold">Expiry Date:</span> <span className="font-medium">{String(donation.details?.expiry ?? "-")}</span></li>
-                {typeof donation.details?.image === 'string' && donation.details.image && (
+                {typeof donation.details?.image === "string" && donation.details.image && (
                   <li><span className="font-bold">Picture:</span> <br /><Image src={donation.details.image} alt="Packed Food" width={120} height={80} className="rounded mt-2" /></li>
                 )}
               </ul>
@@ -92,7 +86,7 @@ function OrgDonationDetailsPage() {
                 <li><span className="font-bold">Type of Cooked Food:</span> <span className="font-medium">{String(donation.details?.type ?? "-")}</span></li>
                 <li><span className="font-bold">Quantity:</span> <span className="font-medium">{String(donation.details?.quantity ?? "-")}</span></li>
                 <li><span className="font-bold">Prepared At:</span> <span className="font-medium">{String(donation.details?.preparedAt ?? "-")}</span></li>
-                {typeof donation.details?.image === 'string' && donation.details.image && (
+                {typeof donation.details?.image === "string" && donation.details.image && (
                   <li><span className="font-bold">Picture:</span> <br /><Image src={donation.details.image} alt="Cooked Food" width={120} height={80} className="rounded mt-2" /></li>
                 )}
               </ul>
@@ -102,13 +96,12 @@ function OrgDonationDetailsPage() {
                 <li><span className="font-bold">Type of Toy:</span> <span className="font-medium">{String(donation.details?.type ?? "-")}</span></li>
                 <li><span className="font-bold">Number of Toys:</span> <span className="font-medium">{String(donation.details?.number ?? "-")}</span></li>
                 <li><span className="font-bold">Condition:</span> <span className="font-medium">{String(donation.details?.condition ?? "-")}</span></li>
-                {typeof donation.details?.image === 'string' && donation.details.image && (
+                {typeof donation.details?.image === "string" && donation.details.image && (
                   <li><span className="font-bold">Picture:</span> <br /><Image src={donation.details.image} alt="Toy" width={120} height={80} className="rounded mt-2" /></li>
                 )}
               </ul>
             )}
-            {/* fallback for unknown or missing details */}
-            {!["books","clothes","packedfood","cookedfood","toys"].includes(donation.item) && (
+            {!["books", "clothes", "packedfood", "cookedfood", "toys"].includes(donation.item) && (
               <div className="text-gray-500 italic">No additional details provided.</div>
             )}
           </div>

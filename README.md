@@ -1,100 +1,99 @@
-
 # SmartDonum
 
-> A modern, full-stack donation management platform for NGOs, organizations, and the public, built with Next.js, React, TypeScript, and Tailwind CSS.
+SmartDonum is a donation management platform that connects public donors, organization donors, and NGO teams in one workflow. Donors can submit item donations with image uploads, and NGOs can review, accept, and manage incoming requests from a unified dashboard.
 
-## 🌟 Project Overview
+## Highlights
 
-SmartDonum bridges the gap between donors and NGOs, making it easy to donate, manage, and distribute resources to those in need. The platform is designed for three main user roles:
+- Multi-role experience for public donors, organization donors, and NGOs
+- Donation forms with image upload support
+- Gemini-powered image analysis for detected donation materials
+- NGO dashboard with donation review, status updates, and material insights
+- Modern Next.js App Router setup with TypeScript, Tailwind CSS, and Prisma
 
-- **Public Donors**: Individuals who want to donate items.
-- **Organization Donors**: Companies or groups making bulk or specialized donations.
-- **NGO Volunteers**: NGOs who coordinate, accept, and process donations.
+## Tech Stack
 
-## 🚀 Features
-
-### 1. Public Donor Dashboard
-- Simple, intuitive interface for individuals to donate items (food, clothes, books, toys, etc.).
-- Donation form with image upload, item details, and donor info.
-- View your donation history and status.
-- Real-time feedback on donation submission.
-
-### 2. Organization Donor Dashboard
-- Tailored for organizations to manage larger or recurring donations.
-- Bulk donation entry and tracking.
-- Organization profile and contact management.
-- Donation status updates and history.
-
-### 3. NGO Dashboard
-- Central hub for NGOs to view all incoming donations (from public and organizations).
-- Accept or cancel donation pickups with a single click.
-- Detailed donation cards with item info, donor type, and images.
-- Status badges and action buttons for efficient workflow.
-- Responsive, modern UI for easy management on any device.
-
-### 4. Authentication (NGO Volunteer Login)
-- Secure login for NGO volunteers.
-- Password visibility toggle for better UX.
-- Redirects to NGO dashboard upon successful login.
-
-### 5. Backend API (Next.js API Routes)
-- Unified API for all donation CRUD operations.
-- Real-time updates for dashboards.
-- Type-safe endpoints using TypeScript.
-
-### 6. UI/UX Excellence
-- Fully responsive design using Tailwind CSS.
-- Modern card layouts, pill buttons, and status indicators.
-- Image optimization with Next.js `<Image />`.
-- Material icons for clear, accessible actions.
-- Gradient backgrounds and glassmorphism effects for a premium look.
-
-### 7. Code Quality & Best Practices
-- TypeScript throughout for safety and maintainability.
-- Modular, reusable React components.
-- Clean separation of concerns between frontend, backend, and shared logic.
-
-## 🛠️ Tech Stack
-- Next.js (App Router, API routes)
-- React
+- Next.js 15
+- React 19
 - TypeScript
-- Tailwind CSS
-- Next.js Image Optimization
-- Material Icons
+- Tailwind CSS 4
+- Prisma
+- MySQL
 
-## 📦 Getting Started
+## Getting Started
 
 1. Install dependencies:
-	```bash
-	npm install
-	# or
-	yarn install
-	```
-2. Run the development server:
-	```bash
-	npm run dev
-	# or
-	yarn dev
-	```
-3. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## 📚 Folder Structure
+```bash
+npm install
+```
 
-- `src/app/publicdonardashboard/` — Public donor dashboard
-- `src/app/organizationdonordashboard/` — Organization donor dashboard
-- `src/app/ngodashboard/` — NGO dashboard
-- `src/app/api/donations/` — Backend API routes
-- `src/components/navbar/` — Navigation bar
-- `public/images/` — Donation and UI images
+2. Create your local environment file:
 
-## 💡 Why SmartDonum?
-- Bridges the gap between donors and NGOs with real-time, transparent donation management.
-- Designed for usability, speed, and accessibility.
-- Scalable architecture for future features (analytics, notifications, etc.).
+```bash
+Copy-Item .env.example .env.local
+```
 
-## 🙌 Contributing
-Pull requests and suggestions are welcome! Please open an issue to discuss your ideas.
+3. Fill in the required values in `.env.local`:
 
----
+- `DATABASE_URL`
+- `GEMINI_API_KEY`
 
-_Built with ❤️ using Next.js, React, and Tailwind CSS._
+4. Generate the Prisma client and sync the schema:
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+5. Start the development server:
+
+```bash
+npm run dev
+```
+
+6. Open [http://localhost:3000](http://localhost:3000)
+
+## Scripts
+
+- `npm run dev` - start the Next.js dev server
+- `npm run build` - generate Prisma client and build the app
+- `npm run start` - run the production build
+- `npm run lint` - run project linting
+
+## Project Structure
+
+- `src/app/page.tsx` - homepage
+- `src/app/loginPage/page.tsx` - role-based login entry
+- `src/app/publicdonordashboard/` - public donor dashboard flow
+- `src/app/organizationdonordashboard/` - organization donor dashboard flow
+- `src/app/ngodashboard/page.tsx` - NGO dashboard
+- `src/app/api/` - API routes
+- `src/components/` - shared UI building blocks
+- `prisma/schema.prisma` - database schema
+
+## Environment Notes
+
+- `.env.local` is ignored by Git and should stay local
+- Use `.env.example` as the committed reference file for required variables
+- Never commit real API keys or database credentials
+
+## Current Data Model
+
+The current Prisma schema stores donations in a single `donation` table with:
+
+- donor type
+- donation item category
+- status
+- flexible JSON details
+- creation timestamp
+
+## Before Pushing
+
+Recommended checks:
+
+```bash
+npm run lint
+npm run build
+```
+
+If you hit a local Windows `EPERM` path-resolution issue when running Node-based commands in this workspace, rerun them from a normal terminal outside the current sandboxed environment.

@@ -168,19 +168,27 @@ export default function Navbar() {
               SmartDonum
             </span>
           </div>
-          {/* Desktop menu: Donor navigation */}
+          {/* Desktop menu: auth navigation */}
           <div className="hidden md:flex items-center gap-0">
             <div className="flex items-center bg-gradient-to-r from-sky-100 via-white to-amber-100 bg-opacity-80 rounded-xl shadow border border-sky-100 px-2 py-1">
               <button
                 className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-green-100 hover:underline focus:outline-none rounded-l-xl transition-all cursor-pointer"
-                onClick={() => handleNavigate("/donor")}
+                onClick={() => handleNavigate("/donor/public")}
               >
-                Donor
+                Public Donor
               </button>
-              
+
               <div className="w-px h-8 bg-sky-200 mx-2" />
               <button
-                className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-amber-100 hover:underline focus:outline-none transition-all cursor-pointer"
+                className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-sky-100 hover:underline focus:outline-none transition-all cursor-pointer"
+                onClick={() => handleNavigate("/donor/organization")}
+              >
+                Organization Donor
+              </button>
+
+              <div className="w-px h-8 bg-sky-200 mx-2" />
+              <button
+                className="px-5 py-2 text-sky-700 font-semibold text-lg hover:bg-amber-100 hover:underline focus:outline-none rounded-r-xl transition-all cursor-pointer"
                 onClick={() => handleNavigate("/ngo")}
               >
                 NGO
@@ -219,9 +227,9 @@ export default function Navbar() {
               <div className="flex flex-col p-4 space-y-3">
                 <button
                   className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-green-100 rounded-lg transition-colors cursor-pointer"
-                  onClick={() => handleNavigate("/donor")}
+                  onClick={() => handleNavigate("/loginPage")}
                 >
-                  Donor
+                  Login Options
                 </button>
                 <button
                   className="text-left w-full px-4 py-3 text-lg text-sky-700 font-semibold hover:bg-sky-50 rounded-lg transition-colors cursor-pointer"

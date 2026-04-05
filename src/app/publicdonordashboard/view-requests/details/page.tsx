@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -17,16 +18,21 @@ type Donation = {
   details?: Record<string, unknown>;
 };
 
+function shouldHideDetailKey(key: string) {
+  return ["image", "images", "analysis", "analysisCounts", "imageBase64"].includes(key);
+}
+
 function DonationDetailsPage() {
   const searchParams = useSearchParams();
   const donationId = searchParams.get("id");
   const [donation, setDonation] = useState<Donation | null>(null);
+
   useEffect(() => {
     if (!donationId) return;
     fetch("/api/public-donations")
-      .then(res => res.json())
+      .then((res) => res.json())
       .then((data) => {
-        const found = data.find((d: Donation) => String(d.id) === String(donationId));
+        const found = data.find((entry: Donation) => String(entry.id) === String(donationId));
         setDonation(found || null);
       });
   }, [donationId]);
@@ -49,9 +55,13 @@ function DonationDetailsPage() {
             <div className="bg-blue-50 rounded-xl p-4 mb-2">
               <h3 className="font-semibold text-sky-700 mb-2">Details:</h3>
               <ul className="list-disc ml-6 text-gray-700">
-                {Object.entries(donation.details).map(([key, value]) => (
-                  <li key={key}><span className="capitalize font-medium">{key}:</span> {String(value)}</li>
-                ))}
+                {Object.entries(donation.details).map(([key, value]) =>
+                  !shouldHideDetailKey(key) ? (
+                    <li key={key}>
+                      <span className="capitalize font-medium">{key}:</span> {String(value)}
+                    </li>
+                  ) : null
+                )}
               </ul>
             </div>
           )}

@@ -67,12 +67,12 @@ export default function OrganizationDonor() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col px-2 sm:px-4 pt-16 bg-gradient-to-bl from-[#232f3e] to-[#22313f]">
+    <div className="min-h-screen flex flex-col bg-[radial-gradient(circle_at_top,_rgba(103,232,249,0.16),_transparent_30%),radial-gradient(circle_at_bottom_right,_rgba(253,224,71,0.14),_transparent_28%),linear-gradient(180deg,#eef9ff_0%,#dff2ff_48%,#f9fcff_100%)] px-2 pt-16 sm:px-4">
       <div className="flex-1 flex flex-col items-center w-full max-w-2xl mx-auto justify-center">
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-blue-400 mb-4 text-center drop-shadow-lg">
+        <h2 className="text-4xl sm:text-5xl font-extrabold text-cyan-700 mb-4 text-center drop-shadow-lg">
           Organization Donor
         </h2>
-        <p className="text-base sm:text-lg md:text-xl text-gray-200 text-center mb-8 leading-relaxed">
+        <p className="text-base sm:text-lg md:text-xl text-slate-700 text-center mb-8 leading-relaxed">
           Organizations can register bulk donations and manage recurring pickups.
           NGOs will coordinate with you for efficient distribution.
         </p>

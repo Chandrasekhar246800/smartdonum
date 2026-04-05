@@ -1,18 +1,23 @@
 'use client';
 
 import { useState } from "react";
+import AuthPageShell from "@/components/auth/AuthPageShell";
 
 export default function ForgotPasswordOrganization() {
   const [step, setStep] = useState(1);
-  const [mobile, setMobile] = useState<string>('');
-  const [otp, setOtp] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [mobile, setMobile] = useState("");
+  const [otp, setOtp] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
-  const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+  const passwordPattern =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+
+  const inputClass =
+    "w-full rounded-xl border border-cyan-200 bg-white px-4 py-3 text-slate-800 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-400";
 
   const EyeIcon = ({ open }: { open: boolean }) =>
     open ? (
@@ -23,9 +28,9 @@ export default function ForgotPasswordOrganization() {
 
   const handleMobileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError('');
+    setError("");
     if (!/^\d{10}$/.test(mobile)) {
-      setError('Please enter a valid 10-digit mobile number.');
+      setError("Please enter a valid 10-digit mobile number.");
       return;
     }
     setStep(2);
@@ -33,9 +38,9 @@ export default function ForgotPasswordOrganization() {
 
   const handleOtpSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError('');
+    setError("");
     if (!/^\d{6}$/.test(otp)) {
-      setError('Please enter the 6-digit OTP sent to your mobile.');
+      setError("Please enter the 6-digit OTP sent to your mobile.");
       return;
     }
     setStep(3);
@@ -43,102 +48,110 @@ export default function ForgotPasswordOrganization() {
 
   const handlePasswordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError('');
+    setError("");
     if (!passwordPattern.test(password)) {
-      setError('Password must be at least 8 characters and include uppercase, lowercase, number, and special character.');
+      setError("Password must be at least 8 characters and include uppercase, lowercase, number, and special character.");
       return;
     }
     if (password !== confirmPassword) {
-      setError('Passwords do not match.');
+      setError("Passwords do not match.");
       return;
     }
     setStep(4);
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center px-2 sm:px-4 bg-gradient-to-bl from-[#232f3e] to-[#22313f] overflow-auto">
-      <div className="flex flex-col items-center w-full max-w-md mx-auto rounded-2xl shadow-2xl p-8 bg-white">
-        <h2 className="text-2xl font-bold text-center text-cyan-700 mb-1">Reset Organization Donor Password</h2>
-        <p className="mb-4 text-gray-600 text-center">
-          To maintain your organization&#39;s security, please verify your mobile number and set a new password.
-        </p>
-        {step === 1 && (
-          <form className="flex flex-col gap-4 w-full" onSubmit={handleMobileSubmit}>
-            <div className="mb-2 text-cyan-700 text-center">
-              Enter the organization&#39;s registered mobile number. An OTP will be sent for verification.
-            </div>
-            <input type="text" placeholder="Mobile Number" value={typeof mobile === 'string' ? mobile : ''} maxLength={10}
-              onChange={e => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
-              className="border-2 border-cyan-200 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-              required />
-            {error && <p className="text-red-500 text-sm">{error}</p>}
-            <button type="submit" className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg py-2 shadow transition-all">
-              Send OTP
+    <AuthPageShell
+      title="Reset Organization Donor Password"
+      description="Verify your registered mobile number and set a secure new password for your organization workspace."
+    >
+      {step === 1 && (
+        <form className="flex flex-col gap-4" onSubmit={handleMobileSubmit}>
+          <p className="text-center text-cyan-700">
+            Enter the organization&apos;s registered mobile number. An OTP will be sent for verification.
+          </p>
+          <input
+            type="text"
+            placeholder="Mobile Number"
+            value={mobile}
+            maxLength={10}
+            onChange={(e) => setMobile(e.target.value.replace(/\D/g, "").slice(0, 10))}
+            className={inputClass}
+            required
+          />
+          {error && <p className="text-sm text-red-500">{error}</p>}
+          <button type="submit" className="rounded-xl bg-cyan-600 py-3 font-semibold text-white transition hover:bg-cyan-700">
+            Send OTP
+          </button>
+        </form>
+      )}
+
+      {step === 2 && (
+        <form className="flex flex-col gap-4" onSubmit={handleOtpSubmit}>
+          <p className="text-center text-cyan-700">Enter the OTP sent to your registered number for verification.</p>
+          <input
+            type="text"
+            placeholder="OTP"
+            value={otp}
+            maxLength={6}
+            onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+            className={inputClass}
+            required
+          />
+          {error && <p className="text-sm text-red-500">{error}</p>}
+          <button type="submit" className="rounded-xl bg-cyan-600 py-3 font-semibold text-white transition hover:bg-cyan-700">
+            Verify OTP
+          </button>
+        </form>
+      )}
+
+      {step === 3 && (
+        <form className="flex flex-col gap-4" onSubmit={handlePasswordSubmit}>
+          <p className="text-center text-cyan-700">Set a strong password for your organization dashboard.</p>
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="New Password"
+              value={password}
+              minLength={8}
+              onChange={(e) => setPassword(e.target.value)}
+              className={`${inputClass} pr-12`}
+              required
+            />
+            <button type="button" tabIndex={-1} className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer" onClick={() => setShowPassword((value) => !value)}>
+              <EyeIcon open={showPassword} />
             </button>
-            <p className="text-center text-cyan-600 text-xs">Check your SMS for the OTP code shortly.</p>
-          </form>
-        )}
-        {step === 2 && (
-          <form className="flex flex-col gap-4 w-full" onSubmit={handleOtpSubmit}>
-            <div className="mb-2 text-cyan-700 text-center">
-              Enter the OTP sent to your registered number for verification.
-            </div>
-            <input type="text" placeholder="OTP" value={typeof otp === 'string' ? otp : ''} maxLength={6}
-              onChange={e => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-              className="border-2 border-cyan-200 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-              required />
-            {error && <p className="text-red-500 text-sm">{error}</p>}
-            <button type="submit" className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg py-2 shadow transition-all">
-              Verify OTP
-            </button>
-            <p className="text-xs text-center text-cyan-600">Contact your admin if you have not received the OTP.</p>
-          </form>
-        )}
-        {step === 3 && (
-          <form className="flex flex-col gap-4 w-full" onSubmit={handlePasswordSubmit}>
-            <div className="mb-2 text-cyan-700 text-center">
-              Set a strong password for your organization’s donations dashboard.
-            </div>
-            <div className="relative">
-              <input type={showPassword ? 'text' : 'password'} placeholder="New Password"
-                value={typeof password === 'string' ? password : ''} minLength={8}
-                onChange={e => setPassword(e.target.value)}
-                className="border-2 border-cyan-200 rounded px-4 py-2 w-full pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                required />
-              <button type="button" tabIndex={-1} className="absolute right-2 top-1/2 -translate-y-1/2"
-                onClick={() => setShowPassword(v => !v)}>
-                <EyeIcon open={showPassword} />
-              </button>
-            </div>
-            <div className="relative">
-              <input type={showConfirmPassword ? 'text' : 'password'} placeholder="Confirm New Password"
-                value={typeof confirmPassword === 'string' ? confirmPassword : ''} minLength={8}
-                onChange={e => setConfirmPassword(e.target.value)}
-                className="border-2 border-cyan-200 rounded px-4 py-2 w-full pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                required />
-              <button type="button" tabIndex={-1} className="absolute right-2 top-1/2 -translate-y-1/2"
-                onClick={() => setShowConfirmPassword(v => !v)}>
-                <EyeIcon open={showConfirmPassword} />
-              </button>
-            </div>
-            {error && <p className="text-red-500 text-sm">{error}</p>}
-            <button type="submit" className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg py-2 shadow transition-all">
-              Reset Password
-            </button>
-            <p className="text-center text-cyan-600 text-xs">Keep this password confidential to protect your dashboard.</p>
-          </form>
-        )}
-        {step === 4 && (
-          <div className="text-center">
-            <div className="text-green-600 font-bold text-lg mb-2">
-              Success! Your password has been set.
-            </div>
-            <div className="mb-4 text-cyan-700">You can now log in as an Organization Donor and keep serving the community.</div>
-            <a href="/donor/organization" className="text-cyan-700 hover:underline font-semibold block mb-2">Back to Organization Login</a>
-            <a href="/donor/public" className="text-cyan-600 hover:underline font-semibold block">Go to Public Donor Dashboard</a>
           </div>
-        )}
-      </div>
-    </div>
+          <div className="relative">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Confirm New Password"
+              value={confirmPassword}
+              minLength={8}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className={`${inputClass} pr-12`}
+              required
+            />
+            <button type="button" tabIndex={-1} className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer" onClick={() => setShowConfirmPassword((value) => !value)}>
+              <EyeIcon open={showConfirmPassword} />
+            </button>
+          </div>
+          {error && <p className="text-sm text-red-500">{error}</p>}
+          <button type="submit" className="rounded-xl bg-cyan-600 py-3 font-semibold text-white transition hover:bg-cyan-700">
+            Reset Password
+          </button>
+        </form>
+      )}
+
+      {step === 4 && (
+        <div className="text-center">
+          <div className="mb-2 text-lg font-bold text-green-600">Success! Your password has been set.</div>
+          <div className="mb-4 text-cyan-700">You can now log in as an Organization Donor and keep serving the community.</div>
+          <a href="/donor/organization" className="font-semibold text-cyan-700 hover:underline block">
+            Back to Organization Login
+          </a>
+        </div>
+      )}
+    </AuthPageShell>
   );
 }

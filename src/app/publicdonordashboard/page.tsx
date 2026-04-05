@@ -1,74 +1,54 @@
 "use client";
 
-import Link from "next/link";
 import React from "react";
+import UnifiedDonorDashboard from "@/components/dashboard/UnifiedDonorDashboard";
+
+const CATEGORIES = [
+  {
+    key: "books",
+    label: "Books",
+    iconText: "BK",
+    description: "Donate story books, school books, and study material for learning and joy.",
+  },
+  {
+    key: "clothes",
+    label: "Clothes",
+    iconText: "CL",
+    description: "Share clean and usable clothes for people who need them most.",
+  },
+  {
+    key: "packedfood",
+    label: "Packed Food",
+    iconText: "PF",
+    description: "Submit packaged food donations that are safe for pickup and distribution.",
+  },
+  {
+    key: "toys",
+    label: "Toys",
+    iconText: "TY",
+    description: "Donate toys that can bring comfort and smiles to children.",
+  },
+];
+
+const ITEM_LABELS: Record<string, string> = {
+  books: "Books",
+  clothes: "Clothes",
+  packedfood: "Packed Food",
+  toys: "Toys",
+};
 
 export default function PublicDonorDashboard() {
-	return (
-		<div className="min-h-screen flex flex-col bg-gradient-to-b from-[#b3e0ff] to-[#e0f7fa] px-2 sm:px-4">
-			{/* Navbar */}
-			<nav className="w-full flex items-center justify-center py-4 bg-white bg-opacity-80 shadow-md rounded-b-2xl mb-4">
-				<ul className="flex gap-6 sm:gap-10 md:gap-16">
-					<li>
-						<Link href="/" className="text-sky-700 hover:text-sky-900 font-semibold transition-all">Home</Link>
-					</li>
-					<li>
-						<Link href="/aboutUs" className="text-sky-700 hover:text-sky-900 font-semibold transition-all">About Us</Link>
-					</li>
-					<li>
-						<Link href="#contact" className="text-sky-700 hover:text-sky-900 font-semibold transition-all">Contact Us</Link>
-					</li>
-					<li>
-						<span className="bg-sky-400 text-white font-bold px-4 py-2 rounded-lg shadow">SmartDonum</span>
-					</li>
-				</ul>
-			</nav>
-			<main className="flex-1 flex flex-col items-center justify-center w-full max-w-4xl mx-auto">
-				<h2 className="text-2xl sm:text-3xl font-bold text-sky-700 text-center mt-8 mb-2">Welcome, Public Donor!</h2>
-				<p className="text-sky-800 text-center mb-8 text-base sm:text-lg">Donate items, view your pickup requests, and see the difference you make in the community.</p>
-				<div className="flex flex-col sm:flex-row gap-8 justify-center w-full mb-8">
-					<div className="flex-1 bg-white/80 rounded-2xl shadow-lg p-8 flex flex-col items-center min-w-[280px] max-w-[400px] mx-auto">
-						<h3 className="text-lg font-bold text-sky-700 mb-2">Active Donations</h3>
-						<p className="text-sky-700 text-center mb-4">View and manage your current donation listings.</p>
-						<Link href="/publicdonordashboard/manage-donations">
-							<button className="bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-lg px-6 py-2 shadow transition-all text-base">
-								Manage Donations
-							</button>
-						</Link>
-					</div>
-					<div className="flex-1 bg-white/80 rounded-2xl shadow-lg p-8 flex flex-col items-center min-w-[280px] max-w-[400px] mx-auto">
-						<h3 className="text-lg font-bold text-sky-700 mb-2">Pickup Requests</h3>
-						<p className="text-sky-700 text-center mb-4">Track your donation pickup requests and their status.</p>
-											<Link href="/publicdonordashboard/view-requests">
-												<button className="bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-lg px-6 py-2 shadow transition-all text-base">
-													View Requests
-												</button>
-											</Link>
-					</div>
-				</div>
-				<div className="w-full flex justify-center">
-					<div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center w-full max-w-2xl mx-auto">
-						<h3 className="text-lg font-bold text-sky-700 mb-2">Impact Summary</h3>
-						<p className="text-sky-700 mb-4 text-center">See your total donations and the lives you&#39;ve helped impact.</p>
-						<div className="flex flex-col sm:flex-row gap-8 justify-center w-full">
-							<div className="flex flex-col items-center flex-1">
-								<span className="text-2xl font-bold text-sky-700">80</span>
-								<span className="text-gray-500 text-sm">Donations</span>
-							</div>
-							<div className="flex flex-col items-center flex-1">
-								<span className="text-2xl font-bold text-sky-700">200+</span>
-								<span className="text-gray-500 text-sm">Lives Impacted</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</main>
-			<footer className="w-full flex-shrink-0 bg-cyan-900 bg-opacity-80 mt-auto">
-				<div className="text-center text-cyan-100 text-sm py-4">
-					© {new Date().getFullYear()} SmartDonum. All rights reserved.
-				</div>
-			</footer>
-		</div>
-	);
+  return (
+    <UnifiedDonorDashboard
+      title="Public Donor Dashboard"
+      subtitle="Create donations and review all your request activity from one single dashboard instead of jumping across small pages."
+      accentLabel="Public Dashboard"
+      categories={CATEGORIES}
+      apiPath="/api/public-donations"
+      donateBasePath="/publicdonordashboard/manage-donations/donate"
+      detailBasePath="/publicdonordashboard/view-requests/details"
+      trackBasePath="/publicdonordashboard/track-pickups/details"
+      itemLabels={ITEM_LABELS}
+    />
+  );
 }
-

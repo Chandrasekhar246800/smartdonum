@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from "react";
+import AuthPageShell from "@/components/auth/AuthPageShell";
 
 export default function ForgotPasswordPublic() {
   const [step, setStep] = useState(1);
@@ -12,7 +13,11 @@ export default function ForgotPasswordPublic() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
 
-  const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+  const passwordPattern =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+
+  const inputClass =
+    "w-full rounded-xl border border-cyan-200 bg-white px-4 py-3 text-slate-800 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-400";
 
   const EyeIcon = ({ open }: { open: boolean }) =>
     open ? (
@@ -29,7 +34,6 @@ export default function ForgotPasswordPublic() {
       return;
     }
     setStep(2);
-    // Backend: send OTP here
   };
 
   const handleOtpSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -40,7 +44,6 @@ export default function ForgotPasswordPublic() {
       return;
     }
     setStep(3);
-    // Backend: verify OTP here
   };
 
   const handlePasswordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -55,93 +58,102 @@ export default function ForgotPasswordPublic() {
       return;
     }
     setStep(4);
-    // Backend: reset password here
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center px-2 sm:px-4 bg-gradient-to-bl from-[#232f3e] to-[#22313f] overflow-auto">
-      <div className="flex flex-col items-center w-full max-w-md mx-auto rounded-2xl shadow-2xl p-8 bg-white">
-        <h2 className="text-2xl font-bold text-center text-cyan-700 mb-1">Forgot Your Password?</h2>
-        <p className="mb-4 text-gray-600 text-center">
-          Don&#39;t worry! We&#39;ll help you get back in and continue making a difference. You just need your registered mobile number for verification.
-        </p>
-        {step === 1 && (
-          <form className="flex flex-col gap-4 w-full" onSubmit={handleMobileSubmit}>
-            <div className="mb-2 text-cyan-700 text-center">
-              Enter your registered 10-digit mobile number to receive a one-time OTP.
-            </div>
-            <input type="text" placeholder="Mobile Number" value={mobile} maxLength={10}
-              onChange={e => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
-              className="border-2 border-cyan-200 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-              required />
-            {error && <p className="text-red-500 text-sm">{error}</p>}
-            <button type="submit" className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg py-2 shadow transition-all cursor-pointer">
-              Send OTP
+    <AuthPageShell
+      title="Reset Public Donor Password"
+      description="Verify your registered mobile number and set a fresh password so you can get back to donating quickly."
+    >
+      {step === 1 && (
+        <form className="flex flex-col gap-4" onSubmit={handleMobileSubmit}>
+          <p className="text-center text-cyan-700">
+            Enter your registered 10-digit mobile number to receive a one-time OTP.
+          </p>
+          <input
+            type="text"
+            placeholder="Mobile Number"
+            value={mobile}
+            maxLength={10}
+            onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
+            className={inputClass}
+            required
+          />
+          {error && <p className="text-sm text-red-500">{error}</p>}
+          <button type="submit" className="rounded-xl bg-cyan-600 py-3 font-semibold text-white transition hover:bg-cyan-700">
+            Send OTP
+          </button>
+          <p className="text-center text-xs text-cyan-700">You&apos;ll receive an OTP SMS within seconds.</p>
+        </form>
+      )}
+
+      {step === 2 && (
+        <form className="flex flex-col gap-4" onSubmit={handleOtpSubmit}>
+          <p className="text-center text-cyan-700">
+            Enter the 6-digit OTP sent to your mobile.
+          </p>
+          <input
+            type="text"
+            placeholder="OTP"
+            maxLength={6}
+            value={otp}
+            onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+            className={inputClass}
+            required
+          />
+          {error && <p className="text-sm text-red-500">{error}</p>}
+          <button type="submit" className="rounded-xl bg-cyan-600 py-3 font-semibold text-white transition hover:bg-cyan-700">
+            Verify OTP
+          </button>
+          <p className="text-center text-xs text-cyan-700">Protect your account. Never share your OTP with anyone.</p>
+        </form>
+      )}
+
+      {step === 3 && (
+        <form className="flex flex-col gap-4" onSubmit={handlePasswordSubmit}>
+          <p className="text-center text-cyan-700">Set a strong new password for your donor account.</p>
+          <div className="relative">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder="New Password"
+              value={password}
+              minLength={8}
+              onChange={(e) => setPassword(e.target.value)}
+              className={`${inputClass} pr-12`}
+              required
+            />
+            <button type="button" tabIndex={-1} className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer" onClick={() => setShowPassword((v) => !v)}>
+              <EyeIcon open={showPassword} />
             </button>
-            <p className="text-center text-cyan-600 text-xs">You&#39;ll receive an OTP SMS within seconds.</p>
-          </form>
-        )}
-        {step === 2 && (
-          <form className="flex flex-col gap-4 w-full" onSubmit={handleOtpSubmit}>
-            <div className="mb-2 text-cyan-700 text-center">
-              Please enter the 6-digit OTP sent to your mobile. <br />
-              <span className="text-xs text-cyan-400">Haven&#39;t received it? Wait a moment or check your messages.</span>
-            </div>
-            <input type="text" placeholder="OTP" maxLength={6} value={otp}
-              onChange={e => setOtp(e.target.value.replace(/\D/g, '').slice(0,6))}
-              className="border-2 border-cyan-200 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-              required />
-            {error && <p className="text-red-500 text-sm">{error}</p>}
-            <button type="submit" className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg py-2 shadow transition-all cursor-pointer">
-              Verify OTP
-            </button>
-            <p className="text-xs text-center text-cyan-600">Protect your account—never share your OTP with anyone.</p>
-          </form>
-        )}
-        {step === 3 && (
-          <form className="flex flex-col gap-4 w-full" onSubmit={handlePasswordSubmit}>
-            <div className="mb-2 text-cyan-700 text-center">
-              Set your new password below. Choose something strong, secure, and unique!
-            </div>
-            <div className="relative">
-              <input type={showPassword ? 'text' : 'password'} placeholder="New Password"
-                value={password} minLength={8}
-                onChange={e => setPassword(e.target.value)}
-                className="border-2 border-cyan-200 rounded px-4 py-2 w-full pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                required />
-              <button type="button" tabIndex={-1} className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
-                onClick={() => setShowPassword(v => !v)}>
-                <EyeIcon open={showPassword} />
-              </button>
-            </div>
-            <div className="relative">
-              <input type={showConfirmPassword ? 'text' : 'password'} placeholder="Confirm New Password"
-                value={confirmPassword} minLength={8}
-                onChange={e => setConfirmPassword(e.target.value)}
-                className="border-2 border-cyan-200 rounded px-4 py-2 w-full pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                required />
-              <button type="button" tabIndex={-1} className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
-                onClick={() => setShowConfirmPassword(v => !v)}>
-                <EyeIcon open={showConfirmPassword} />
-              </button>
-            </div>
-            {error && <p className="text-red-500 text-sm">{error}</p>}
-            <button type="submit" className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg py-2 shadow transition-all cursor-pointer">
-              Reset Password
-            </button>
-            <p className="text-center text-cyan-600 text-xs">Make sure you remember this new password for your next login.</p>
-          </form>
-        )}
-        {step === 4 && (
-          <div className="text-center">
-            <div className="text-green-600 font-bold text-lg mb-2">
-              Success! Your password has been reset.
-            </div>
-            <div className="mb-4 text-cyan-700">Thank you for continuing your generous journey with us.</div>
-            <a href="/donor/public" className="text-cyan-700 hover:underline font-semibold">Back to Donor Login</a>
           </div>
-        )}
-      </div>
-    </div>
+          <div className="relative">
+            <input
+              type={showConfirmPassword ? 'text' : 'password'}
+              placeholder="Confirm New Password"
+              value={confirmPassword}
+              minLength={8}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className={`${inputClass} pr-12`}
+              required
+            />
+            <button type="button" tabIndex={-1} className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer" onClick={() => setShowConfirmPassword((v) => !v)}>
+              <EyeIcon open={showConfirmPassword} />
+            </button>
+          </div>
+          {error && <p className="text-sm text-red-500">{error}</p>}
+          <button type="submit" className="rounded-xl bg-cyan-600 py-3 font-semibold text-white transition hover:bg-cyan-700">
+            Reset Password
+          </button>
+        </form>
+      )}
+
+      {step === 4 && (
+        <div className="text-center">
+          <div className="mb-2 text-lg font-bold text-green-600">Success! Your password has been reset.</div>
+          <div className="mb-4 text-cyan-700">Thank you for continuing your generous journey with us.</div>
+          <a href="/donor/public" className="font-semibold text-cyan-700 hover:underline">Back to Donor Login</a>
+        </div>
+      )}
+    </AuthPageShell>
   );
 }

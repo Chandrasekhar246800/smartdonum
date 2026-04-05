@@ -90,10 +90,10 @@ export default function PublicDonor() {
 
   return (
     // Note the pt-16!
-    <div className="fixed inset-0 flex flex-col items-center justify-center px-2 sm:px-4 pt-16 bg-gradient-to-bl from-[#232f3e] to-[#22313f] overflow-auto">
+    <div className="fixed inset-0 flex flex-col items-center justify-center overflow-auto bg-[radial-gradient(circle_at_top,_rgba(103,232,249,0.16),_transparent_30%),radial-gradient(circle_at_bottom_right,_rgba(253,224,71,0.14),_transparent_28%),linear-gradient(180deg,#eef9ff_0%,#dff2ff_48%,#f9fcff_100%)] px-2 pt-16 sm:px-4">
       <div className="flex flex-col items-center w-full max-w-2xl mx-auto">
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-green-400 mb-4 text-center drop-shadow-lg">Public Donor</h2>
-        <p className="text-base sm:text-lg md:text-xl text-gray-200 text-center mb-8 leading-relaxed">
+        <h2 className="text-4xl sm:text-5xl font-extrabold text-emerald-600 mb-4 text-center drop-shadow-lg">Public Donor</h2>
+        <p className="text-base sm:text-lg md:text-xl text-slate-700 text-center mb-8 leading-relaxed">
           As a public donor, you can easily register your leftover food, books, or toys for donation. NGOs will be notified and can schedule a pickup.
         </p>
         <div className="relative w-full max-w-md min-h-[340px] flex items-center justify-center">
