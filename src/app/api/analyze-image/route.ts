@@ -34,11 +34,24 @@ function normalizeMaterialCounts(value: unknown): MaterialCount[] {
 }
 
 export async function POST(request: Request) {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY;
   const form = await request.formData();
   const file = form.get("image") as File | null;
 
-  if (!file || !apiKey) return NextResponse.json({ items: [], counts: [] });
+  if (!file) {
+    return NextResponse.json({ error: "No image file was provided.", items: [], counts: [] }, { status: 400 });
+  }
+
+  if (!apiKey) {
+    return NextResponse.json(
+      {
+        error: "Image analysis is unavailable because GEMINI_API_KEY or GOOGLE_API_KEY is missing in .env.local.",
+        items: [],
+        counts: [],
+      },
+      { status: 503 }
+    );
+  }
 
   const buffer = Buffer.from(await file.arrayBuffer());
   const base64 = buffer.toString("base64");
@@ -73,7 +86,10 @@ export async function POST(request: Request) {
   if (!resp.ok) {
     const error = await resp.text();
     console.error(error);
-    return NextResponse.json({ items: [], counts: [] });
+    return NextResponse.json(
+      { error: "Gemini analysis request failed.", items: [], counts: [] },
+      { status: 502 }
+    );
   }
 
   const json = await resp.json();

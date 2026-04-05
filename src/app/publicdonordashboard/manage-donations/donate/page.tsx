@@ -1,4 +1,5 @@
 "use client";
+
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import React, { Suspense } from "react";
@@ -8,68 +9,73 @@ type MaterialCount = {
   count: number;
 };
 
-const formConfigs: Record<
-  string,
-  {
-    title: string;
-    fields: {
-      label: string;
-      name: string;
-      type: string;
-      placeholder: string;
-    }[];
-    borderColor: string;
-  }
-> = {
+type FormConfig = {
+  title: string;
+  description: string;
+  accentClass: string;
+  fields: {
+    label: string;
+    name: string;
+    type: string;
+    placeholder: string;
+  }[];
+};
+
+const formConfigs: Record<string, FormConfig> = {
   books: {
     title: "Donate Books",
+    description: "Share books that can continue helping someone learn and grow.",
+    accentClass: "from-sky-500 to-cyan-500",
     fields: [
       {
         label: "Book title",
         name: "title",
         type: "text",
-        placeholder: "The title of the book",
+        placeholder: "Atomic Habits",
       },
       {
         label: "Author",
         name: "author",
         type: "text",
-        placeholder: "Author name",
+        placeholder: "James Clear",
       },
       {
         label: "Condition",
         name: "condition",
         type: "text",
-        placeholder: "e.g. new, good, worn",
+        placeholder: "New, good, slightly used",
       },
     ],
-    borderColor: "border-blue-300",
   },
   clothes: {
     title: "Donate Clothes",
+    description: "Add a few helpful details so NGOs can quickly review the donation.",
+    accentClass: "from-emerald-500 to-teal-500",
     fields: [
       {
         label: "Item",
         name: "item",
         type: "text",
-        placeholder: "e.g. t‑shirt, jacket",
+        placeholder: "T-shirt, jacket, school uniform",
       },
-      { label: "Size", name: "size", type: "text", placeholder: "S, M, L…" },
+      {
+        label: "Size",
+        name: "size",
+        type: "text",
+        placeholder: "S, M, L, XL",
+      },
       {
         label: "Condition",
         name: "condition",
         type: "text",
-        placeholder: "e.g. new, used",
+        placeholder: "New or gently used",
       },
     ],
-    borderColor: "border-green-300",
   },
-  // add any other categories you expect to support
 };
 
 function getBackHref() {
-  // For public donor dashboard, always go back to manage donations
-  return "/publicdonordashboard/manage-donations";
+  return "/publicdonordashboard";
 }
 
 function readFileAsDataUrl(file: File) {
@@ -109,32 +115,38 @@ function mergeMaterialCounts(materialGroups: MaterialCount[][]) {
 function DonateFormPage() {
   const searchParams = useSearchParams();
   const item = searchParams.get("item") || "books";
-  const config = formConfigs[item] || formConfigs["books"];
+  const config = formConfigs[item] || formConfigs.books;
 
   const [submitting, setSubmitting] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
-  const formRef = React.useRef<HTMLFormElement>(null);
-
-  // new state for picture/analysis
+  const [analyzing, setAnalyzing] = React.useState(false);
   const [imageFiles, setImageFiles] = React.useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = React.useState<string[]>([]);
   const [analysisCounts, setAnalysisCounts] = React.useState<MaterialCount[]>([]);
   const [analysisError, setAnalysisError] = React.useState("");
+  const formRef = React.useRef<HTMLFormElement>(null);
 
   async function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
 
     if (files.length === 0) {
       setImageFiles([]);
+      setImagePreviews([]);
       setAnalysisCounts([]);
       setAnalysisError("");
+      setAnalyzing(false);
       return;
     }
 
     setImageFiles(files);
-    setAnalysisError("");
     setAnalysisCounts([]);
+    setAnalysisError("");
+    setAnalyzing(true);
 
     try {
+      const previews = await Promise.all(files.map(readFileAsDataUrl));
+      setImagePreviews(previews);
+
       const analysisResults = await Promise.all(
         files.map(async (file) => {
           const form = new FormData();
@@ -145,35 +157,51 @@ function DonateFormPage() {
             body: form,
           });
 
+          const json = await res.json();
+
           if (!res.ok) {
-            throw new Error("Image analysis request failed.");
+            throw new Error(json.error || "Image analysis request failed.");
           }
 
-          const json = await res.json();
           return Array.isArray(json.counts) ? (json.counts as MaterialCount[]) : [];
         })
       );
 
-      setAnalysisCounts(mergeMaterialCounts(analysisResults));
+      const merged = mergeMaterialCounts(analysisResults);
+      setAnalysisCounts(merged);
+
+      if (merged.length === 0) {
+        setAnalysisError("No clear donation materials were detected from these images. You can still submit manually.");
+      }
     } catch (err) {
       console.error("analysis failed", err);
       setAnalysisCounts([]);
-      setAnalysisError("We could not analyze this image, but you can still submit the donation.");
+      setAnalysisError(
+        err instanceof Error
+          ? err.message
+          : "We could not analyze these images, but you can still submit the donation."
+      );
+    } finally {
+      setAnalyzing(false);
     }
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setSubmitting(true);
+    setSuccess(false);
+
     const form = e.currentTarget;
     const formData = new FormData(form);
     const details: Record<string, string | string[] | MaterialCount[]> = {};
-    config.fields.forEach((f) => {
-      const val = formData.get(f.name);
-      if (val && typeof val === "string") details[f.name] = val;
+
+    config.fields.forEach((field) => {
+      const value = formData.get(field.name);
+      if (value && typeof value === "string") {
+        details[field.name] = value;
+      }
     });
 
-    // attach image / analysis if we have them
     if (imageFiles.length > 0) {
       const images = await Promise.all(imageFiles.map(readFileAsDataUrl));
       details.image = images[0];
@@ -186,114 +214,185 @@ function DonateFormPage() {
     }
 
     try {
-      await fetch("/api/public-donations", {
+      const response = await fetch("/api/public-donations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ item, details }),
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit donation.");
+      }
+
       setSuccess(true);
       form.reset();
       setImageFiles([]);
+      setImagePreviews([]);
       setAnalysisCounts([]);
       setAnalysisError("");
-    } catch {
-      alert("Failed to submit donation.");
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "Failed to submit donation.");
     } finally {
       setSubmitting(false);
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-200 to-blue-100 flex flex-col items-center justify-start pt-12">
-      <div className="w-full max-w-3xl bg-white bg-opacity-70 rounded-2xl shadow-lg p-8 mt-8">
-        <Link href={getBackHref()} className="inline-block mb-6">
-          <span className="text-blue-600 hover:underline font-medium">
-            ← Back to Manage Donations
-          </span>
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.18),_transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(16,185,129,0.12),_transparent_24%),linear-gradient(180deg,#ecf9ff_0%,#eaf7ff_42%,#f6fbff_100%)] px-4 py-8 sm:px-6">
+      <div className="mx-auto w-full max-w-6xl">
+        <Link
+          href={getBackHref()}
+          className="inline-flex items-center rounded-full border border-white/80 bg-white/75 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm backdrop-blur transition hover:text-sky-700"
+        >
+          &larr; Back to Dashboard
         </Link>
-        <h1 className="text-3xl font-bold text-center text-blue-900 mb-8">
-          Donate Your Goods
-        </h1>
-        <div className="flex justify-center">
-          <form
-            ref={formRef}
-            onSubmit={handleSubmit}
-            className="w-full max-w-md bg-white rounded-xl shadow p-8 flex flex-col items-center"
-          >
-            <h2 className="text-xl font-semibold text-blue-700 mb-6">
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+          <section className="rounded-[2rem] border border-white/80 bg-[linear-gradient(135deg,rgba(221,244,255,0.96),rgba(233,248,255,0.92),rgba(227,252,244,0.84))] p-7 shadow-[0_26px_60px_rgba(14,165,233,0.12)] sm:p-10">
+            <span className="inline-flex rounded-full border border-sky-200 bg-white/70 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-cyan-700">
+              Public Donation
+            </span>
+            <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-slate-900">
               {config.title}
-            </h2>
-            {config.fields.map((field) => (
-              <input
-                key={field.name}
-                type={field.type}
-                name={field.name}
-                placeholder={field.placeholder}
-                className={`w-full mb-4 px-4 py-2 border ${config.borderColor} rounded focus:outline-none focus:ring-2 focus:ring-blue-200 text-gray-900 placeholder:text-gray-900`}
-                required
-              />
-            ))}
+            </h1>
+            <p className="mt-4 max-w-xl text-base leading-7 text-slate-600">
+              {config.description}
+            </p>
 
-            {/* new image-upload section */}
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={handleImageChange}
-              disabled={submitting}
-              className="w-full mb-4 text-gray-800
-              file:bg-blue-600
-              file:text-white
-              file:px-4
-              file:py-2
-              file:border-0
-              file:rounded
-              file:cursor-pointer
-              file:hover:bg-blue-700"
-            />
-            {analysisError && (
-              <p className="w-full mb-4 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800">
-                {analysisError}
-              </p>
-            )}
-            {imageFiles.length > 0 && (
-              <p className="w-full mb-3 text-sm text-gray-600">
-                {imageFiles.length} image{imageFiles.length > 1 ? "s" : ""} selected
-              </p>
-            )}
-            {analysisCounts.length > 0 && (
-              <ul className="w-full rounded-md bg-blue-50 px-4 py-3 text-gray-800 mb-4">
-                {analysisCounts.map((item) => (
-                  <li key={item.name}>
-                    Detected: {item.name} ({item.count})
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            <div className="flex w-full gap-4 mt-2">
-              <button
-                type="button"
-                className="flex-1 py-2 rounded bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition"
-                onClick={() => window.history.back()}
-                disabled={submitting}
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="flex-1 py-2 rounded bg-blue-400 text-white font-semibold hover:bg-blue-500 transition"
-                disabled={submitting}
-              >
-                {submitting ? "Submitting..." : "Submit Donation"}
-              </button>
-            </div>
-            {success && (
-              <div className="text-green-600 font-semibold mt-4">
-                Donation submitted!
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              <div className="rounded-2xl border border-sky-200/80 bg-[linear-gradient(180deg,#ebf8ff_0%,#f6fbff_100%)] p-4 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                  Step 1
+                </p>
+                <p className="mt-2 font-semibold text-slate-900">Add donation details</p>
               </div>
-            )}
-          </form>
+              <div className="rounded-2xl border border-cyan-200/80 bg-[linear-gradient(180deg,#e7faff_0%,#f3fbff_100%)] p-4 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                  Step 2
+                </p>
+                <p className="mt-2 font-semibold text-slate-900">Upload one or more images</p>
+              </div>
+              <div className="rounded-2xl border border-emerald-200/80 bg-[linear-gradient(180deg,#e6fbf3_0%,#f3fff9_100%)] p-4 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                  Step 3
+                </p>
+                <p className="mt-2 font-semibold text-slate-900">Review Gemini-detected items</p>
+              </div>
+            </div>
+          </section>
+
+          <section className="rounded-[2rem] border border-white/80 bg-white/80 p-6 shadow-[0_24px_56px_rgba(148,163,184,0.16)] backdrop-blur sm:p-8">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <div className={`inline-flex rounded-2xl bg-gradient-to-r ${config.accentClass} px-4 py-2 text-sm font-semibold text-white shadow-lg`}>
+                  {config.title}
+                </div>
+              </div>
+
+              {config.fields.map((field) => (
+                <label key={field.name} className="block">
+                  <span className="mb-2 block text-sm font-semibold text-slate-700">
+                    {field.label}
+                  </span>
+                  <input
+                    type={field.type}
+                    name={field.name}
+                    placeholder={field.placeholder}
+                    className="w-full rounded-2xl border border-sky-200 bg-[linear-gradient(180deg,#ffffff_0%,#f7fbff_100%)] px-4 py-3 text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-cyan-400 focus:ring-4 focus:ring-cyan-100"
+                    required
+                  />
+                </label>
+              ))}
+
+              <div className="rounded-2xl border border-dashed border-sky-300 bg-[linear-gradient(180deg,#eef9ff_0%,#f8fcff_100%)] p-4">
+                <label className="block">
+                  <span className="mb-2 block text-sm font-semibold text-slate-700">
+                    Upload donation images
+                  </span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImageChange}
+                    disabled={submitting}
+                    className="w-full text-sm text-slate-600 file:mr-4 file:rounded-xl file:border-0 file:bg-sky-600 file:px-4 file:py-2.5 file:font-semibold file:text-white file:shadow-sm hover:file:bg-sky-700"
+                  />
+                </label>
+                <p className="mt-2 text-sm text-slate-500">
+                  Upload clear photos so the system can automatically detect donation materials.
+                </p>
+              </div>
+
+              {imagePreviews.length > 0 && (
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  {imagePreviews.map((preview, index) => (
+                    <div
+                      key={`${preview}-${index}`}
+                      className="overflow-hidden rounded-2xl border border-white/80 bg-white shadow-sm"
+                    >
+                      <img
+                        src={preview}
+                        alt={`Donation preview ${index + 1}`}
+                        className="h-28 w-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {analyzing && (
+                <div className="rounded-2xl border border-cyan-200 bg-[linear-gradient(180deg,#ebf8ff_0%,#f5fbff_100%)] px-4 py-3 text-sm font-medium text-cyan-800">
+                  Analyzing uploaded image{imageFiles.length > 1 ? "s" : ""}...
+                </div>
+              )}
+
+              {analysisError && (
+                <div className="rounded-2xl border border-amber-200 bg-[linear-gradient(180deg,#fff8e8_0%,#fffdf5_100%)] px-4 py-3 text-sm text-amber-800">
+                  {analysisError}
+                </div>
+              )}
+
+              {analysisCounts.length > 0 && (
+                <div className="rounded-2xl border border-emerald-200 bg-[linear-gradient(180deg,#ebfff5_0%,#f6fffa_100%)] px-4 py-4">
+                  <p className="text-sm font-semibold text-slate-800">Detected materials</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {analysisCounts.map((entry) => (
+                      <span
+                        key={entry.name}
+                        className="rounded-full bg-white px-3 py-1.5 text-sm font-medium text-emerald-800 shadow-sm"
+                      >
+                        {entry.name} ({entry.count})
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="flex gap-4 pt-2">
+                <button
+                  type="button"
+                  className="flex-1 rounded-2xl border border-slate-200 bg-slate-100 px-4 py-3 font-semibold text-slate-700 transition hover:bg-slate-200"
+                  onClick={() => window.history.back()}
+                  disabled={submitting}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 rounded-2xl bg-[linear-gradient(135deg,#0284c7,#0f766e)] px-4 py-3 font-semibold text-white shadow-lg shadow-cyan-700/20 transition hover:brightness-95 disabled:opacity-70"
+                  disabled={submitting || analyzing}
+                >
+                  {submitting ? "Submitting..." : "Submit Donation"}
+                </button>
+              </div>
+
+              {success && (
+                <div className="rounded-2xl border border-emerald-200 bg-[linear-gradient(180deg,#ebfff5_0%,#f6fffa_100%)] px-4 py-3 text-sm font-semibold text-emerald-700">
+                  Donation submitted successfully.
+                </div>
+              )}
+            </form>
+          </section>
         </div>
       </div>
     </div>
@@ -301,7 +400,7 @@ function DonateFormPage() {
 }
 
 const DonateFormPageWithSuspense = () => (
-  <Suspense fallback={<div>Loading...</div>}>
+  <Suspense fallback={<div className="p-8 text-center text-slate-500">Loading...</div>}>
     <DonateFormPage />
   </Suspense>
 );
